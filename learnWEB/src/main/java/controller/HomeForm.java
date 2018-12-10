@@ -1,30 +1,39 @@
 package controller;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import beans.AusgabeTest;
+import beans.AusgabeBean;
+import entities.HauptThema;
 
+@SessionScoped
 @Named
-public class HomeForm {
+public class HomeForm implements Serializable {
 
-	private String ausgabe;
+	private static final long serialVersionUID = 1L;
+
+	private List<HauptThema> themenListe;
 
 	@Inject
-	private AusgabeTest ausgabeTest;
+	private AusgabeBean ausgabeBean;
 
 	@PostConstruct
 	public void init() {
-		ausgabe = "Nur ein Beispieltext";
+		themenListe = ausgabeBean.findThemes();
 	}
 
-	public String getAusgabe() {
-		return ausgabeTest.getWriteTest();
-	}
-
-	public void setAusgabe(String ausgabe) {
-		this.ausgabe = ausgabe;
+	public String getTitle() {
+		try {
+			themenListe.get(0);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return "Bitte ein Thema angeben";
+		}
+		return "Hier ist die Liste der Themen";
 	}
 
 }

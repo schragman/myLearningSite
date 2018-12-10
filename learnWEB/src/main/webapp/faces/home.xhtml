@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:tc="http://myfaces.apache.org/tobago/component"
-  	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  	  xmlns:h="http://xmlns.jcp.org/jsf/html">
+<ui:composition 
+	template="/page/page.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component"
+  	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
-	<h:head>
-		<title>Learning App</title>
-	</h:head>
-	<h:body>
-		<h1>Willkommen</h1>
-		<p>Hier wird ein Wert ausgegeben</p>
-		<tc:out value="#{homeForm.ausgabe}" />
-	</h:body>
-</html>
+<!-- 			
+			-->
+	<ui:define name="appContent">
+		<tc:form id="mainView"> 
+			<h1>Willkommen zur LearningApp</h1> 
+			<tc:out value="#{homeForm.title}" />
+		</tc:form>
+	</ui:define>
+	
+</ui:composition>
