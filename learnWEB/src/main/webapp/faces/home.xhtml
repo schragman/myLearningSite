@@ -11,10 +11,17 @@
 <!-- 			
 			-->
 	<ui:define name="appContent">
+		<ui:include src="/faces/subviews/newTheme.xhtml" />
 		<tc:form id="mainView"> 
 			<h1>Willkommen zur LearningApp</h1> 
 			<tc:out value="#{homeForm.title}" />
 		</tc:form>
+	</ui:define>
+	
+	<ui:define name="pageButtons">
+		<tc:button label="#{appMsg.newTheme}">
+			<tc:operation name="show" for="nTheme" />
+		</tc:button>
 	</ui:define>
 	
 </ui:composition>

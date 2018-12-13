@@ -11,14 +11,18 @@
   			<tc:link label="LearningApp" immediate="true" outcome="/faces/home" />
   		</f:facet>
   		
-  		<!-- 
-  		
   		<tc:form>
   			<tc:links>
-  				<tc:link ..... />
+  				<tc:link label="#{appMsg.themes}" omit="true">
+  					<tc:link label="#{appMsg.newTheme}" />
+  					<tc:link label="#{appMsg.lastTheme}" />
+  				</tc:link>
+  				
   			
   			</tc:links>
   		</tc:form>
+  		<!-- 
+  		
   		
   		 -->
   	</tc:bar>

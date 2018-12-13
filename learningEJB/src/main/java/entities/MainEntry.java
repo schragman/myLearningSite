@@ -2,6 +2,7 @@ package entities;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +14,9 @@ public class MainEntry {
 	@Id
 	@GeneratedValue
 	private long id;
+	@Column(nullable = false)
 	private String kurzEintrag;
+	@Column(length = 20000)
 	private String langEintrag;
 	@ManyToMany
 	private List<Referenz> referenzen;
