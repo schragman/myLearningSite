@@ -2,19 +2,14 @@ package entities;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-@Entity
+//@Entity
 public class Referenz {
-	@Id
-	@GeneratedValue
+	// @Id
+	// @GeneratedValue
 	private long id;
 	// z.B. Buch, URL, Tutorial
 	private String art;
-	@ManyToMany
+	// @ManyToMany
 	private List<MainEntry> mainEntries;
 
 	public long getId() {

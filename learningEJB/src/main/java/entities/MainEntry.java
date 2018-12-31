@@ -2,23 +2,17 @@ package entities;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-@Entity
+//@Entity
 public class MainEntry {
 
-	@Id
-	@GeneratedValue
+	// @Id
+	// @GeneratedValue
 	private long id;
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private String kurzEintrag;
-	@Column(length = 20000)
+	// @Column(length = 20000)
 	private String langEintrag;
-	@ManyToMany
+	// @ManyToMany
 	private List<Referenz> referenzen;
 	private String unterReferenz;
 	private List<String> beispiele;

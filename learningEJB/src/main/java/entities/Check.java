@@ -3,25 +3,18 @@ package entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
-@Entity
+//@Entity
 public class Check {
 
-	@Id
-	@GeneratedValue
+	// @Id
+	// @GeneratedValue
 	private long id;
 	private String frage;
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinColumn
+	// @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+	// @JoinColumn
 	private List<Antwort> antworten;
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinColumn
+	// @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+	// @JoinColumn
 	private List<Historie> historien;
 	private Date letztesMalGestellt;
 

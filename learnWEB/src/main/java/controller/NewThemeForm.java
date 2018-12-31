@@ -1,15 +1,22 @@
 package controller;
 
+import java.io.Serializable;
+
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import beans.ThemenSteuerung;
+import beans.ThemenSteuerungRemote;
 
 @Named
-public class NewThemeForm {
-	@Inject
-	private ThemenSteuerung themenSteuerung;
+@SessionScoped
+public class NewThemeForm implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@EJB
+	private ThemenSteuerungRemote themenSteuerung;
 
 	private String themenName;
 	private String themenBeschreibung;

@@ -2,15 +2,11 @@ package entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 //Durchlauf von Fragen
-@Entity
+//@Entity
 public class Durchlauf {
-	@Id
-	@GeneratedValue
+	// @Id
+	// @GeneratedValue
 	private long id;
 	private Date letzterDurchlauf;
 

@@ -34,7 +34,8 @@
     			<version>2.2</version>
     			<configuration>
         			<warName>LearningApp</warName>
-        			<outputDirectory>${deplWildfly}/deployments</outputDirectory>
+<!--         			<outputDirectory>${deplWildfly}/deployments</outputDirectory> -->
+        			<outputDirectory>${deplTomEE}/webapps</outputDirectory>
     			</configuration>
   		</plugin>
   	</plugins>
