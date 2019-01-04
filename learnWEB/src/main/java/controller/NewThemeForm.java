@@ -1,19 +1,15 @@
 package controller;
 
-import java.io.Serializable;
-
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 import beans.ThemenSteuerungRemote;
 
+@RequestScoped
 @Named
-@SessionScoped
-public class NewThemeForm implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class NewThemeForm {
 
 	@EJB
 	private ThemenSteuerungRemote themenSteuerung;
@@ -22,7 +18,9 @@ public class NewThemeForm implements Serializable {
 	private String themenBeschreibung;
 
 	public void doCreateNewTheme(ActionEvent av) {
+		// public String doCreateNewTheme() {
 		themenSteuerung.generateNew(themenName, themenBeschreibung);
+		// return "home2";
 	}
 
 	public String getThemenName() {

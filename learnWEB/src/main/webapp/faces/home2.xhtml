@@ -15,16 +15,16 @@
 		<hr/>
 		<h:form id="ThemaForm">
 			<h:panelGrid columns="3">
-				<h:outputLabel value="Thema" />
-				<h:inputText id="thema" value="#{newThemeForm.themenName}" />
+				<h:outputLabel value="Thema: " />
+				<h:inputText id="lblThema" value="#{newThemeForm.themenName}" />
 				<br/>
 				
 				<h:outputLabel value="Beschreibung" />
-				<h:inputText id="Beschreibung" value="#{newThemeForm.themenBeschreibung}" />
+				<h:inputText id="lblBeschreibung" value="#{newThemeForm.themenBeschreibung}" />
 				
 			</h:panelGrid>
 			
-			<h:commandButton value="Ok" actionListener="#{newThemeForm.doCreateNewTheme}" />
+			<h:commandButton value="Ok" action="#{newThemeForm.doCreateNewTheme}" />
 			
 		</h:form>
 	</h:body>

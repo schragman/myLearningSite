@@ -1,7 +1,5 @@
 package beans;
 
-import java.io.Serializable;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,9 +9,7 @@ import entities.TestEntry;
 
 @Stateless
 @LocalBean
-public class ThemenSteuerung implements ThemenSteuerungRemote, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ThemenSteuerung implements ThemenSteuerungRemote {
 
 	@PersistenceContext(unitName = "LearningPU")
 	private EntityManager em;
@@ -22,15 +18,16 @@ public class ThemenSteuerung implements ThemenSteuerungRemote, Serializable {
 		generateNew(themeN, themeD);
 	}
 
+	@Override
 	public void generateNew(String themeName, String themeDesc) {
 //		HauptThema newTheme = new HauptThema();
 //		newTheme.setThema(themeName);
 //		newTheme.setBeschreibung(themeDesc);
 
 		TestEntry newTheme = new TestEntry();
-		TestEntry ergebnis;
-		newTheme.setEintrag("DirectTest");
-		newTheme.setId(2);
+		// TestEntry ergebnis;
+		newTheme.setEintrag(themeName);
+		// newTheme.setId(2);
 
 		em.persist(newTheme);
 	}
