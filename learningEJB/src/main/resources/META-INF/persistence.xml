@@ -7,16 +7,16 @@
 
 	<persistence-unit name="LearningPU" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<jta-data-source>java:/LearningDS</jta-data-source>  <!-- DERBY TomEE -->
-<!-- 		<jta-data-source>java:jboss/LearningDB</jta-data-source> DERBY Wildfly-->
-<!-- 		<jta-data-source>java:/MySqlDS</jta-data-source> MySQL-->
-<!-- 		<class>entities.Antwort</class> -->
-<!-- 		<class>entities.Check</class> -->
-<!-- 		<class>entities.Durchlauf</class> -->
-<!-- 		<class>entities.HauptThema</class> -->
-<!-- 		<class>entities.Historie</class> -->
-<!-- 		<class>entities.MainEntry</class> -->
-<!-- 		<class>entities.Referenz</class> -->
+ 		<jta-data-source>java:jboss/LearningDB</jta-data-source> <!--DERBY Wildfly -->
+<!--    <jta-data-source>java:/LearningDS</jta-data-source>   DERBY TomEE -->
+<!-- 		<jta-data-source>java:/MySqlDS</jta-data-source> MySQL -->
+		<class>entities.Antwort</class>
+		<class>entities.Check</class>
+		<class>entities.Durchlauf</class>
+		<class>entities.HauptThema</class>
+		<class>entities.Historie</class>
+		<class>entities.MainEntry</class>
+		<class>entities.Referenz</class>
 		<class>entities.TestEntry</class>
 		
 		<properties>
