@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entities.HauptThema;
-import entities.TestEntry;
 
 public class AusgabeBean implements Serializable {
 
@@ -21,11 +20,6 @@ public class AusgabeBean implements Serializable {
 		TypedQuery<HauptThema> query = em.createNamedQuery("findAllThemes", HauptThema.class);
 		List<HauptThema> resultList = query.getResultList();
 		return resultList;
-	}
-
-	public TestEntry findTest() {
-
-		return em.find(TestEntry.class, 2);
 	}
 
 }

@@ -3,19 +3,28 @@ package entities;
 import java.util.Date;
 import java.util.List;
 
-//@Entity
-//@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t")
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+@Entity
+@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t")
 public class HauptThema {
-	// @Id
-	// @GeneratedValue
+	@Id
+	@GeneratedValue
 	private long id;
-	// @Column(nullable = false)
+	@Column(nullable = false)
 	private String thema;
-	// @Column(length = 2000)
+	@Column(length = 2000)
 	private String beschreibung;
 
-	// @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-	// @JoinColumn
+	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+	@JoinColumn
 	private List<MainEntry> mainEntries;
 	private Date lastRecentlyUsed;
 

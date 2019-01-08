@@ -1,9 +1,13 @@
 package entities;
 
-//@Entity
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Antwort {
-	// @Id
-	// @GeneratedValue
+	@Id
+	@GeneratedValue
 	private long id;
 	private String inhalt;
 
