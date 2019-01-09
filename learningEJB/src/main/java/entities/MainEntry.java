@@ -20,7 +20,7 @@ public class MainEntry {
 	private String langEintrag;
 	@ManyToMany
 	private List<Referenz> referenzen;
-	private String unterReferenz;
+	// private String unterReferenz;
 	private List<String> beispiele;
 
 	public long getId() {
@@ -51,13 +51,13 @@ public class MainEntry {
 		this.referenzen = referenzen;
 	}
 
-	public String getUnterReferenz() {
-		return unterReferenz;
-	}
-
-	public void setUnterReferenz(String unterReferenz) {
-		this.unterReferenz = unterReferenz;
-	}
+//	public String getUnterReferenz() {
+//		return unterReferenz;
+//	}
+//
+//	public void setUnterReferenz(String unterReferenz) {
+//		this.unterReferenz = unterReferenz;
+//	}
 
 	public List<String> getBeispiele() {
 		return beispiele;

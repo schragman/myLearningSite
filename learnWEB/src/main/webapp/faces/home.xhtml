@@ -15,6 +15,20 @@
 		<tc:form id="mainView"> 
 			<h1>Willkommen zur LearningApp</h1> 
 			<tc:out value="#{homeForm.title}" />
+			
+			<tc:sheet
+				columns="250px;*"
+				value="#{homeForm.themenListe}"
+				var="item">
+				<tc:column label="Thema">
+					<tc:out value="#{item.thema}"/>
+				</tc:column>
+				<tc:column label="Beschreibung">
+					<tc:out value="#{item.beschreibung}"/>
+				</tc:column>
+			</tc:sheet>
+				
+			
 		</tc:form>
 	</ui:define>
 	
@@ -25,3 +39,9 @@
 	</ui:define>
 	
 </ui:composition>
+
+<!-- 
+
+				
+				
+-->

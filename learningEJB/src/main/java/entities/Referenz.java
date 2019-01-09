@@ -12,8 +12,14 @@ public class Referenz {
 	@Id
 	@GeneratedValue
 	private long id;
-	// z.B. Buch, URL, Tutorial
+	// z.B. Buch, URL, Tutorial, Enum vielleicht
 	private String art;
+	// Bei Buch Buchtitel für Internetquellen: Beschreibung
+	private String uRefferenz1;
+	// Bei Buch, Artikel usw. Seite und bei Internet URL
+	// Bei Angabe einer Seite soll Art automatisch auf Buch springen,
+	// Bei Angabe von http, https oder www. automatisch auf Internet.
+	private String uRefferenz2;
 	@ManyToMany
 	private List<MainEntry> mainEntries;
 

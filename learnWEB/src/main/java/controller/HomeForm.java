@@ -36,4 +36,8 @@ public class HomeForm implements Serializable {
 		return "Hier ist die Liste der Themen";
 	}
 
+	public List<HauptThema> getThemenListe() {
+		return themenListe;
+	}
+
 }
