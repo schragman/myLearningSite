@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition 
+	template="/page/page.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component"
+  	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+<!-- 			
+			-->
+	<ui:define name="appContent">
+		<tc:bar markup="large, dark">
+		  <tc:style customClass="bg-dark"/>
+		  <f:facet name="brand">
+		    <tc:link label="LearningApp" outcome="/faces/home"/>
+		  </f:facet>
+		  <tc:links>
+		    <tc:link label="Übersicht"/>
+		    <tc:link label="Bearbeiten"/>
+		    <tc:link label="Fragendurchlauf"/>
+		  </tc:links>
+		  <f:facet name="after">
+		    <tc:flexLayout columns="1fr  auto">
+		      <tc:in placeholder="Search" labelLayout="skip"/>
+		      <tc:button label="Los"/>
+		    </tc:flexLayout>
+		  </f:facet>
+		</tc:bar>
+		
+		<tc:box id="newEntry" label="Neuer Eintrag">
+			<tc:flexLayout columns="300px 300px">
+				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" value="#{mainEntryForm.kBeschreibung}" />
+				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" value="#{mainEntryForm.lBeschreibung}" />
+			</tc:flexLayout>
+			<tc:sheet
+				id="Referenzliste"
+				rendered="#{mainEntryForm.refListFilled}"
+				columns="200px;300px;300px;10px"
+				value="#{mainEntryForm.referenzen}"
+				var="refItem">
+				<tc:column>
+					<tc:out value="#{refItem.art?'Printmedium':'Internetquelle'}"/>
+				</tc:column>
+				<tc:column>
+					<tc:out value="#{refItem.uRefferenz1}" />	
+				</tc:column>
+				<tc:column>
+					<tc:out value="#{refItem.uRefferenz2}" />	
+				</tc:column>
+				<tc:column>
+					<tc:link label="-" actionListener="#{mainEntryForm.removeReference}" />
+				</tc:column>
+			</tc:sheet>
+				
+			<tc:flexLayout columns="200px 300px 300px 20px">
+				<tc:selectOneRadio id="mediaKind" value="#{mainEntryForm.selectedElement}">
+					<tc:selectItem itemLabel="#{appMsg.book}" itemValue="book" />
+					<tc:selectItem itemLabel="#{appMsg.internet}" itemValue="internet" />
+					<f:ajax render="newEntry" execute="newEntry"/>
+				</tc:selectOneRadio>	
+				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}" value="#{mainEntryForm.referenz}" />
+				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}" value="#{mainEntryForm.uReferenz}" />
+				<tc:link label="+" actionListener="#{mainEntryForm.addReference}">
+<!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
+				</tc:link>
+			</tc:flexLayout>
+			<tc:flexLayout columns="600px">
+				<tc:textarea labelLayout="top" label="#{appMsg.example}" value="#{mainEntryForm.beispiel}"/>
+			</tc:flexLayout>
+			<tc:flexLayout columns="300px 300px">
+				<tc:in labelLayout="top" label="#{appMsg.question}" value="#{mainEntryForm.frage}" />
+				<tc:in labelLayout="top" label="#{appMsg.answer}" value="#{mainEntryForm.antwort}" />
+			</tc:flexLayout>
+			
+				
+		</tc:box>
+			
+	</ui:define>
+	
+	
+</ui:composition>
+
+<!-- 
+
+
+
+ -->

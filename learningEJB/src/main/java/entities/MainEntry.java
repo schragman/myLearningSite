@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class MainEntry {
+public class MainEntry implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -22,6 +25,15 @@ public class MainEntry {
 	private List<Referenz> referenzen;
 	// private String unterReferenz;
 	private List<String> beispiele;
+	private List<Check> fragen;
+
+	public List<Check> getFragen() {
+		return fragen;
+	}
+
+	public void setFragen(List<Check> fragen) {
+		this.fragen = fragen;
+	}
 
 	public long getId() {
 		return id;

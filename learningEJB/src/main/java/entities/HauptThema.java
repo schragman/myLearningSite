@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t")
-public class HauptThema {
+public class HauptThema implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private long id;

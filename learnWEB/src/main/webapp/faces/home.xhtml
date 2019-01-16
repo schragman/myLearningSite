@@ -21,7 +21,7 @@
 				value="#{homeForm.themenListe}"
 				var="item">
 				<tc:column label="Thema">
-					<tc:out value="#{item.thema}"/>
+					<tc:link label="#{item.thema}" outcome="/faces/mainEntry"/>
 				</tc:column>
 				<tc:column label="Beschreibung">
 					<tc:out value="#{item.beschreibung}"/>
