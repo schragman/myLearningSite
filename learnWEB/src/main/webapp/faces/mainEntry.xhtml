@@ -66,12 +66,31 @@
 <!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
 				</tc:link>
 			</tc:flexLayout>
+				
 			<tc:flexLayout columns="600px">
 				<tc:textarea labelLayout="top" label="#{appMsg.example}" value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>
-			<tc:flexLayout columns="300px 300px">
+			
+ 			<tc:sheet
+				id="Abfliste"
+				columns="300px;300px;10px"
+				value="#{mainEntryForm.abfragen}"
+				var="abfItem">
+				<tc:column>
+					<tc:out value="#{abfItem.frage}" />	
+				</tc:column>
+				<tc:column>
+					<tc:out value="#{abfItem.firstAntwort}" />	
+				</tc:column>
+				<tc:column>
+					<tc:link label="-" actionListener="#{mainEntryForm.removeAbfrage(abfItem)}" />
+				</tc:column>
+			</tc:sheet>
+			
+			<tc:flexLayout columns="300px 300px 20px">
 				<tc:in labelLayout="top" label="#{appMsg.question}" value="#{mainEntryForm.frage}" />
 				<tc:in labelLayout="top" label="#{appMsg.answer}" value="#{mainEntryForm.antwort}" />
+				<tc:link label="+" actionListener="#{mainEntryForm.addAbfrage}" />
 			</tc:flexLayout>
 			
 				
@@ -88,6 +107,7 @@
 
 <!-- 
 
+				rendered="#{mainEntryForm.checkListFilled}"
 
 
  -->

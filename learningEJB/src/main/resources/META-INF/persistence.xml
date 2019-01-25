@@ -11,7 +11,7 @@
 <!--    <jta-data-source>java:/LearningDS</jta-data-source>   DERBY TomEE -->
 <!-- 		<jta-data-source>java:/MySqlDS</jta-data-source> MySQL -->
 		<class>entities.Antwort</class>
-		<class>entities.Check</class>
+		<class>entities.Abfrage</class>
 		<class>entities.Durchlauf</class>
 		<class>entities.HauptThema</class>
 		<class>entities.Historie</class>

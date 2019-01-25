@@ -32,16 +32,16 @@ public class MainEntry implements Serializable {
 	// @OneToMany // (cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	// @JoinColumn
 	private String beispiel;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	@JoinColumn
-	private List<Check> fragen;
+	private List<Abfrage> abfragen;
 
-	public List<Check> getFragen() {
-		return fragen;
+	public List<Abfrage> getAbfragen() {
+		return abfragen;
 	}
 
-	public void setFragen(List<Check> fragen) {
-		this.fragen = fragen;
+	public void setAbfragen(List<Abfrage> fragen) {
+		this.abfragen = fragen;
 	}
 
 	public long getId() {

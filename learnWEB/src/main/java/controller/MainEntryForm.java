@@ -12,7 +12,8 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 import beans.EntrySteuerungRemote;
-import entities.Check;
+import entities.Abfrage;
+import entities.Antwort;
 import entities.MainEntry;
 import entities.Referenz;
 import util.Selections;
@@ -39,7 +40,7 @@ public class MainEntryForm implements Serializable {
 	private String antwort;
 	private String beispiel;
 	private List<Referenz> referenzen;
-	private List<Check> fragen;
+	private List<Abfrage> abfragen;
 
 	@PostConstruct
 	public void init() {
@@ -50,12 +51,13 @@ public class MainEntryForm implements Serializable {
 		labelUReferenz = "Seite";
 		if (null == entry) {
 			referenzen = new ArrayList<>();
+			abfragen = new ArrayList<>();
 		} else {
 			kBeschreibung = entry.getKurzEintrag();
 			lBeschreibung = entry.getLangEintrag();
 			referenzen = entry.getReferenzen();
 			beispiel = entry.getBeispiel();
-			fragen = entry.getFragen();
+			abfragen = entry.getAbfragen();
 
 		}
 	}
@@ -67,20 +69,35 @@ public class MainEntryForm implements Serializable {
 		uReferenz = "";
 	}
 
+	public void addAbfrage(ActionEvent ae) {
+		addToAbfrage();
+		frage = "";
+		antwort = "";
+	}
+
 	public void removeReference(Referenz toDelRef) {
 		if (referenzen.contains(toDelRef))
 			referenzen.remove(toDelRef);
+	}
+
+	public void removeAbfrage(Abfrage toDelAbf) {
+		if (abfragen.contains(toDelAbf))
+			abfragen.remove(toDelAbf);
 	}
 
 	public String doCreateNewEntry() {
 		MainEntry result = new MainEntry();
 		result.setKurzEintrag(kBeschreibung);
 		result.setLangEintrag(lBeschreibung);
-		if (!referenz.isEmpty()) {
+		if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
 			addToReference();
+		}
+		if (!(frage.isEmpty() && antwort.isEmpty())) {
+			addToAbfrage();
 		}
 		result.setReferenzen(referenzen);
 		result.setBeispiel(beispiel);
+		result.setAbfragen(abfragen);
 
 		entrySteuerung.generateNew(result, selection.getThema());
 
@@ -95,6 +112,17 @@ public class MainEntryForm implements Serializable {
 		referenzen.add(neueReferenz);
 	}
 
+	private void addToAbfrage() {
+		Abfrage neueAbfrage = new Abfrage();
+		neueAbfrage.setFrage(frage);
+		Antwort einzelAntwort = new Antwort();
+		einzelAntwort.setInhalt(antwort);
+		List<Antwort> antwortListe = new ArrayList<>();
+		antwortListe.add(einzelAntwort);
+		neueAbfrage.setAntworten(antwortListe);
+		abfragen.add(neueAbfrage);
+	}
+
 	public List<Referenz> getReferenzen() {
 		return referenzen;
 	}
@@ -107,12 +135,16 @@ public class MainEntryForm implements Serializable {
 		return !referenzen.isEmpty();
 	}
 
-	public List<Check> getFragen() {
-		return fragen;
+	public boolean isCheckListFilled() {
+		return !abfragen.isEmpty();
 	}
 
-	public void setFragen(List<Check> fragen) {
-		this.fragen = fragen;
+	public List<Abfrage> getAbfragen() {
+		return abfragen;
+	}
+
+	public void setAbfragen(List<Abfrage> fragen) {
+		this.abfragen = fragen;
 	}
 
 	public String getBeispiel() {
