@@ -5,19 +5,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
+import javax.inject.Inject;
 
+import beans.EntrySteuerungRemote;
 import entities.Check;
+import entities.MainEntry;
 import entities.Referenz;
+import util.Selections;
+import util.Sites;
 
-@SessionScoped
-@Named
+@ViewScoped
+@ManagedBean
 public class MainEntryForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@EJB
+	private EntrySteuerungRemote entrySteuerung;
+	@Inject
+	private Selections selection;
 	private String kBeschreibung;
 	private String lBeschreibung;
 	private boolean referenzArt; // Printmedium, Internetquelle
@@ -29,32 +39,60 @@ public class MainEntryForm implements Serializable {
 	private String antwort;
 	private String beispiel;
 	private List<Referenz> referenzen;
-	private List<String> beispiele;
 	private List<Check> fragen;
 
 	@PostConstruct
 	public void init() {
+
+		MainEntry entry = selection.getEntry();
 		referenzArt = true;
 		labelReferenz = "Buch";
 		labelUReferenz = "Seite";
-		referenzen = new ArrayList<>();
+		if (null == entry) {
+			referenzen = new ArrayList<>();
+		} else {
+			kBeschreibung = entry.getKurzEintrag();
+			lBeschreibung = entry.getLangEintrag();
+			referenzen = entry.getReferenzen();
+			beispiel = entry.getBeispiel();
+			fragen = entry.getFragen();
+
+		}
 	}
 
 	public void addReference(ActionEvent ae) {
-		Referenz neueReferenz = new Referenz();
-		neueReferenz.setArt(referenzArt);
-		neueReferenz.setuRefferenz1(referenz);
-		neueReferenz.setuRefferenz2(uReferenz);
-		referenzen.add(neueReferenz);
+		addToReference();
 		referenzArt = true;
 		referenz = "";
 		uReferenz = "";
 	}
 
-	public void removeReference(ActionEvent ae) {
+	public void removeReference(Referenz toDelRef) {
+		if (referenzen.contains(toDelRef))
+			referenzen.remove(toDelRef);
+	}
 
-		Object test = ae.getSource();
+	public String doCreateNewEntry() {
+		MainEntry result = new MainEntry();
+		result.setKurzEintrag(kBeschreibung);
+		result.setLangEintrag(lBeschreibung);
+		if (!referenz.isEmpty()) {
+			addToReference();
+		}
+		result.setReferenzen(referenzen);
+		result.setBeispiel(beispiel);
 
+		entrySteuerung.generateNew(result, selection.getThema());
+
+		return Sites.UEBERSICHT;
+	}
+
+	private void addToReference() {
+		Referenz neueReferenz = new Referenz();
+		neueReferenz.setArt(referenzArt);
+		neueReferenz.setuRefferenz1(referenz);
+		neueReferenz.setuRefferenz2(uReferenz);
+		referenzen.add(neueReferenz);
 	}
 
 	public List<Referenz> getReferenzen() {
@@ -67,14 +105,6 @@ public class MainEntryForm implements Serializable {
 
 	public boolean isRefListFilled() {
 		return !referenzen.isEmpty();
-	}
-
-	public List<String> getBeispiele() {
-		return beispiele;
-	}
-
-	public void setBeispiele(List<String> beispiele) {
-		this.beispiele = beispiele;
 	}
 
 	public List<Check> getFragen() {

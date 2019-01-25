@@ -3,13 +3,18 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
+//@NamedQuery(name = "findEntries", query = "SELECT e FROM MainEntry e WHERE HauptThema = :passedTheme")
 public class MainEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,10 +26,14 @@ public class MainEntry implements Serializable {
 	private String kurzEintrag;
 	@Column(length = 20000)
 	private String langEintrag;
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Referenz> referenzen;
 	// private String unterReferenz;
-	private List<String> beispiele;
+	// @OneToMany // (cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	// @JoinColumn
+	private String beispiel;
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn
 	private List<Check> fragen;
 
 	public List<Check> getFragen() {
@@ -71,12 +80,12 @@ public class MainEntry implements Serializable {
 //		this.unterReferenz = unterReferenz;
 //	}
 
-	public List<String> getBeispiele() {
-		return beispiele;
+	public String getBeispiel() {
+		return beispiel;
 	}
 
-	public void setBeispiele(List<String> beispiele) {
-		this.beispiele = beispiele;
+	public void setBeispiel(String beispiel) {
+		this.beispiel = beispiel;
 	}
 
 }

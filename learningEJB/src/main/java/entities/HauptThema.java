@@ -10,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t")
+@NamedQueries({ @NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t"),
+		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID") })
 public class HauptThema implements Serializable {
 	private static final long serialVersionUID = 1L;
 

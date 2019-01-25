@@ -9,7 +9,8 @@
 	  			<tc:in label="#{appMsg.newTheme}:" value="#{newThemeForm.themenName}" required="true"/>
 	  			<tc:textarea label="#{appMsg.description}:" value="#{newThemeForm.themenBeschreibung}" />
 	  			
-	  			<tc:button label="ok" actionListener="#{newThemeForm.doCreateNewTheme}">
+	  			<tc:button label="ok" action="#{newThemeForm.doCreateNewTheme}">
+<!-- 	  				<f:ajax execute="nTheme" render="nTheme :::homePage" /> -->
 	  				<tc:operation name="hide" for="nTheme" />
 	  			</tc:button>
 	  			<tc:button label="cancel" immediate="true">

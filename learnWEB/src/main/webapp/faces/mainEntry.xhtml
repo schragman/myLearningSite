@@ -50,7 +50,7 @@
 					<tc:out value="#{refItem.uRefferenz2}" />	
 				</tc:column>
 				<tc:column>
-					<tc:link label="-" actionListener="#{mainEntryForm.removeReference}" />
+					<tc:link label="-" actionListener="#{mainEntryForm.removeReference(refItem)}" />
 				</tc:column>
 			</tc:sheet>
 				
@@ -79,6 +79,10 @@
 			
 	</ui:define>
 	
+	<ui:define name="pageButtons">
+		<tc:button label="#{appMsg.save}" action="#{mainEntryForm.doCreateNewEntry}" />
+		<tc:button label="#{appMsg.cancel}" outcome="/faces/uebersicht" />
+	</ui:define>
 	
 </ui:composition>
 

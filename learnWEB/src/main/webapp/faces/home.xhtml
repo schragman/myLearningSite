@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition 
+	id="homePage"
 	template="/page/page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -17,11 +18,12 @@
 			<tc:out value="#{homeForm.title}" />
 			
 			<tc:sheet
+				id="listeThemen"
 				columns="250px;*"
 				value="#{homeForm.themenListe}"
 				var="item">
 				<tc:column label="Thema">
-					<tc:link label="#{item.thema}" outcome="/faces/mainEntry"/>
+					<tc:link label="#{item.thema}" action="#{homeForm.chooseTheme(item)}"/>
 				</tc:column>
 				<tc:column label="Beschreibung">
 					<tc:out value="#{item.beschreibung}"/>

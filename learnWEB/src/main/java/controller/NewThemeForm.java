@@ -2,7 +2,6 @@ package controller;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 import beans.ThemenSteuerungRemote;
@@ -17,10 +16,10 @@ public class NewThemeForm {
 	private String themenName;
 	private String themenBeschreibung;
 
-	public void doCreateNewTheme(ActionEvent av) {
-		// public String doCreateNewTheme() {
+//	public void doCreateNewTheme() {
+	public String doCreateNewTheme() {
 		themenSteuerung.generateNew(themenName, themenBeschreibung);
-		// return "home2";
+		return "home?faces-redirect=true";
 	}
 
 	public String getThemenName() {
