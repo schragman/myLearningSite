@@ -17,7 +17,6 @@
 		<class>entities.Historie</class>
 		<class>entities.MainEntry</class>
 		<class>entities.Referenz</class>
-		<class>entities.TestEntry</class>
 		
 		<properties>
 			<property name="eclipselink.target-database" value="DERBY" />
