@@ -12,6 +12,8 @@ public interface EntrySteuerungRemote {
 
 	public void generateNew(MainEntry mainEntry, HauptThema theme);
 
+	public void updEntry(MainEntry mainEntry);
+
 	public List<MainEntry> findEntries(HauptThema thema);
 
 }

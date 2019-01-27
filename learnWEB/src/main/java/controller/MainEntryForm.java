@@ -109,6 +109,21 @@ public class MainEntryForm implements Serializable {
 	}
 
 	public String doUpdateEntry() {
+		MainEntry result = selection.getEntry();
+		result.setKurzEintrag(kBeschreibung);
+		result.setLangEintrag(lBeschreibung);
+		if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
+			addToReference();
+		}
+		if (!(frage.isEmpty() && antwort.isEmpty())) {
+			addToAbfrage();
+		}
+		result.setReferenzen(referenzen);
+		result.setBeispiel(beispiel);
+		result.setAbfragen(abfragen);
+
+		entrySteuerung.updEntry(result);
+
 		return Sites.UEBERSICHT;
 	}
 

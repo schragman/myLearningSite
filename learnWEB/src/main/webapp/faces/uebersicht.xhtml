@@ -17,7 +17,7 @@
 		  	id="listeEintraege"
 				value="#{uebersichtForm.entries}"
 				var="item">
-				<tc:column>
+				<tc:column label="#{appMsg.listOfEntries}">
 					<tc:link label="#{item.kurzEintrag}" action="#{uebersichtForm.doJumpEntry(item)}" />
 				</tc:column>
 			</tc:sheet>

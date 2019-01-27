@@ -17,8 +17,10 @@
 		    <tc:link label="LearningApp" outcome="/faces/home"/>
 		  </f:facet>
 		  <tc:links>
-		    <tc:link label="Übersicht"/>
-		    <tc:link label="Bearbeiten"/>
+		    <tc:link label="#{appMsg.list}" outcome="/faces/uebersicht"/>
+		    <tc:link label="#{appMsg.edit}" 
+		    	rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}" 
+					actionListener="#{mainEntryForm.doEdit}" />/>
 		    <tc:link label="Fragendurchlauf"/>
 		  </tc:links>
 		  <f:facet name="after">
@@ -31,8 +33,12 @@
 		
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:flexLayout columns="300px 300px">
-				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" value="#{mainEntryForm.kBeschreibung}" />
-				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" value="#{mainEntryForm.lBeschreibung}" />
+				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
+					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+					value="#{mainEntryForm.kBeschreibung}" />
+				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" 
+					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+					value="#{mainEntryForm.lBeschreibung}" />
 			</tc:flexLayout>
 			<tc:sheet
 				id="Referenzliste"

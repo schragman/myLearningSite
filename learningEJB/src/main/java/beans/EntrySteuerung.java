@@ -26,6 +26,11 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 	}
 
 	@Override
+	public void updEntry(MainEntry mainEntry) {
+		em.merge(mainEntry);
+	}
+
+	@Override
 	public List<MainEntry> findEntries(HauptThema thema) {
 		Query query = em.createNamedQuery("findEntries", MainEntry.class);
 		query.setParameter("passedID", thema.getId());
