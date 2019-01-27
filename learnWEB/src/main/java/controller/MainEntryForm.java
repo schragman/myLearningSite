@@ -41,6 +41,8 @@ public class MainEntryForm implements Serializable {
 	private String beispiel;
 	private List<Referenz> referenzen;
 	private List<Abfrage> abfragen;
+	private boolean neu; // für Buttons
+	private boolean bearbeiten; // für Buttons
 
 	@PostConstruct
 	public void init() {
@@ -49,16 +51,18 @@ public class MainEntryForm implements Serializable {
 		referenzArt = true;
 		labelReferenz = "Buch";
 		labelUReferenz = "Seite";
+		bearbeiten = false;
 		if (null == entry) {
 			referenzen = new ArrayList<>();
 			abfragen = new ArrayList<>();
+			neu = true;
 		} else {
 			kBeschreibung = entry.getKurzEintrag();
 			lBeschreibung = entry.getLangEintrag();
 			referenzen = entry.getReferenzen();
 			beispiel = entry.getBeispiel();
 			abfragen = entry.getAbfragen();
-
+			neu = false;
 		}
 	}
 
@@ -104,6 +108,10 @@ public class MainEntryForm implements Serializable {
 		return Sites.UEBERSICHT;
 	}
 
+	public String doUpdateEntry() {
+		return Sites.UEBERSICHT;
+	}
+
 	private void addToReference() {
 		Referenz neueReferenz = new Referenz();
 		neueReferenz.setArt(referenzArt);
@@ -121,6 +129,22 @@ public class MainEntryForm implements Serializable {
 		antwortListe.add(einzelAntwort);
 		neueAbfrage.setAntworten(antwortListe);
 		abfragen.add(neueAbfrage);
+	}
+
+	public void doEdit() {
+		bearbeiten = true;
+	}
+
+	public boolean isNeu() {
+		return neu;
+	}
+
+	public boolean isBearbeiten() {
+		return bearbeiten;
+	}
+
+	public void setBearbeiten(boolean bearbeiten) {
+		this.bearbeiten = bearbeiten;
 	}
 
 	public List<Referenz> getReferenzen() {
@@ -181,8 +205,8 @@ public class MainEntryForm implements Serializable {
 			labelReferenz = "Buch";
 			labelUReferenz = "Seite";
 		} else {
-			labelReferenz = "Beschreibung";
-			labelUReferenz = "URL";
+			labelReferenz = "URL";
+			labelUReferenz = "Beschreibung";
 		}
 	}
 

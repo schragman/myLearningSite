@@ -29,7 +29,7 @@
 		  </f:facet>
 		</tc:bar>
 		
-		<tc:box id="newEntry" label="Neuer Eintrag">
+		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:flexLayout columns="300px 300px">
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" value="#{mainEntryForm.kBeschreibung}" />
 				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" value="#{mainEntryForm.lBeschreibung}" />
@@ -40,57 +40,71 @@
 				columns="200px;300px;300px;10px"
 				value="#{mainEntryForm.referenzen}"
 				var="refItem">
-				<tc:column>
+				<tc:column label="#{appMsg.headlineType}">
 					<tc:out value="#{refItem.art?'Printmedium':'Internetquelle'}"/>
 				</tc:column>
-				<tc:column>
+				<tc:column label="#{appMsg.headlineRef}">
 					<tc:out value="#{refItem.uRefferenz1}" />	
 				</tc:column>
-				<tc:column>
+				<tc:column label="#{appMsg.headlineURef}">
 					<tc:out value="#{refItem.uRefferenz2}" />	
 				</tc:column>
 				<tc:column>
-					<tc:link label="-" actionListener="#{mainEntryForm.removeReference(refItem)}" />
+					<tc:link label="-" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+						actionListener="#{mainEntryForm.removeReference(refItem)}" />
 				</tc:column>
 			</tc:sheet>
 				
-			<tc:flexLayout columns="200px 300px 300px 20px">
-				<tc:selectOneRadio id="mediaKind" value="#{mainEntryForm.selectedElement}">
+			<tc:flexLayout rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+				columns="200px 300px 300px 20px">
+				<tc:selectOneRadio id="mediaKind" 
+					value="#{mainEntryForm.selectedElement}">
 					<tc:selectItem itemLabel="#{appMsg.book}" itemValue="book" />
 					<tc:selectItem itemLabel="#{appMsg.internet}" itemValue="internet" />
 					<f:ajax render="newEntry" execute="newEntry"/>
 				</tc:selectOneRadio>	
-				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}" value="#{mainEntryForm.referenz}" />
-				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}" value="#{mainEntryForm.uReferenz}" />
-				<tc:link label="+" actionListener="#{mainEntryForm.addReference}">
+				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}" 
+					value="#{mainEntryForm.referenz}" />
+				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}" 
+					value="#{mainEntryForm.uReferenz}" />
+				<tc:link label="+" 
+						actionListener="#{mainEntryForm.addReference}">
 <!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
 				</tc:link>
 			</tc:flexLayout>
 				
 			<tc:flexLayout columns="600px">
-				<tc:textarea labelLayout="top" label="#{appMsg.example}" value="#{mainEntryForm.beispiel}"/>
+				<tc:textarea labelLayout="top" label="#{appMsg.example}" 
+					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+					value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>
 			
  			<tc:sheet
+				rendered="#{mainEntryForm.checkListFilled and (mainEntryForm.neu or mainEntryForm.bearbeiten)}"
 				id="Abfliste"
 				columns="300px;300px;10px"
 				value="#{mainEntryForm.abfragen}"
 				var="abfItem">
-				<tc:column>
-					<tc:out value="#{abfItem.frage}" />	
+				<tc:column label="#{appMsg.question}">
+					<tc:out  value="#{abfItem.frage}" />	
 				</tc:column>
-				<tc:column>
+				<tc:column label="#{appMsg.answer}">
 					<tc:out value="#{abfItem.firstAntwort}" />	
 				</tc:column>
 				<tc:column>
-					<tc:link label="-" actionListener="#{mainEntryForm.removeAbfrage(abfItem)}" />
+					<tc:link label="-" 
+						actionListener="#{mainEntryForm.removeAbfrage(abfItem)}" />
 				</tc:column>
 			</tc:sheet>
 			
-			<tc:flexLayout columns="300px 300px 20px">
-				<tc:in labelLayout="top" label="#{appMsg.question}" value="#{mainEntryForm.frage}" />
-				<tc:in labelLayout="top" label="#{appMsg.answer}" value="#{mainEntryForm.antwort}" />
-				<tc:link label="+" actionListener="#{mainEntryForm.addAbfrage}" />
+			<tc:flexLayout columns="300px 300px 20px"
+				rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
+				<tc:in labelLayout="top" label="#{appMsg.question}" 
+					value="#{mainEntryForm.frage}" />
+				<tc:in labelLayout="top" label="#{appMsg.answer}" 
+					value="#{mainEntryForm.antwort}" />
+				<tc:link label="+" 
+					actionListener="#{mainEntryForm.addAbfrage}" />
 			</tc:flexLayout>
 			
 				
@@ -99,7 +113,13 @@
 	</ui:define>
 	
 	<ui:define name="pageButtons">
-		<tc:button label="#{appMsg.save}" action="#{mainEntryForm.doCreateNewEntry}" />
+		<tc:button label="#{appMsg.save}" rendered="#{mainEntryForm.neu}" action="#{mainEntryForm.doCreateNewEntry}" />
+		<tc:button label="#{appMsg.save}" 
+			rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}" 
+			action="#{mainEntryForm.doUpdateEntry}" />
+		<tc:button label="#{appMsg.edit}" 
+			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}" 
+			actionListener="#{mainEntryForm.doEdit}" />
 		<tc:button label="#{appMsg.cancel}" outcome="/faces/uebersicht" />
 	</ui:define>
 	

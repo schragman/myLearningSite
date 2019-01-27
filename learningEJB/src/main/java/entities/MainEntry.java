@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -26,13 +25,15 @@ public class MainEntry implements Serializable {
 	private String kurzEintrag;
 	@Column(length = 20000)
 	private String langEintrag;
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinColumn
 	private List<Referenz> referenzen;
 	// private String unterReferenz;
 	// @OneToMany // (cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	// @JoinColumn
 	private String beispiel;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.EAGER)
+
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<Abfrage> abfragen;
 
