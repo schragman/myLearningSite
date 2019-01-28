@@ -40,9 +40,22 @@ public class MainEntryForm implements Serializable {
 	private String antwort;
 	private String beispiel;
 	private List<Referenz> referenzen;
+	private List<Referenz> alleReferenzen; // Für Vorschlagsliste
+
 	private List<Abfrage> abfragen;
 	private boolean neu; // für Buttons
 	private boolean bearbeiten; // für Buttons
+
+	private String userInput;
+	private List<Referenz> quRes;
+
+	public String getUserInput() {
+		return userInput;
+	}
+
+	public void setUserInput(String userInput) {
+		this.userInput = userInput;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -51,6 +64,7 @@ public class MainEntryForm implements Serializable {
 		referenzArt = true;
 		labelReferenz = "Buch";
 		labelUReferenz = "Seite";
+		quRes = entrySteuerung.findReferences();
 		bearbeiten = false;
 		if (null == entry) {
 			referenzen = new ArrayList<>();
@@ -156,6 +170,20 @@ public class MainEntryForm implements Serializable {
 
 	public boolean isBearbeiten() {
 		return bearbeiten;
+	}
+
+	public List<Referenz> getAlleReferenzen() {
+		List<Referenz> result = new ArrayList<>();
+		for (Referenz ref : quRes) {
+
+//			if (ref.getuRefferenz1().contains(userInput))
+			result.add(ref);
+		}
+		return result;
+	}
+
+	public void setAlleReferenzen(List<Referenz> alleReferenzen) {
+		this.alleReferenzen = alleReferenzen;
 	}
 
 	public void setBearbeiten(boolean bearbeiten) {

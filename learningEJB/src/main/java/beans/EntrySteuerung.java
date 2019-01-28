@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import entities.HauptThema;
 import entities.MainEntry;
+import entities.Referenz;
 
 @Stateless
 @LocalBean
@@ -34,6 +35,13 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 	public List<MainEntry> findEntries(HauptThema thema) {
 		Query query = em.createNamedQuery("findEntries", MainEntry.class);
 		query.setParameter("passedID", thema.getId());
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Referenz> findReferences() {
+		Query query = em.createNamedQuery("findAllReferences", Referenz.class);
 
 		return query.getResultList();
 

@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import entities.HauptThema;
 import entities.MainEntry;
+import entities.Referenz;
 
 @Remote
 public interface EntrySteuerungRemote {
@@ -15,5 +16,7 @@ public interface EntrySteuerungRemote {
 	public void updEntry(MainEntry mainEntry);
 
 	public List<MainEntry> findEntries(HauptThema thema);
+
+	public List<Referenz> findReferences();
 
 }
