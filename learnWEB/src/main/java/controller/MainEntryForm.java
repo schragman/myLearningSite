@@ -174,9 +174,9 @@ public class MainEntryForm implements Serializable {
 
 	public List<Referenz> getAlleReferenzen() {
 		List<Referenz> result = new ArrayList<>();
+		String validatedUserInput = null==userInput?"":userInput;
 		for (Referenz ref : quRes) {
-
-//			if (ref.getuRefferenz1().contains(userInput))
+			if (ref.getuRefferenz1().toLowerCase().contains(validatedUserInput.toLowerCase()))
 			result.add(ref);
 		}
 		return result;
