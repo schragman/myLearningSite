@@ -20,7 +20,28 @@ public class MenuForm implements Serializable {
 		this.selectedPage = selectedPage;
 		
 		switch (this.selectedPage) {
-			case SelectedPage.Home:
+			case HOME:
+				mTheme=true;
+				mSearch=false;
+				mWalkthrough=false;
+				mList=false;
+				mEdit=false;
+				break;
+			case MAINENTRY:
+				mTheme=false;
+				mSearch=false;
+				mWalkthrough=false;
+				mList=true;
+				mEdit=true;
+				break;
+			case UEBERSICHT:
+				mTheme=false;
+				mSearch=true;
+				mWalkthrough=true;
+				mList=false;
+				mEdit=false;
+				break;
+		}
 				
 	}
 
