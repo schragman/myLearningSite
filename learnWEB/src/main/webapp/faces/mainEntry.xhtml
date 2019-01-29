@@ -70,7 +70,12 @@
 					<f:ajax render="newEntry" execute="newEntry"/>
 				</tc:selectOneRadio>	
 				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}" 
-					value="#{mainEntryForm.referenz}" />
+					value="#{mainEntryForm.referenz}">
+					<tc:suggest query="#{mainEntryForm.userInput}" filter="prefix"
+				  	maximumItems="3" minimumCharacters="3">
+				  	<tc:selectItems value="#{mainEntryForm.alleReferenzen}" var="name" itemValue="#{name.uRefferenz1}"/>
+			  	</tc:suggest>
+		  	</tc:in>
 				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}" 
 					value="#{mainEntryForm.uReferenz}" />
 				<tc:link label="+" 

@@ -6,7 +6,8 @@
   	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
   	
-  	<tc:bar>
+  	<tc:bar markup="large, dark">
+		  <tc:style customClass="bg-dark"/>>
   		<f:facet name="brand">
   			<tc:link label="LearningApp" immediate="true" outcome="/faces/home" />
   		</f:facet>
@@ -21,10 +22,10 @@
   			
   			</tc:links>
   		</tc:form>
+  	</tc:bar>
+</ui:composition>
+  			
   		<!-- 
   		
   		
   		 -->
-  	</tc:bar>
-</ui:composition>
-  			

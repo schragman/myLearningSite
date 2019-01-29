@@ -19,10 +19,17 @@ public class UebersichtForm {
 	@Inject
 	private Selections selection;
 
+	@Inject
+	private MenuForm menuForm;
+
 	private List<MainEntry> entries;
 
 	@EJB
 	private EntrySteuerungRemote entrySteuerung;
+
+	public void doCreaeteMenu() {
+		menuForm.setSelectedPage(SelectedPage.UEBERSICHT);
+	}
 
 	public List<MainEntry> getEntries() {
 		return entrySteuerung.findEntries(selection.getThema());

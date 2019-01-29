@@ -26,6 +26,9 @@ public class HomeForm implements Serializable {
 	@Inject
 	private AusgabeBean ausgabeBean;
 
+	@Inject
+	private MenuForm menuForm;
+
 	@EJB
 	private EntrySteuerungRemote entrySteuerung;
 
@@ -35,6 +38,10 @@ public class HomeForm implements Serializable {
 	@PostConstruct
 	public void init() {
 		themenListe = ausgabeBean.findThemes();
+	}
+
+	public void doCreaeteMenu() {
+		menuForm.setSelectedPage(SelectedPage.HOME);
 	}
 
 	public String getTitle() {

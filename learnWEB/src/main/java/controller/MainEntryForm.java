@@ -29,6 +29,8 @@ public class MainEntryForm implements Serializable {
 	private EntrySteuerungRemote entrySteuerung;
 	@Inject
 	private Selections selection;
+	@Inject
+	private MenuForm menuForm;
 	private String kBeschreibung;
 	private String lBeschreibung;
 	private boolean referenzArt; // Printmedium, Internetquelle
@@ -174,12 +176,16 @@ public class MainEntryForm implements Serializable {
 
 	public List<Referenz> getAlleReferenzen() {
 		List<Referenz> result = new ArrayList<>();
-		String validatedUserInput = null==userInput?"":userInput;
+		String validatedUserInput = null == userInput ? "" : userInput;
 		for (Referenz ref : quRes) {
 			if (ref.getuRefferenz1().toLowerCase().contains(validatedUserInput.toLowerCase()))
-			result.add(ref);
+				result.add(ref);
 		}
 		return result;
+	}
+
+	public void doCreaeteMenu() {
+		menuForm.setSelectedPage(SelectedPage.MAINENTRY);
 	}
 
 	public void setAlleReferenzen(List<Referenz> alleReferenzen) {
