@@ -11,6 +11,9 @@
 
 <!-- 			
 			-->
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{homeForm.doCreateMenu}" />
+	</f:metadata>
 	<ui:define name="appContent">
 		<ui:include src="/faces/subviews/newTheme.xhtml" />
 		<tc:form id="mainView"> 

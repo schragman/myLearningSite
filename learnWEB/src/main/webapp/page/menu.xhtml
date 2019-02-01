@@ -7,21 +7,29 @@
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
   	
   	<tc:bar markup="large, dark">
-		  <tc:style customClass="bg-dark"/>>
+		  <tc:style customClass="bg-dark"/>
   		<f:facet name="brand">
   			<tc:link label="LearningApp" immediate="true" outcome="/faces/home" />
   		</f:facet>
   		
-  		<tc:form>
   			<tc:links>
-  				<tc:link label="#{appMsg.themes}" omit="true">
+  				<tc:link rendered="#{menuForm.mTheme}" label="#{appMsg.themes}" omit="true">
   					<tc:link label="#{appMsg.newTheme}" />
   					<tc:link label="#{appMsg.lastTheme}" />
   				</tc:link>
-  				
-  			
-  			</tc:links>
-  		</tc:form>
+  				<tc:link label="#{appMsg.list}" rendered="#{menuForm.mList}" outcome="/faces/uebersicht"/>
+			    <tc:link label="#{appMsg.newEntry}" rendered="#{menuForm.mEntry}" action="#{uebersichtForm.doCreateNewEntry}"/>
+			    <tc:link label="#{appMsg.edit}" 
+			    	rendered="#{menuForm.mEdit and !mainEntryForm.neu and !mainEntryForm.bearbeiten}" 
+						actionListener="#{mainEntryForm.doEdit}" />
+			    <tc:link label="#{appMsg.walkthrough}" rendered="#{menuForm.mWalkthrough}" />
+			  </tc:links>
+			  <f:facet name="after">
+			    <tc:flexLayout rendered="#{menuForm.mSearch}" columns="1fr  auto">
+			      <tc:in placeholder="Search" labelLayout="skip"/>
+			      <tc:button label="Los"/>
+			    </tc:flexLayout>
+			  </f:facet>
   	</tc:bar>
 </ui:composition>
   			

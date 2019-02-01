@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition 
-	id="homePage"
+	id="listPage"
 	template="/page/page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -10,6 +11,10 @@
 
 <!-- 			
 			-->
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{uebersichtForm.doCreateMenu}" />
+	</f:metadata>		
+			
 	<ui:define name="appContent">
 		<tc:form id="uebersicht">
 		  <tc:out value="#{selections.thema.thema}"/>

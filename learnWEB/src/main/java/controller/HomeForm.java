@@ -40,7 +40,7 @@ public class HomeForm implements Serializable {
 		themenListe = ausgabeBean.findThemes();
 	}
 
-	public void doCreaeteMenu() {
+	public void doCreateMenu() {
 		menuForm.setSelectedPage(SelectedPage.HOME);
 	}
 
@@ -62,10 +62,10 @@ public class HomeForm implements Serializable {
 
 		selection.setThema(thema);
 		if (null == entrySteuerung.findEntries(thema).get(0)) {
-			result = Sites.MAINENTRY;
+			result = Sites.MAINENTRY + Sites.DORELOAD;
 			selection.setEntry(null);
 		} else
-			result = Sites.UEBERSICHT;
+			result = Sites.UEBERSICHT + Sites.DORELOAD;
 
 		return result;
 	}

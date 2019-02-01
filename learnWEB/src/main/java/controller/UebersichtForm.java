@@ -27,7 +27,7 @@ public class UebersichtForm {
 	@EJB
 	private EntrySteuerungRemote entrySteuerung;
 
-	public void doCreaeteMenu() {
+	public void doCreateMenu() {
 		menuForm.setSelectedPage(SelectedPage.UEBERSICHT);
 	}
 
@@ -37,12 +37,12 @@ public class UebersichtForm {
 
 	public String doJumpEntry(MainEntry entry) {
 		selection.setEntry(entry);
-		return Sites.MAINENTRY;
+		return Sites.MAINENTRY + Sites.DORELOAD;
 	}
 
 	public String doCreateNewEntry() {
 		selection.setEntry(null);
-		return Sites.MAINENTRY;
+		return Sites.MAINENTRY + Sites.DORELOAD;
 	}
 
 }

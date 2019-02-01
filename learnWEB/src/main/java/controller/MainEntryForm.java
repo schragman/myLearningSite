@@ -162,6 +162,10 @@ public class MainEntryForm implements Serializable {
 		abfragen.add(neueAbfrage);
 	}
 
+	public void doCreateMenu() {
+		menuForm.setSelectedPage(SelectedPage.MAINENTRY);
+	}
+
 	public void doEdit() {
 		bearbeiten = true;
 	}

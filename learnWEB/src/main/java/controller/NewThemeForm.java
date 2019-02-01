@@ -5,6 +5,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import beans.ThemenSteuerungRemote;
+import util.Sites;
 
 @RequestScoped
 @Named
@@ -16,10 +17,9 @@ public class NewThemeForm {
 	private String themenName;
 	private String themenBeschreibung;
 
-//	public void doCreateNewTheme() {
 	public String doCreateNewTheme() {
 		themenSteuerung.generateNew(themenName, themenBeschreibung);
-		return "home?faces-redirect=true";
+		return Sites.HOME + Sites.DORELOAD;
 	}
 
 	public String getThemenName() {
