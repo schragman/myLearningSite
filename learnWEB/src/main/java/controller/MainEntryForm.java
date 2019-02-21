@@ -2,7 +2,10 @@ package controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,6 +46,7 @@ public class MainEntryForm implements Serializable {
 	private String beispiel;
 	private List<Referenz> referenzen;
 	private List<Referenz> alleReferenzen; // Für Vorschlagsliste
+	private List<String> aBeschreibungen; // Für Vorschlagsliste
 
 	private List<Abfrage> abfragen;
 	private boolean neu; // für Buttons
@@ -67,6 +71,7 @@ public class MainEntryForm implements Serializable {
 		labelReferenz = "Buch";
 		labelUReferenz = "Seite";
 		quRes = entrySteuerung.findReferences();
+		aBeschreibungen = entrySteuerung.findBeschreibungen(selection.getThema());
 		bearbeiten = false;
 		if (null == entry) {
 			referenzen = new ArrayList<>();
@@ -178,13 +183,24 @@ public class MainEntryForm implements Serializable {
 		return bearbeiten;
 	}
 
-	public List<Referenz> getAlleReferenzen() {
-		List<Referenz> result = new ArrayList<>();
+	public Collection<Referenz> getAlleReferenzen() {
+		Set<Referenz> result = new HashSet<>();
 		String validatedUserInput = null == userInput ? "" : userInput;
 		for (Referenz ref : quRes) {
 			if (ref.getuRefferenz1().toLowerCase().contains(validatedUserInput.toLowerCase()))
+//			if (ref.getuRefferenz1().toLowerCase().contains(userInput.toLowerCase()))
 				result.add(ref);
 		}
+		return result;
+	}
+
+	// Für Vorschlagsliste von Kurzbeschreibung
+	public List<String> getAlleBeschreibungen() {
+		List<String> result = new ArrayList<>();
+		String userInput = null == kBeschreibung ? "" : kBeschreibung;
+		for (String beschreibung : aBeschreibungen)
+			if (beschreibung.toLowerCase().contains(userInput.toLowerCase()) && !result.contains(beschreibung))
+				result.add(beschreibung);
 		return result;
 	}
 

@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "findAllReferences", query = "SELECT r FROM Referenz r")
+@NamedQueries({ @NamedQuery(name = "findAllReferences", query = "SELECT r FROM Referenz r"),
+		@NamedQuery(name = "findThemeReferences", query = "SELECT r FROM Referenz r WHERE HauptThema = :passedTheme") })
 public class Referenz implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +53,16 @@ public class Referenz implements Serializable {
 
 	public void setuRefferenz2(String uRefferenz2) {
 		this.uRefferenz2 = uRefferenz2;
+	}
+
+	public int hashCode() {
+		return uRefferenz1.hashCode();
+	}
+
+	public boolean equals(Object anObject) {
+		String stObject = ((Referenz) anObject).getuRefferenz1();
+
+		return uRefferenz1.equalsIgnoreCase(stObject);
 	}
 
 }

@@ -15,8 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t"),
-		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID") })
+@NamedQueries({ //
+		@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t"),
+		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID"),
+		@NamedQuery(name = "findRefs", query = "SELECT r.uRefferenz1 FROM Referenz r WHERE r.Referenzen_ID IN"
+				+ "(SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID)") })
 public class HauptThema implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -10,10 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-//@NamedQuery(name = "findEntries", query = "SELECT e FROM MainEntry e WHERE HauptThema = :passedTheme")
 public class MainEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,14 +28,14 @@ public class MainEntry implements Serializable {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<Referenz> referenzen;
-	// private String unterReferenz;
-	// @OneToMany // (cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-	// @JoinColumn
 	private String beispiel;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<Abfrage> abfragen;
+
+	@ManyToOne
+	private HauptThema hauptThema;
 
 	public List<Abfrage> getAbfragen() {
 		return abfragen;

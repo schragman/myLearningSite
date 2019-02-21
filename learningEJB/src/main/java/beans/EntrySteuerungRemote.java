@@ -19,4 +19,6 @@ public interface EntrySteuerungRemote {
 
 	public List<Referenz> findReferences();
 
+	public List<String> findBeschreibungen(HauptThema theme);
+
 }

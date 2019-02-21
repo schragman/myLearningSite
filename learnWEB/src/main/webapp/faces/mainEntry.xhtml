@@ -20,8 +20,13 @@
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:flexLayout columns="300px 300px">
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
-					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-					value="#{mainEntryForm.kBeschreibung}" />
+					value="#{mainEntryForm.kBeschreibung}"
+					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}">
+				  <tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
+				  	maximumItems="3">
+				  	<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
+			  	</tc:suggest>
+		  	</tc:in>
 				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" 
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 					value="#{mainEntryForm.lBeschreibung}" />
@@ -104,14 +109,6 @@
 					actionListener="#{mainEntryForm.addAbfrage}" />
 			</tc:flexLayout>
 			
-			<tc:in id="myList" label="List">
-			  <tc:suggest query="#{mainEntryForm.userInput}" filter="prefix"
-			  	maximumItems="3">
-			  	<tc:selectItems value="#{mainEntryForm.alleReferenzen}" var="name" itemValue="#{name.uRefferenz1}"/>
-		  	</tc:suggest>
-			</tc:in>
-			
-				
 		</tc:box>
 			
 	</ui:define>

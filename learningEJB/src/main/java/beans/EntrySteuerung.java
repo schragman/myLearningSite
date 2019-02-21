@@ -1,5 +1,6 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -44,7 +45,22 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 		Query query = em.createNamedQuery("findAllReferences", Referenz.class);
 
 		return query.getResultList();
+	}
 
+	@Override
+	public List<String> findBeschreibungen(HauptThema thema) {
+		Query query = em.createNamedQuery("findEntries", MainEntry.class);
+		query.setParameter("passedID", thema.getId());
+
+		List<MainEntry> lvResultList = query.getResultList();
+		List<String> lvResult = new ArrayList<>();
+
+		for (MainEntry me : lvResultList) {
+			if (null != me)
+				lvResult.add(me.getKurzEintrag());
+		}
+
+		return lvResult;
 	}
 
 }
