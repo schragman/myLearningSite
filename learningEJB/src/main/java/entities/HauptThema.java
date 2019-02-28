@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,8 +17,11 @@ import javax.persistence.OneToMany;
 @NamedQueries({ //
 		@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t"),
 		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID"),
-		@NamedQuery(name = "findRefs", query = "SELECT r.uRefferenz1 FROM Referenz r WHERE r.Referenzen_ID IN"
-				+ "(SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID)") })
+
+		// @NamedQuery(name = "findRefs", query = "SELECT r.uRefferenz1 FROM Referenz r
+		// WHERE r.Referenzen_ID IN"
+		// + "(SELECT m.id FROM MainEntry m WHERE m.mainEntries_ID = :passedID)")
+})
 public class HauptThema implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -31,8 +33,7 @@ public class HauptThema implements Serializable {
 	@Column(length = 2000)
 	private String beschreibung;
 
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinColumn
+	@OneToMany(mappedBy = "hauptThema", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private List<MainEntry> mainEntries;
 	private Date lastRecentlyUsed;
 

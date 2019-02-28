@@ -11,9 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({
+		@NamedQuery(name = "findKBeschreibungen", query = "SELECT m.kurzEintrag FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
+		@NamedQuery(name = "findBeschreibungen", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
+		@NamedQuery(name = "findReferences", query = "SELECT m.referenzen FROM MainEntry m WHERE m.hauptThema = :passedTheme")//
+})
 public class MainEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +42,16 @@ public class MainEntry implements Serializable {
 	private List<Abfrage> abfragen;
 
 	@ManyToOne
+	@JoinColumn(name = "HauptThema_ID")
 	private HauptThema hauptThema;
+
+	public HauptThema getHauptThema() {
+		return hauptThema;
+	}
+
+	public void setHauptThema(HauptThema hauptThema) {
+		this.hauptThema = hauptThema;
+	}
 
 	public List<Abfrage> getAbfragen() {
 		return abfragen;

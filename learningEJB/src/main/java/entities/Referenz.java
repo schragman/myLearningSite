@@ -9,8 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "findAllReferences", query = "SELECT r FROM Referenz r"),
-		@NamedQuery(name = "findThemeReferences", query = "SELECT r FROM Referenz r WHERE HauptThema = :passedTheme") })
+@NamedQueries({ @NamedQuery(name = "findAllReferences", query = "SELECT r FROM Referenz r") // ,
+})
 public class Referenz implements Serializable {
 	private static final long serialVersionUID = 1L;
 

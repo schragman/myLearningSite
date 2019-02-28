@@ -123,6 +123,7 @@ public class MainEntryForm implements Serializable {
 		result.setReferenzen(referenzen);
 		result.setBeispiel(beispiel);
 		result.setAbfragen(abfragen);
+		result.setHauptThema(selection.getThema());
 
 		entrySteuerung.generateNew(result, selection.getThema());
 
