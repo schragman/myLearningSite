@@ -26,7 +26,11 @@
 			  </tc:links>
 			  <f:facet name="after">
 			    <tc:flexLayout rendered="#{menuForm.mSearch}" columns="1fr  auto">
-			      <tc:in placeholder="Search" labelLayout="skip"/>
+			      <tc:in placeholder="Search" labelLayout="skip" value="#{uebersichtForm.suchAnfrage}">
+			      	<tc:suggest query="#{uebersichtForm.userInput}" filter="prefix">
+			      		<tc:selectItems value="#{uebersichtForm.vorschlagsliste}" var="suchEintrag" itemValue="#{suchEintrag.content}"/>
+			      	</tc:suggest>
+		      	  </tc:in>
 			      <tc:button label="Los"/>
 			    </tc:flexLayout>
 			  </f:facet>

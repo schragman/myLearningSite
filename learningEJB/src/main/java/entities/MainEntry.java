@@ -104,5 +104,15 @@ public class MainEntry implements Serializable {
 	public void setBeispiel(String beispiel) {
 		this.beispiel = beispiel;
 	}
+	
+//	public int hashCode() {
+//		return Long.hashCode(id);
+//	}
+//	
+//	public boolean equals(Object anObject) {
+//		long objectId = ((MainEntry) anObject).getId();
+//		
+//		return id == objectId;
+//	}
 
 }
