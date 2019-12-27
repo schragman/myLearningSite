@@ -4,4 +4,10 @@
 .project
 faces-config.pageflow
 *.log
-*/.gitignore
+**/*.class
+**target/
+**/.idea/
+**/*.war
+
+*.iml
+**/.gitignore
