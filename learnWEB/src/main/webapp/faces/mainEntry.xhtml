@@ -21,15 +21,23 @@
 			<tc:flexLayout columns="300px 300px">
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
 					value="#{mainEntryForm.kBeschreibung}"
-					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}">
+				    focus="false"
+					rendered="#{!mainEntryForm.neu}"
+					disabled="#{!mainEntryForm.bearbeiten}">
+		  		</tc:in>
+				<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
+					value="#{mainEntryForm.kBeschreibung}"
+				    focus="false"
+					rendered="#{mainEntryForm.neu}">
 				  <tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
 				  	maximumItems="3">
 				  	<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
-			  	</tc:suggest>
-		  	</tc:in>
+				  </tc:suggest>
+		  		</tc:in>
 				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" 
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-					value="#{mainEntryForm.lBeschreibung}" />
+					focus="true"
+				    value="#{mainEntryForm.lBeschreibung}" />
 			</tc:flexLayout>
 			<tc:sheet
 				id="Referenzliste"

@@ -24,7 +24,7 @@ public class SearchSteuerung implements SearchSteuerungRemote {
 	@PersistenceContext(unitName = "LearningPU")
 	private EntityManager em;
 
-	// Für die Vorschlagsliste im Suchfeld
+	// Fuer die Vorschlagsliste im Suchfeld
 	@Override
 	public Collection<SearchContainer> findSearchEntries(HauptThema theme) {
 
@@ -38,17 +38,21 @@ public class SearchSteuerung implements SearchSteuerungRemote {
 		List<MainEntry> beschList = quBesch.getResultList();
 
 		for (Referenz referenz : refList) {
-			SearchContainer sContainer = new SearchContainer(referenz.getuRefferenz1(), SearchItems.REFERENZ, referenz.getId());
-			result.add(sContainer);
-			sContainer = new SearchContainer(referenz.getuRefferenz2(), SearchItems.UNTERREFERENZ, referenz.getId());
-			result.add(sContainer);
+			if (null!=referenz) {
+				SearchContainer sContainer = new SearchContainer(referenz.getuRefferenz1(), SearchItems.REFERENZ, referenz.getId());
+				result.add(sContainer);
+				sContainer = new SearchContainer(referenz.getuRefferenz2(), SearchItems.UNTERREFERENZ, referenz.getId());
+				result.add(sContainer);
+			}
 		}
 
 		for (MainEntry mEntry : beschList) {
-			SearchContainer sContainer = new SearchContainer(mEntry.getKurzEintrag(), SearchItems.KURZEINTRAG, mEntry.getId());
-			result.add(sContainer);
-			sContainer = new SearchContainer(mEntry.getLangEintrag(), SearchItems.LANGEINTRAG, mEntry.getId());
-			result.add(sContainer);
+			if (null!=mEntry) {
+        SearchContainer sContainer = new SearchContainer(mEntry.getKurzEintrag(), SearchItems.KURZEINTRAG, mEntry.getId());
+        result.add(sContainer);
+        sContainer = new SearchContainer(mEntry.getLangEintrag(), SearchItems.LANGEINTRAG, mEntry.getId());
+        result.add(sContainer);
+      }
 		}
 
 		return result;

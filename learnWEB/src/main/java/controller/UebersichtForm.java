@@ -51,7 +51,8 @@ public class UebersichtForm {
 	}
 
 	public List<MainEntry> getEntries() {
-		return entrySteuerung.findEntries(selection.getThema());
+		List<MainEntry> entries = entrySteuerung.findEntries(selection.getThema());
+	  return entries;
 	}
 
 	public String doJumpEntry(MainEntry entry) {

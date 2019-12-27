@@ -28,9 +28,9 @@ public class MainEntry implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String kurzEintrag;
-	@Column(length = 20000)
+	//@Column(length = 20000)
 	private String langEintrag;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn
