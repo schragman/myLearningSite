@@ -1,10 +1,14 @@
 package beans;
 
+import entities.HauptThema;
+
 import javax.ejb.Remote;
 
 @Remote
 public interface ThemenSteuerungRemote {
 
-	public void generateNew(String themeN, String themeD);
+	void generateNew(String themeN, String themeD);
+
+	void deleteTheme(HauptThema hauptThema);
 
 }

@@ -11,7 +11,9 @@ import javax.inject.Named;
 
 import beans.AusgabeBean;
 import beans.EntrySteuerungRemote;
+import beans.ThemenSteuerungRemote;
 import entities.HauptThema;
+import entities.MainEntry;
 import util.Selections;
 import util.Sites;
 
@@ -31,6 +33,9 @@ public class HomeForm implements Serializable {
 
 	@EJB
 	private EntrySteuerungRemote entrySteuerung;
+
+	@EJB
+	private ThemenSteuerungRemote themenSteuerung;
 
 	@Inject
 	private Selections selection;
@@ -68,6 +73,11 @@ public class HomeForm implements Serializable {
 			result = Sites.UEBERSICHT + Sites.DORELOAD;
 
 		return result;
+	}
+
+	public String deleteTheme(HauptThema thema) {
+		themenSteuerung.deleteTheme(thema);
+		return Sites.HOME + Sites.DORELOAD;
 	}
 
 }

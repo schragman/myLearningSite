@@ -65,6 +65,12 @@ public class UebersichtForm {
 		return Sites.MAINENTRY + Sites.DORELOAD;
 	}
 
+	public String deleteEntry(MainEntry entry) {
+		entrySteuerung.deleteEntry(entry);
+		return Sites.UEBERSICHT + Sites.DORELOAD;
+	}
+
+
 	public List<SearchContainer> getVorschlagsliste() {
 		List<SearchContainer> result = new ArrayList<>();
 		

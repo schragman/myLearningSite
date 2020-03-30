@@ -4,6 +4,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import entities.HauptThema;
 
@@ -21,6 +22,17 @@ public class ThemenSteuerung implements ThemenSteuerungRemote {
 		newTheme.setBeschreibung(themeDesc);
 
 		em.persist(newTheme);
+	}
+
+	@Override
+	public void deleteTheme(HauptThema hauptThema) {
+		/*String jpql = "DELETE FROM " + HauptThema.class.getName() + " h WHERE h = :thema";
+		TypedQuery<HauptThema> query = em.createQuery(jpql, HauptThema.class);
+		query.setParameter("thema", hauptThema).executeUpdate();*/
+
+		HauptThema toDelete = em.merge(hauptThema);
+		em.remove(toDelete);
+
 	}
 
 }

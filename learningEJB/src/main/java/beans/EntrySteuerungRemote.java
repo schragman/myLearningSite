@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 import entities.HauptThema;
 import entities.MainEntry;
 import entities.Referenz;
+import sun.applet.Main;
 
 @Remote
 public interface EntrySteuerungRemote {
@@ -20,5 +21,7 @@ public interface EntrySteuerungRemote {
 	public List<Referenz> findReferences();
 
 	public List<String> findBeschreibungen(HauptThema theme);
+
+	public void deleteEntry(MainEntry mainEntry);
 
 }

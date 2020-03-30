@@ -47,6 +47,12 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 	}
 
 	@Override
+	public void deleteEntry(MainEntry mainEntry) {
+		MainEntry toDelete = em.merge(mainEntry);
+		em.remove(toDelete);
+	}
+
+	@Override
 //	public List<String> findBeschreibungen(HauptThema thema) {
 //		Query query = em.createNamedQuery("findEntries", MainEntry.class);
 //		query.setParameter("passedID", thema.getId());

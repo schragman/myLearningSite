@@ -18,7 +18,7 @@
 	<ui:define name="appContent">
 		
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
-			<tc:flexLayout columns="300px 300px">
+			<tc:flexLayout columns="300px *" >
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
 					value="#{mainEntryForm.kBeschreibung}"
 				    focus="false"
@@ -34,11 +34,14 @@
 				  	<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
 				  </tc:suggest>
 		  		</tc:in>
-				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}" 
-					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+				<tc:out value="filler" rendered="false"/>
+				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
+							 disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+							 rows="5"
 					focus="true"
 				    value="#{mainEntryForm.lBeschreibung}" />
 			</tc:flexLayout>
+
 			<tc:sheet
 				id="Referenzliste"
 				rendered="#{mainEntryForm.refListFilled}"
@@ -83,16 +86,17 @@
 				</tc:link>
 			</tc:flexLayout>
 				
-			<tc:flexLayout columns="600px">
+			<tc:flexLayout columns="Auto" rows="300px">
 				<tc:textarea labelLayout="top" label="#{appMsg.example}" 
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-					value="#{mainEntryForm.beispiel}"/>
+					rows="10"
+				 	value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>
 			
  			<tc:sheet
 				rendered="#{mainEntryForm.checkListFilled and (mainEntryForm.neu or mainEntryForm.bearbeiten)}"
 				id="Abfliste"
-				columns="300px;300px;10px"
+				columns="400px;400px;10px"
 				value="#{mainEntryForm.abfragen}"
 				var="abfItem">
 				<tc:column label="#{appMsg.question}">
@@ -107,7 +111,7 @@
 				</tc:column>
 			</tc:sheet>
 			
-			<tc:flexLayout columns="300px 300px 20px"
+			<tc:flexLayout columns="400px 400px 20px"
 				rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
 				<tc:in labelLayout="top" label="#{appMsg.question}" 
 					value="#{mainEntryForm.frage}" />

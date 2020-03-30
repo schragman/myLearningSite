@@ -9,28 +9,42 @@
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
-<!-- 			
+<!--
 			-->
 	<f:metadata>
 		<f:event type="preRenderView" listener="#{uebersichtForm.doCreateMenu}" />
-	</f:metadata>		
-			
+	</f:metadata>
+
 	<ui:define name="appContent">
 		<tc:form id="uebersicht">
 		  <tc:out value="#{selections.thema.thema}"/>
 		  <tc:sheet
 		  	id="listeEintraege"
 				value="#{uebersichtForm.entries}"
+				columns="500px;*"
 				var="item">
 				<tc:column label="#{appMsg.listOfEntries}">
 					<tc:link label="#{item.kurzEintrag}" action="#{uebersichtForm.doJumpEntry(item)}" />
 				</tc:column>
+
+				<tc:column align="right">
+					<tc:link image="fa-trash" action="#{uebersichtForm.deleteEntry(item)}">
+						<f:facet name="confirmation">
+							<tc:out value="#{appMsg.delEntry}"/>
+						</f:facet>
+					</tc:link>
+				</tc:column>
 			</tc:sheet>
 	  </tc:form>
 	</ui:define>
-	
+
 	<ui:define name="pageButtons">
 		<tc:button label="#{appMsg.newEntry}" action="#{uebersichtForm.doCreateNewEntry}" />
 	</ui:define>
-	
+
 </ui:composition>
+
+<!--
+
+
+-->
