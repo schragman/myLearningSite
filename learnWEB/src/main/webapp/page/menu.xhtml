@@ -31,13 +31,15 @@
 			      		<tc:selectItems value="#{uebersichtForm.vorschlagsliste}" var="suchEintrag" itemValue="#{suchEintrag.content}"/>
 			      	</tc:suggest>
 		      	  </tc:in>
-			      <tc:button label="Los"/>
+			      <tc:button label="Los">
+							<tc:operation name="show" for="searchRes" />
+						</tc:button>
 			    </tc:flexLayout>
 			  </f:facet>
   	</tc:bar>
 </ui:composition>
-  			
-  		<!-- 
-  		
-  		
+
+  		<!--
+
+
   		 -->

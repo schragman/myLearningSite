@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -75,10 +76,20 @@ public class UebersichtForm {
 		List<SearchContainer> result = new ArrayList<>();
 		
 		String validatedUserInput = null==userInput ? "" : userInput;
-		for (SearchContainer sItem : alleSuchErgebnisse)
-			if(sItem.getContent().toLowerCase().contains(validatedUserInput.toLowerCase()))
+		for (SearchContainer sItem : alleSuchErgebnisse) {
+			String itemContent = sItem.getContent();
+			if (itemContent.toLowerCase().contains(validatedUserInput.toLowerCase())) {
+				if (itemContent.length() > 20) {
+					itemContent = itemContent.substring(0,19) + " ...";
+					if (itemContent.contains("\n")) {
+						String[] items = itemContent.split("\n");
+						itemContent = String.join(" ", items);
+					}
+					sItem.setContent(itemContent);
+				}
 				result.add(sItem);
-		
+			}
+		}
 		return result;
 	}
 	

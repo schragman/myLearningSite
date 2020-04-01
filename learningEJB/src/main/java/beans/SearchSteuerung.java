@@ -41,8 +41,11 @@ public class SearchSteuerung implements SearchSteuerungRemote {
 			if (null!=referenz) {
 				SearchContainer sContainer = new SearchContainer(referenz.getuRefferenz1(), SearchItems.REFERENZ, referenz.getId());
 				result.add(sContainer);
-				sContainer = new SearchContainer(referenz.getuRefferenz2(), SearchItems.UNTERREFERENZ, referenz.getId());
-				result.add(sContainer);
+				String uRef2 = referenz.getuRefferenz2();
+				if (null != uRef2 && !uRef2.isEmpty()) {
+					sContainer = new SearchContainer(uRef2, SearchItems.UNTERREFERENZ, referenz.getId());
+					result.add(sContainer);
+				}
 			}
 		}
 
