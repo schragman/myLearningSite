@@ -28,6 +28,32 @@
         <version>4.4.1</version>
 <!--         <scope>provided</scope> -->
       </dependency>
+
+
+    <!--Junit als Basis für unsere Tests-->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Arquillian JUnit Integration -->
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <version>1.1.11.Final</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Verbindung zum ApplicationServer -->
+    <dependency>
+      <groupId>org.wildfly.arquillian</groupId>
+      <artifactId>wildfly-arquillian-container-managed</artifactId>
+      <version>1.1.0.Final</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   
   <build>

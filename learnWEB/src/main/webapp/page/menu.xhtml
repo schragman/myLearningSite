@@ -6,7 +6,7 @@
   	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
   	
-  	<tc:bar markup="large, dark">
+  	<tc:bar id="menubar" markup="large, dark">
 		  <tc:style customClass="bg-dark"/>
   		<f:facet name="brand">
   			<tc:link label="LearningApp" immediate="true" outcome="/faces/home" />
@@ -31,7 +31,7 @@
 			      		<tc:selectItems value="#{uebersichtForm.vorschlagsliste}" var="suchEintrag" itemValue="#{suchEintrag.content}"/>
 			      	</tc:suggest>
 		      	  </tc:in>
-			      <tc:button label="Los">
+			      <tc:button label="Los" action="#{uebersichtForm.startSuchanfrage}" defaultCommand="true">
 							<tc:operation name="show" for="searchRes" />
 						</tc:button>
 			    </tc:flexLayout>

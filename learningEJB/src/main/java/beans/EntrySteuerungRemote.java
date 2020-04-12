@@ -24,4 +24,6 @@ public interface EntrySteuerungRemote {
 
 	public void deleteEntry(MainEntry mainEntry);
 
+	public MainEntry findById(long id);
+
 }

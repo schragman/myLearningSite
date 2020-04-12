@@ -14,12 +14,16 @@ import beans.EntrySteuerungRemote;
 import beans.ThemenSteuerungRemote;
 import entities.HauptThema;
 import entities.MainEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.Selections;
 import util.Sites;
 
 @RequestScoped
 @Named
 public class HomeForm implements Serializable {
+
+	private static Logger LOG = LoggerFactory.getLogger(HomeForm.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,6 +81,7 @@ public class HomeForm implements Serializable {
 
 	public String deleteTheme(HauptThema thema) {
 		themenSteuerung.deleteTheme(thema);
+		LOG.info(thema.getThema() + " is getting deleted!");
 		return Sites.HOME + Sites.DORELOAD;
 	}
 

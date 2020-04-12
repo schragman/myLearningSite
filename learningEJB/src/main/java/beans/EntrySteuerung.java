@@ -75,4 +75,8 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 		return query.getResultList();
 	}
 
+	public MainEntry findById(long id) {
+		return em.find(MainEntry.class, id);
+	}
+
 }

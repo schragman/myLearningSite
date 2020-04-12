@@ -1,21 +1,22 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import beans.EntrySteuerungRemote;
 import beans.SearchSteuerungRemote;
 import entities.MainEntry;
+import org.apache.myfaces.tobago.model.SheetState;
 import util.Selections;
 import util.Sites;
+import utils.SearchContList;
 import utils.SearchContainer;
 import utils.SearchItems;
 
@@ -40,11 +41,19 @@ public class UebersichtForm {
 	private String suchAnfrage;
 	private String userInput;
 	private Collection<SearchContainer> alleSuchErgebnisse;
+	private Collection<SearchContainer> suchErgebnisse4Form;
+	private SearchContainer dummy;
 
 	
 	@PostConstruct
 	public void init() {
 		alleSuchErgebnisse = searchSteuerung.findSearchEntries(selection.getThema());
+		dummy = new SearchContList("Nothing there", SearchItems.KURZEINTRAG, 0);
+		if (selection.getSearchItems() == null) {
+			initSuchErgebnisse();
+		} else {
+			suchErgebnisse4Form = selection.getSearchItems();
+		}
 	}
 	
 	public void doCreateMenu() {
@@ -92,7 +101,43 @@ public class UebersichtForm {
 		}
 		return result;
 	}
-	
+
+	public String startSuchanfrage() {
+		String suchString = suchAnfrage.endsWith(" ...") ? suchAnfrage.substring(0, suchAnfrage.length() - 4) : suchAnfrage;
+		if (suchString.equals("")) {
+			return Sites.UEBERSICHT + Sites.DORELOAD;
+		}
+		suchErgebnisse4Form = alleSuchErgebnisse.stream()
+						.filter(item -> item.getContent().toLowerCase().contains(suchString.toLowerCase()))
+						.map(item -> new SearchContList(item.getContent(), item.getSearchItem(), item.getId()))
+						.collect(Collectors.toSet());
+
+		if (suchErgebnisse4Form == null || suchErgebnisse4Form.size() == 0) {
+			initSuchErgebnisse();
+			return "";
+		}
+		else if (suchErgebnisse4Form.size() == 1) {
+			SearchContainer result = suchErgebnisse4Form.stream().findFirst().get();
+			return doJumpEntry(entrySteuerung.findById(result.getId()));
+		} else {
+			selection.setSearchItems(suchErgebnisse4Form);
+			return "";
+		}
+	}
+
+	private void initSuchErgebnisse() {
+		suchErgebnisse4Form = new HashSet<>();
+		suchErgebnisse4Form.add(dummy);
+	}
+
+	public void eraseSearchValue() {
+		this.suchAnfrage = "";
+	}
+
+	public String doJumpSearchItem(SearchContainer searchItemFromForm) {
+		return doJumpEntry(entrySteuerung.findById(searchItemFromForm.getId()));
+	}
+
 	public String getSuchAnfrage() {
 		return suchAnfrage;
 	}
@@ -107,5 +152,13 @@ public class UebersichtForm {
 	
 	public void setUserInput(String userInput) {
 		this.userInput = userInput;
+	}
+
+	public Collection<SearchContainer> getSuchErgebnisse4Form() {
+		return suchErgebnisse4Form;
+	}
+
+	public void setSuchErgebnisse4Form(Collection<SearchContainer> suchErgebnisse4Form) {
+		this.suchErgebnisse4Form = suchErgebnisse4Form;
 	}
 }

@@ -19,16 +19,16 @@ import javax.persistence.OneToMany;
 @NamedQueries({
 		@NamedQuery(name = "findKBeschreibungen", query = "SELECT m.kurzEintrag FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findBeschreibungen", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
-		@NamedQuery(name = "findReferences", query = "SELECT m.referenzen FROM MainEntry m WHERE m.hauptThema = :passedTheme")//
+		@NamedQuery(name = "findReferences", query = "SELECT m.referenzen FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
+		@NamedQuery(name = "findMainEntryFromRef", query = "SELECT m.id FROM MainEntry m JOIN m.referenzen r WHERE r = :passedReferenz")//
 })
 public class MainEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue
 	private long id;
-	//@Column(nullable = false)
+	@Column(nullable = false)
 	private String kurzEintrag;
 	@Column(length = 8000)
 	private String langEintrag;

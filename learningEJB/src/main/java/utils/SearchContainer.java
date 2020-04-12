@@ -2,29 +2,34 @@ package utils;
 
 import java.io.Serializable;
 
-public class SearchContainer implements Serializable{
+public abstract class SearchContainer implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-	private long id;
-	private String content;
-	private SearchItems searchItem;
+	protected static final long serialVersionUID = 1L;
+	protected long id;
+	protected String content;
+	protected SearchItems searchItem;
 
-	
 	public SearchContainer(String content, SearchItems searchItem, long id) {
 		this.content=content;
 		this.searchItem=searchItem;
 		this.id=id;
 	}
 	
-	public int hashCode() {
+
+
+	/*public int hashCode() {
 		return content.hashCode();
-	}
-	
-	public boolean equals(Object anObject) {
+	}*/
+
+	public abstract int hashCode();
+
+	public abstract boolean equals(Object anObject) ;/*{
 		String stObject = ((SearchContainer) anObject).getContent();
-		
+
 		return content.equalsIgnoreCase(stObject);
-	}
+	}*/
+
+
 
 	public String getContent() {
 		return content;

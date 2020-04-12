@@ -20,15 +20,17 @@
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:flexLayout columns="300px *" >
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
-					value="#{mainEntryForm.kBeschreibung}"
-				    focus="false"
-					rendered="#{!mainEntryForm.neu}"
-					disabled="#{!mainEntryForm.bearbeiten}">
+						value="#{mainEntryForm.kBeschreibung}"
+						focus="true"
+						required="true"
+						rendered="#{!mainEntryForm.neu}"
+						disabled="#{!mainEntryForm.bearbeiten}">
 		  		</tc:in>
 				<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
-					value="#{mainEntryForm.kBeschreibung}"
-				    focus="false"
-					rendered="#{mainEntryForm.neu}">
+						value="#{mainEntryForm.kBeschreibung}"
+				    focus="true"
+						required="true"
+						rendered="#{mainEntryForm.neu}">
 				  <tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
 				  	maximumItems="3">
 				  	<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
@@ -36,9 +38,8 @@
 		  		</tc:in>
 				<tc:out value="filler" rendered="false"/>
 				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
-							 disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-							 rows="5"
-					focus="true"
+						disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+						rows="5"
 				    value="#{mainEntryForm.lBeschreibung}" />
 			</tc:flexLayout>
 

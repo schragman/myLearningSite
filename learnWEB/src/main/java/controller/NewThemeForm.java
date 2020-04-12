@@ -5,11 +5,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import beans.ThemenSteuerungRemote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.Sites;
 
 @RequestScoped
 @Named
 public class NewThemeForm {
+
+	private static Logger LOG = LoggerFactory.getLogger(NewThemeForm.class);
 
 	@EJB
 	private ThemenSteuerungRemote themenSteuerung;
@@ -19,6 +23,7 @@ public class NewThemeForm {
 
 	public String doCreateNewTheme() {
 		themenSteuerung.generateNew(themenName, themenBeschreibung);
+		LOG.info("New topic " + themenName + " is been created!");
 		return Sites.HOME + Sites.DORELOAD;
 	}
 
