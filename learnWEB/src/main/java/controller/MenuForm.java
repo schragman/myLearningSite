@@ -18,6 +18,7 @@ public class MenuForm implements Serializable {
 	private boolean mList;
 	private boolean mEdit;
 	private boolean mEntry;
+	private boolean mNavigation;
 
 	public void setSelectedPage(SelectedPage selectedPage) {
 		this.selectedPage = selectedPage;
@@ -30,6 +31,7 @@ public class MenuForm implements Serializable {
 			mList = false;
 			mEdit = false;
 			mEntry = false;
+			mNavigation = false;
 			break;
 		case MAINENTRY:
 			mTheme = false;
@@ -38,6 +40,7 @@ public class MenuForm implements Serializable {
 			mList = true;
 			mEdit = true;
 			mEntry = false;
+			mNavigation = true;
 			break;
 		case UEBERSICHT:
 			mTheme = false;
@@ -46,6 +49,7 @@ public class MenuForm implements Serializable {
 			mList = false;
 			mEdit = false;
 			mEntry = true;
+			mNavigation = false;
 			break;
 		}
 	}
@@ -73,5 +77,7 @@ public class MenuForm implements Serializable {
 	public boolean ismEntry() {
 		return mEntry;
 	}
+
+	public boolean ismNavigation() {return mNavigation;}
 
 }

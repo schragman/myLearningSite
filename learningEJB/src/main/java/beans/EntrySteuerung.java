@@ -79,4 +79,10 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 		return em.find(MainEntry.class, id);
 	}
 
+	public List<MainEntry> getEntryList(HauptThema theme) {
+	  Query query = em.createNamedQuery("findEntriesOrderedById", MainEntry.class);
+	  query.setParameter("passedTheme", theme);
+	  return  query.getResultList();
+  }
+
 }

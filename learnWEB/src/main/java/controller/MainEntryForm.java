@@ -1,11 +1,7 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -47,6 +43,9 @@ public class MainEntryForm implements Serializable {
 	private List<Referenz> referenzen;
 	private List<Referenz> alleReferenzen; // Für Vorschlagsliste
 	private List<String> aBeschreibungen; // Für Vorschlagsliste
+	private List<MainEntry> navigationList; // Zum Navigieren
+	private ListIterator<MainEntry> entryIterator;
+	private MainEntry precedor; // Vorgaenger
 
 	private List<Abfrage> abfragen;
 	private boolean neu; // für Buttons
@@ -67,6 +66,13 @@ public class MainEntryForm implements Serializable {
 	public void init() {
 
 		MainEntry entry = selection.getEntry();
+		navigationList = entrySteuerung.getEntryList(selection.getThema());
+		if (null != navigationList && entry != null) {
+		  //int entryIndex = navigationList.indexOf(entry);
+		  entryIterator = navigationList.listIterator();
+			while (entry.getId() != entryIterator.next().getId()) {
+			}
+		}
 		referenzArt = true;
 		labelReferenz = "Buch";
 		labelUReferenz = "Seite";
@@ -207,6 +213,27 @@ public class MainEntryForm implements Serializable {
 
 	public void doCreaeteMenu() {
 		menuForm.setSelectedPage(SelectedPage.MAINENTRY);
+	}
+
+	public boolean isForwardActiv() {
+		return (entryIterator != null && entryIterator.hasNext());
+	}
+
+	public boolean isBackwardsActiv() {
+		return (entryIterator != null && entryIterator.previousIndex() >0);
+	}
+
+	public String doMoveForward() {
+		MainEntry auswahl = entryIterator.next();
+		selection.setEntry(auswahl);
+		return Sites.MAINENTRY + Sites.DORELOAD;
+	}
+
+  public String doMoveBackwards() {
+		entryIterator.previous();
+		MainEntry auswahl = entryIterator.previous();
+		selection.setEntry(auswahl);
+		return Sites.MAINENTRY + Sites.DORELOAD;
 	}
 
 	public void setAlleReferenzen(List<Referenz> alleReferenzen) {

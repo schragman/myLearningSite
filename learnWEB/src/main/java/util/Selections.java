@@ -26,6 +26,7 @@ public class Selections implements Serializable {
 	}
 
 	public void setEntry(MainEntry entry) {
+
 		this.entry = entry;
 	}
 

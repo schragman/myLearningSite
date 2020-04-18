@@ -26,4 +26,6 @@ public interface EntrySteuerungRemote {
 
 	public MainEntry findById(long id);
 
+	public List<MainEntry> getEntryList(HauptThema theme);
+
 }
