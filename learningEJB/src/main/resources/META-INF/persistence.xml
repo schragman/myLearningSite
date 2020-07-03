@@ -19,7 +19,8 @@
 		<class>entities.MainEntry</class>
 		<class>entities.MainEntryTest</class>
 		<class>entities.Referenz</class>
-		
+		<class>entities.Users</class>
+
 		<properties>
 			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.ddl-generation.output-mode" value="database"/>

@@ -1,0 +1,1 @@
+alter table USERS add constraint USERS_pk primary key (USERID);

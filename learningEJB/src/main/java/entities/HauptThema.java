@@ -1,17 +1,12 @@
 package entities;
 
+import secEntities.Users;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 @NamedQueries({ //
@@ -36,6 +31,10 @@ public class HauptThema implements Serializable {
 	@OneToMany(mappedBy = "hauptThema", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	private List<MainEntry> mainEntries;
 	private Date lastRecentlyUsed;
+
+	@ManyToOne
+	@JoinColumn(name = "Users_Id")
+	private Users user;
 
 	public long getId() {
 		return id;
@@ -73,4 +72,11 @@ public class HauptThema implements Serializable {
 		this.lastRecentlyUsed = lastRecentlyUsed;
 	}
 
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
 }
