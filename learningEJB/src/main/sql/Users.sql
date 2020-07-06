@@ -1,1 +1,13 @@
 alter table USERS add constraint USERS_pk primary key (USERID);
+
+alter table USERS drop primary key;
+
+alter table USERS drop column USERID;
+
+alter table USERS add constraint USERS_pk primary key (USERNAME);
+
+drop index HAUPTTHEMA_USERS_FK on HAUPTTHEMA;
+
+alter table HAUPTTHEMA modify Users_Id varchar(255) null;
+
+alter table HAUPTTHEMA add constraint HAUPTTHEMA_USERS_FK foreign key (Users_Id) references USERS (USERNAME);
