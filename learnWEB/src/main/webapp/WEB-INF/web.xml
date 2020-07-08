@@ -23,7 +23,7 @@
       <display-name>Security Constraint für LearningApp</display-name>
       <web-resource-collection>
           <web-resource-name>Alles</web-resource-name>
-          <url-pattern>/*</url-pattern>
+          <url-pattern>/faces/*</url-pattern>
           <http-method>GET</http-method>
           <http-method>POST</http-method>
       </web-resource-collection>
@@ -34,12 +34,12 @@
       </auth-constraint>
   </security-constraint>
   <login-config>
-    <auth-method>BASIC</auth-method>
-      <!--<auth-method>FORM</auth-method>
-      <form-login-config>
-          <form-login-page>/login.jsp</form-login-page>
-          <form-error-page>/error.jsp</form-error-page>
-      </form-login-config>-->
+    <!--<auth-method>BASIC</auth-method>-->
+  <auth-method>FORM</auth-method>
+  <form-login-config>
+      <form-login-page>/login.jsf</form-login-page>
+      <form-error-page>/error.jsf</form-error-page>
+  </form-login-config>
   </login-config>
   <security-role>
       <description>Administrator im Web</description>
