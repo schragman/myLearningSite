@@ -25,7 +25,7 @@
 				<tc:link label="#{appMsg.walkthrough}" rendered="#{menuForm.mWalkthrough}" />
 			</tc:links>
 			<f:facet name="after">
-				<tc:flexLayout rendered="#{menuForm.mSearch}" columns="1fr  auto">
+				<tc:flexLayout rendered="#{menuForm.mSearch}" columns="1fr  auto 20px">
 					<tc:in placeholder="Search" labelLayout="skip" value="#{uebersichtForm.suchAnfrage}">
 						<tc:suggest query="#{uebersichtForm.userInput}" filter="prefix">
 							<tc:selectItems value="#{uebersichtForm.vorschlagsliste}" var="suchEintrag" itemValue="#{suchEintrag.content}"/>
@@ -34,9 +34,13 @@
 					<tc:button label="Los" action="#{uebersichtForm.startSuchanfrage}" defaultCommand="true">
 						<tc:operation name="show" for="searchRes" />
 					</tc:button>
+					<tc:link image="fa-user" tip="#{menuForm.currentUser}"/>
 				</tc:flexLayout>
 				<tc:link image="fa-backward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.backwardsActiv}" action="#{mainEntryForm.doMoveBackwards}"/>
 				<tc:link image="fa-forward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.forwardActiv}" action="#{mainEntryForm.doMoveForward}"/>
+				<tc:link image="fa-user" rendered="#{!menuForm.mSearch}" tip="#{menuForm.currentUser}">
+          <tc:operation name="show" for=":::page:uManagement" />
+        </tc:link>
 			</f:facet>
 
 

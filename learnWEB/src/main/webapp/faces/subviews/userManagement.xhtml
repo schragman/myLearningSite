@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:tc="http://myfaces.apache.org/tobago/component">
+
+  <tc:popup id="uManagement">
+    <tc:box label="#{appMsg.userManagement}">
+      <tc:link rendered="#{facesContext.externalContext.isUserInRole('kunde')}" label="#{menuForm.currentUser}" />
+      <tc:separator/>
+      <tc:flexLayout colums="200px *">
+        <tc:button label="Abmelden" actionListener="#{loginController.logout}">
+          <tc:operation name="hide" for="uManagement" />
+        </tc:button>
+        <tc:button label="Cancel" immediate="true">
+          <tc:operation name="hide" for="uManagement" />
+        </tc:button>
+      </tc:flexLayout>
+    </tc:box>
+  </tc:popup>
+
+</f:view>
+

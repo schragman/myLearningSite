@@ -1,9 +1,16 @@
 package controller;
 
+import beans.UserBean;
+import util.Sites;
+
+import java.io.IOException;
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 @SessionScoped
 @Named
@@ -11,6 +18,8 @@ public class MenuForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@EJB
+	private UserBean userBean;
 	private SelectedPage selectedPage;
 	private boolean mTheme;
 	private boolean mSearch;
@@ -79,5 +88,7 @@ public class MenuForm implements Serializable {
 	}
 
 	public boolean ismNavigation() {return mNavigation;}
+
+	public String getCurrentUser() {return userBean.getUsername();}
 
 }
