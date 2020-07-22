@@ -41,4 +41,9 @@ public class UserBean {
       return result;
     }
 
+    public List<Users> findAll() {
+      TypedQuery<Users> query = em.createQuery("Select u FROM Users u", Users.class);
+      return query.getResultList();
+    }
+
 }

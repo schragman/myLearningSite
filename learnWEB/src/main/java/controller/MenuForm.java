@@ -1,10 +1,12 @@
 package controller;
 
 import beans.UserBean;
+import secEntities.Users;
 import util.Sites;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -90,5 +92,6 @@ public class MenuForm implements Serializable {
 	public boolean ismNavigation() {return mNavigation;}
 
 	public String getCurrentUser() {return userBean.getUsername();}
+
 
 }

@@ -5,14 +5,62 @@
         xmlns:tc="http://myfaces.apache.org/tobago/component">
 
   <tc:popup id="uManagement">
-    <tc:box label="#{appMsg.userManagement}">
-      <tc:link rendered="#{facesContext.externalContext.isUserInRole('kunde')}" label="#{menuForm.currentUser}" />
+    <tc:box id="uBoxManagement" label="#{appMsg.userManagement}">
+      <tc:link rendered="#{facesContext.externalContext.isUserInRole('kunde')}"
+               label="#{userManagementForm.currentUser}">
+        <f:ajax render="uBoxManagement" execute="uBoxManagement"
+                listener="#{userManagementForm.doSetSelectedUserName(menuForm.currentUser)}"/>
+      </tc:link>
+      <tc:sheet
+          id="listUsers"
+          value="#{userManagementForm.allUsers}"
+          columns="auto 100px 10px"
+          var="user"
+          rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+        <tc:column label="Username">
+          <tc:link label="#{user.userName}">
+            <f:ajax render=":::uManagement:uBoxManagement"
+                    listener="#{userManagementForm.doSetSelectedUserName(user.userName)}"/>
+          </tc:link>
+        </tc:column>
+        <tc:column label="Rolle">
+          <tc:out value="#{user.rolle}"/>
+        </tc:column>
+        <tc:column align="right">
+          <tc:link image="fa-trash" >
+            <f:facet name="confirmation">
+              <tc:out value="#{appMsg.delTheme}"/>
+            </f:facet>
+          </tc:link>
+        </tc:column>
+      </tc:sheet>
+
+      <tc:box id="rsPassword" label="ResetPassword" rendered="#{selections.passwordChangeActive}">
+        <tc:gridLayout columns="auto">
+          <tc:out label="Username" value="#{userManagementForm.selectedUserName}"/>
+          <tc:in id="pw1" password="true" label="New Password" value="#{selections.pw1}">
+            <f:ajax execute="pw1" render="pwMessage" />
+          </tc:in>
+          <tc:in id="cfm" password="true" label="Confirmation" value="#{userManagementForm.confirmation}">
+            <f:ajax execute="cfm" render="pwMessage okButton"
+                    listener="#{userManagementForm.validateConfirmation}"/>
+          </tc:in>
+          <tc:messages id="pwMessage"/>
+        </tc:gridLayout>
+      </tc:box>
+
       <tc:separator/>
-      <tc:flexLayout colums="200px *">
+      <tc:flexLayout colums="300px 200px 200px">
         <tc:button label="Abmelden" actionListener="#{loginController.logout}">
           <tc:operation name="hide" for="uManagement" />
         </tc:button>
-        <tc:button label="Cancel" immediate="true">
+        <tc:button label="OK" rendered="#{selections.passwordChangeActive}"
+                   id="okButton"
+                   disabled="#{!userManagementForm.okActive}"
+                   actionListener="#{userManagementForm.doOk}" >
+        </tc:button>
+        <tc:button label="Cancel" actionListener="#{userManagementForm.setPasswordChangeNotActive}"
+                   immediate="true">
           <tc:operation name="hide" for="uManagement" />
         </tc:button>
       </tc:flexLayout>
