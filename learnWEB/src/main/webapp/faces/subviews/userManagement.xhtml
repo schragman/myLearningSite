@@ -37,12 +37,12 @@
 
       <tc:box id="rsPassword" label="ResetPassword" rendered="#{selections.passwordChangeActive}">
         <tc:gridLayout columns="auto">
-          <tc:out label="Username" value="#{userManagementForm.selectedUserName}"/>
+          <tc:out label="Username" value="#{selections.selectedUser}"/>
           <tc:in id="pw1" password="true" label="New Password" value="#{selections.pw1}">
             <f:ajax execute="pw1" render="pwMessage" />
           </tc:in>
           <tc:in id="cfm" password="true" label="Confirmation" value="#{userManagementForm.confirmation}">
-            <f:ajax execute="cfm" render="pwMessage okButton"
+            <f:ajax execute="cfm" render="pwMessage buttonPanel"
                     listener="#{userManagementForm.validateConfirmation}"/>
           </tc:in>
           <tc:messages id="pwMessage"/>
@@ -50,20 +50,25 @@
       </tc:box>
 
       <tc:separator/>
-      <tc:flexLayout colums="300px 200px 200px">
-        <tc:button label="Abmelden" actionListener="#{loginController.logout}">
-          <tc:operation name="hide" for="uManagement" />
-        </tc:button>
-        <tc:button label="OK" rendered="#{selections.passwordChangeActive}"
-                   id="okButton"
-                   disabled="#{!userManagementForm.okActive}"
-                   actionListener="#{userManagementForm.doOk}" >
-        </tc:button>
-        <tc:button label="Cancel" actionListener="#{userManagementForm.setPasswordChangeNotActive}"
-                   immediate="true">
-          <tc:operation name="hide" for="uManagement" />
-        </tc:button>
-      </tc:flexLayout>
+      <tc:panel id="buttonPanel">
+        <tc:flexLayout colums="300px 200px 200px">
+          <tc:button label="Abmelden" actionListener="#{loginController.logout}">
+            <tc:operation name="hide" for="uManagement" />
+          </tc:button>
+          <tc:button id="okButton" label="OK"
+                     rendered="#{selections.passwordChangeActive}"
+                     actionListener="#{userManagementForm.doChangePassword}"
+                     disabled="#{!selections.okButtonActive}"
+                     immediate="true">
+            <tc:operation name="hide" for="uManagement" />
+          </tc:button>
+          <tc:button label="Cancel"
+                     actionListener="#{userManagementForm.setPasswordChangeNotActive}"
+                     immediate="true">
+            <tc:operation name="hide" for="uManagement" />
+          </tc:button>
+        </tc:flexLayout>
+      </tc:panel>
     </tc:box>
   </tc:popup>
 

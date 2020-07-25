@@ -46,4 +46,10 @@ public class UserBean {
       return query.getResultList();
     }
 
+    public void changePassword(String username, String newPassword) {
+      Users user = em.find(Users.class, username);
+      user.setPassword(newPassword);
+      em.merge(user);
+    }
+
 }
