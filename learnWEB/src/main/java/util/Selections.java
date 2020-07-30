@@ -1,11 +1,14 @@
 package util;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import entities.HauptThema;
@@ -23,15 +26,24 @@ public class Selections implements Serializable {
 	private Collection<SearchContainer> searchItems;
 	private boolean passwordChangeActive;
 	private boolean okButtonActive;
+	private boolean newUser;
 	private String selectedUser;
+	private String role;
+	private Collection<String> userRoles;
 
-  @Size(min = 7, message = "Mindestens sieben Zeichen")
+  @Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
 	private String pw1;
+
+  @Size(min=8, message = "Username muss mindestens 8 Zeichen haben!")
+	private String newUsername;
 
 	@PostConstruct
 	public void init() {
 		this.passwordChangeActive = false;
 		this.okButtonActive = false;
+		this.newUser = false;
+		this.role = "kunde";
+		this.userRoles = new ArrayList<>(Arrays.asList("kunde", "admin"));
 	}
 
 	public MainEntry getEntry() {
@@ -97,5 +109,33 @@ public class Selections implements Serializable {
 
   public void setPasswordChangeActive(boolean passwordChangeActive) {
 		this.passwordChangeActive = passwordChangeActive;
+	}
+
+	public boolean isNewUser() {
+		return newUser;
+	}
+
+	public void setNewUser(boolean newUser) {
+		this.newUser = newUser;
+	}
+
+	public String getNewUsername() {
+		return newUsername;
+	}
+
+	public void setNewUsername(String newUsername) {
+		this.newUsername = newUsername;
+	}
+
+	public void setRole(String rolle) {
+		this.role = rolle;
+	}
+
+	public String getRole() {
+		return this.role;
+	}
+
+	public Collection<String> getUserRoles() {
+		return userRoles;
 	}
 }

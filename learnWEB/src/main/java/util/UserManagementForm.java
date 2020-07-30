@@ -25,15 +25,29 @@ public class UserManagementForm {
   private String confirmation;
 
   private boolean okActive;
+  private String pwChange;
 
   public void doSetSelectedUserName(String selectedUserName) {
     this.selections.setSelectedUser(selectedUserName);
     this.selections.setPasswordChangeActive(true);
+    this.selections.setOkButtonActive(false);
+    this.selections.setNewUser(false);
+    this.pwChange = "Reset Password";
   }
 
   public void setPasswordChangeNotActive() {
     this.selections.setPasswordChangeActive(false);
     this.selections.setOkButtonActive(false);
+    this.selections.setNewUser(false);
+    this.selections.setRole("kunde");
+    this.selections.setNewUsername("");
+  }
+
+  public void doCreateNewUser() {
+    this.selections.setNewUser(true);
+    this.selections.setOkButtonActive(false);
+    this.selections.setPasswordChangeActive(true);
+    this.pwChange = "New User";
   }
 
   public String getCurrentUser() {return userBean.getUsername();}
@@ -50,17 +64,28 @@ public class UserManagementForm {
       lvError.setSeverity(FacesMessage.SEVERITY_ERROR);
       fc.addMessage("page:uManagement:cfm", lvError);
     } else {
-      this.selections.setOkButtonActive(true);
+      this.selections.
+          setOkButtonActive(!(this.selections.isNewUser()&&this.selections.getNewUsername().isEmpty()));
     }
   }
 
   public void doChangePassword() {
     if (this.selections.isOkButtonActive()) {
       String passwd = this.selections.getPw1();
-      String userName = this.selections.getSelectedUser();
-      userBean.changePassword(userName, passwd);
+      if(this.selections.isNewUser()) {
+        String rolle = this.selections.getRole();
+        String userName = this.selections.getNewUsername();
+        userBean.createNewUser(userName, passwd, rolle);
+      } else {
+        String userName = this.selections.getSelectedUser();
+        userBean.changePassword(userName, passwd);
+      }
     }
       this.setPasswordChangeNotActive();
+  }
+
+  public void doRemoveUser(String userName){
+    userBean.deleteUser(userName);
   }
 
   public String getConfirmation() {
@@ -73,6 +98,10 @@ public class UserManagementForm {
 
   public boolean isOkActive() {
     return okActive;
+  }
+
+  public String getPwChange() {
+    return pwChange;
   }
 }
 

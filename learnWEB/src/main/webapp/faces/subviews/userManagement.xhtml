@@ -11,33 +11,50 @@
         <f:ajax render="uBoxManagement" execute="uBoxManagement"
                 listener="#{userManagementForm.doSetSelectedUserName(menuForm.currentUser)}"/>
       </tc:link>
-      <tc:sheet
-          id="listUsers"
-          value="#{userManagementForm.allUsers}"
-          columns="auto 100px 10px"
-          var="user"
-          rendered="#{facesContext.externalContext.isUserInRole('admin')}">
-        <tc:column label="Username">
-          <tc:link label="#{user.userName}">
-            <f:ajax render=":::uManagement:uBoxManagement"
-                    listener="#{userManagementForm.doSetSelectedUserName(user.userName)}"/>
-          </tc:link>
-        </tc:column>
-        <tc:column label="Rolle">
-          <tc:out value="#{user.rolle}"/>
-        </tc:column>
-        <tc:column align="right">
-          <tc:link image="fa-trash" >
-            <f:facet name="confirmation">
-              <tc:out value="#{appMsg.delTheme}"/>
-            </f:facet>
-          </tc:link>
-        </tc:column>
-      </tc:sheet>
+      <tc:panel id="adminArea" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+        <tc:sheet
+            id="listUsers"
+            value="#{userManagementForm.allUsers}"
+            columns="auto 100px 10px"
+            var="user">
+          <tc:column label="Username">
+            <tc:link label="#{user.userName}">
+              <f:ajax render=":::uManagement:uBoxManagement"
+                      listener="#{userManagementForm.doSetSelectedUserName(user.userName)}"/>
+            </tc:link>
+          </tc:column>
+          <tc:column label="Rolle">
+            <tc:out value="#{user.rolle}"/>
+          </tc:column>
+          <tc:column align="right">
+            <tc:link image="fa-trash" >
+              <f:facet name="confirmation">
+                <tc:out value="#{appMsg.delTheme}"/>
+              </f:facet>
+              <f:ajax render="listUsers" listener="#{userManagementForm.doRemoveUser(user.userName)}"/>
+            </tc:link>
+          </tc:column>
+        </tc:sheet>
+        <tc:link label="new User">
+          <f:ajax render=":::uManagement:uBoxManagement"
+                  listener="#{userManagementForm.doCreateNewUser}"/>
+        </tc:link>
 
-      <tc:box id="rsPassword" label="ResetPassword" rendered="#{selections.passwordChangeActive}">
+      </tc:panel>
+
+      <tc:box id="rsPassword" label="#{userManagementForm.pwChange}"
+              rendered="#{selections.passwordChangeActive}">
         <tc:gridLayout columns="auto">
-          <tc:out label="Username" value="#{selections.selectedUser}"/>
+          <tc:out label="Username" rendered="#{!selections.newUser}" value="#{selections.selectedUser}"/>
+          <tc:in id="UName" label="Username"
+                 rendered="#{selections.newUser}" value="#{selections.newUsername}">
+            <f:ajax execute="UName" render="pwMessage" />
+          </tc:in>
+          <tc:selectOneRadio id="radio" rendered="#{selections.newUser}"
+                             label="User Rolle" value="#{selections.role}">
+            <tc:selectItems value="#{selections.userRoles}" var="item"
+                            itemLabel="#{item}" itemValue="#{item}"/>
+            </tc:selectOneRadio>
           <tc:in id="pw1" password="true" label="New Password" value="#{selections.pw1}">
             <f:ajax execute="pw1" render="pwMessage" />
           </tc:in>
@@ -58,8 +75,7 @@
           <tc:button id="okButton" label="OK"
                      rendered="#{selections.passwordChangeActive}"
                      actionListener="#{userManagementForm.doChangePassword}"
-                     disabled="#{!selections.okButtonActive}"
-                     immediate="true">
+                     disabled="#{!selections.okButtonActive}">
             <tc:operation name="hide" for="uManagement" />
           </tc:button>
           <tc:button label="Cancel"

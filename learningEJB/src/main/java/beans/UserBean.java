@@ -52,4 +52,17 @@ public class UserBean {
       em.merge(user);
     }
 
+    public void createNewUser(String username, String password, String rolle) {
+      Users user = new Users();
+      user.setUserName(username);
+      user.setPassword(password);
+      user.setRolle(rolle);
+      em.persist(user);
+    }
+
+    public void deleteUser(String userName) {
+      Users user = em.find(Users.class, userName);
+      em.remove(user);
+    }
+
 }

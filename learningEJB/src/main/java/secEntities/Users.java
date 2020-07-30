@@ -45,6 +45,10 @@ public class Users implements Serializable {
     return userName;
   }
 
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
   public String getPassword() {
     return password;
   }
@@ -55,5 +59,9 @@ public class Users implements Serializable {
 
   public String getRolle() {
     return rolle;
+  }
+
+  public void setRolle(String rolle) {
+    this.rolle = rolle;
   }
 }
