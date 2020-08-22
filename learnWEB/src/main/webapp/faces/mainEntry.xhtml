@@ -8,18 +8,21 @@
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
-<!-- 			
+<!--
 			-->
-			
+
 	<f:metadata>
 		<f:event type="preRenderView" listener="#{mainEntryForm.doCreateMenu}" />
-	</f:metadata>		
-			
+	</f:metadata>
+
 	<ui:define name="appContent">
-		
+
+    <tc:script file="#{request.contextPath}/tinymce/js/tinymce/tinymce.min.js" />
+    <tc:script file="#{request.contextPath}/scripts/tinyinit.js" />
+
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:flexLayout columns="300px *" >
-				<tc:in labelLayout="top" label="#{appMsg.shortDescription}" 
+				<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
 						value="#{mainEntryForm.kBeschreibung}"
 						focus="true"
 						required="true"
@@ -37,10 +40,12 @@
 				  </tc:suggest>
 		  		</tc:in>
 				<tc:out value="filler" rendered="false"/>
-				<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
+				<tc:textarea labelLayout="top" label="#{appMsg.longDescription} "
+          	markup="wysiwyg"
 						disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-						rows="5"
-				    value="#{mainEntryForm.lBeschreibung}" />
+						rows="10"
+				    value="#{mainEntryForm.lBeschreibung}" >
+        </tc:textarea>
 			</tc:flexLayout>
 
 			<tc:sheet
@@ -53,44 +58,45 @@
 					<tc:out value="#{refItem.art?'Printmedium':'Internetquelle'}"/>
 				</tc:column>
 				<tc:column label="#{appMsg.headlineRef}">
-					<tc:out value="#{refItem.uRefferenz1}" />	
+					<tc:out value="#{refItem.uRefferenz1}" />
 				</tc:column>
 				<tc:column label="#{appMsg.headlineURef}">
-					<tc:out value="#{refItem.uRefferenz2}" />	
+					<tc:out value="#{refItem.uRefferenz2}" />
 				</tc:column>
 				<tc:column>
 					<tc:link label="-" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
 						actionListener="#{mainEntryForm.removeReference(refItem)}" />
 				</tc:column>
 			</tc:sheet>
-				
+
 			<tc:flexLayout rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
 				columns="200px 300px 300px 20px">
-				<tc:selectOneRadio id="mediaKind" 
+				<tc:selectOneRadio id="mediaKind"
 					value="#{mainEntryForm.selectedElement}">
 					<tc:selectItem itemLabel="#{appMsg.book}" itemValue="book" />
 					<tc:selectItem itemLabel="#{appMsg.internet}" itemValue="internet" />
 					<f:ajax render="newEntry" execute="newEntry"/>
-				</tc:selectOneRadio>	
-				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}" 
+				</tc:selectOneRadio>
+				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}"
 					value="#{mainEntryForm.referenz}">
 					<tc:suggest query="#{mainEntryForm.userInput}" filter="prefix"
 				  	maximumItems="3" minimumCharacters="3">
 				  	<tc:selectItems value="#{mainEntryForm.alleReferenzen}" var="name" itemValue="#{name.uRefferenz1}"/>
 			  	</tc:suggest>
 		  	</tc:in>
-				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}" 
+				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}"
 					value="#{mainEntryForm.uReferenz}" />
-				<tc:link label="+" 
+				<tc:link label="+"
 						actionListener="#{mainEntryForm.addReference}">
 <!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
 				</tc:link>
 			</tc:flexLayout>
-				
+
 			<tc:flexLayout columns="Auto" rows="300px">
-				<tc:textarea labelLayout="top" label="#{appMsg.example}" 
+				<tc:textarea labelLayout="top" label="#{appMsg.example}"
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 					rows="10"
+				  markup="wysiwyg"
 				 	value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>
 			

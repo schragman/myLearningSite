@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.schrage.development</groupId>
     <artifactId>learningSite</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
   <artifactId>learnWEB</artifactId>
   <packaging>war</packaging>
@@ -12,20 +12,20 @@
       <dependency>
       	<groupId>net.schrage.development</groupId>
       	<artifactId>learningEJB</artifactId>
-      	<version>0.0.1-SNAPSHOT</version>
+      	<version>0.0.2-SNAPSHOT</version>
       </dependency>
       
   	<dependency>
         <groupId>org.apache.myfaces.tobago</groupId>
         <artifactId>tobago-core</artifactId>
-        <version>4.4.1</version>
+        <version>4.5.0</version>
 <!--         <scope>provided</scope> -->
       </dependency>
       
       <dependency>
         <groupId>org.apache.myfaces.tobago</groupId>
         <artifactId>tobago-theme-standard</artifactId>
-        <version>4.4.1</version>
+        <version>4.5.0</version>
 <!--         <scope>provided</scope> -->
       </dependency>
 

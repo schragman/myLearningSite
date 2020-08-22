@@ -34,7 +34,9 @@
 					<tc:button label="Los" action="#{uebersichtForm.startSuchanfrage}" defaultCommand="true">
 						<tc:operation name="show" for="searchRes" />
 					</tc:button>
-					<tc:link image="fa-user" tip="#{menuForm.currentUser}"/>
+					<tc:link image="fa-user" tip="#{menuForm.currentUser}">
+						<tc:operation name="show" for=":::page:uManagement" />
+					</tc:link>
 				</tc:flexLayout>
 				<tc:link image="fa-backward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.backwardsActiv}" action="#{mainEntryForm.doMoveBackwards}"/>
 				<tc:link image="fa-forward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.forwardActiv}" action="#{mainEntryForm.doMoveForward}"/>

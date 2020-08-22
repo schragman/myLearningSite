@@ -11,3 +11,4 @@ faces-config.pageflow
 
 *.iml
 **/.gitignore
+/learnWEB/src/main/webapp/tinymce/

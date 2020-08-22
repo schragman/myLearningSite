@@ -4,7 +4,7 @@
     xmlns:tc="http://myfaces.apache.org/tobago/component"
   	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
-  	  
+
   	  <f:loadBundle basename="learning" var="appMsg"/>
   	  	
   	  <tc:page id="page" label="LearningApp">
@@ -15,8 +15,9 @@
   	  	<tc:header id="mainHeader" fixed="true">
   	  		<ui:include src="/page/menu.xhtml" />
   	  	</tc:header>
-  	  	
-  	  	<ui:insert name="appContent" />
+
+				<ui:include src="/faces/subviews/userManagement.xhtml" />
+				<ui:insert name="appContent" />
   	  	
   	  	<tc:footer id="mainFooter" fixed="false">
   	  		<tc:panel id="mainPageButtons">
