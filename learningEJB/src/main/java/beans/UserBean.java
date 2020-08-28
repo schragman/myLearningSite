@@ -1,5 +1,6 @@
 package beans;
 
+import secEntities.Konfiguration;
 import secEntities.Users;
 
 import javax.annotation.Resource;
@@ -57,12 +58,55 @@ public class UserBean {
       user.setUserName(username);
       user.setPassword(password);
       user.setRolle(rolle);
+      Konfiguration config = new Konfiguration();
+      config.setDefaults();
+      user.setConfig(config);
       em.persist(user);
     }
 
     public void deleteUser(String userName) {
       Users user = em.find(Users.class, userName);
       em.remove(user);
+    }
+
+    public void changeNbLines(int nbLines, ConfigType configType) {
+      String userName = ctx.getCallerPrincipal().getName();
+      Users user = em.find(Users.class, userName);
+      Konfiguration konfig = user.getConfig();
+      switch (configType) {
+        case DESCR_LINES:
+          konfig.setDecrRows(nbLines);
+          break;
+        case SAMPLE_LINES:
+          konfig.setSampleRows(nbLines);
+          break;
+        default:
+          konfig.setDefaults();
+      }
+      em.merge(user);
+    }
+
+    public int getNbLines(ConfigType configType) {
+      String userName = ctx.getCallerPrincipal().getName();
+      /*em.flush();*/
+      Users user = em.find(Users.class, userName);
+      Konfiguration konfig = user.getConfig();
+      int result;
+      switch (configType) {
+        case DESCR_LINES:
+          result = konfig.getDecrRows();
+          break;
+        case SAMPLE_LINES:
+          result = konfig.getSampleRows();
+          break;
+        default:
+          result = 10;
+      }
+      return result;
+    }
+
+    public enum ConfigType {
+      DESCR_LINES, SAMPLE_LINES;
     }
 
 }

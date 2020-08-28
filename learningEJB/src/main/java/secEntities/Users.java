@@ -1,9 +1,6 @@
 package secEntities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -19,6 +16,10 @@ public class Users implements Serializable {
 
   @Column(length = 30)
   private String rolle;
+
+  @OneToOne(fetch = FetchType.EAGER,cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+  @JoinColumn(name = "Config_Id")
+  private Konfiguration config;
 
   public int hashCode() {
     return (this.userName == null) ? 0 : this.userName.hashCode();
@@ -63,5 +64,13 @@ public class Users implements Serializable {
 
   public void setRolle(String rolle) {
     this.rolle = rolle;
+  }
+
+  public Konfiguration getConfig() {
+    return config;
+  }
+
+  public void setConfig(Konfiguration config) {
+    this.config = config;
   }
 }

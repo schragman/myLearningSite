@@ -17,9 +17,9 @@
 		<class>entities.HauptThema</class>
 		<class>entities.Historie</class>
 		<class>entities.MainEntry</class>
-		<class>entities.MainEntryTest</class>
 		<class>entities.Referenz</class>
-		<class>entities.Users</class>
+		<class>secEntities.Users</class>
+		<class>secEntities.Konfiguration</class>
 
 		<properties>
 			<property name="eclipselink.ddl-generation" value="create-tables" />

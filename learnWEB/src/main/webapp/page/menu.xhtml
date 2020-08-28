@@ -22,6 +22,9 @@
 				<tc:link label="#{appMsg.edit}"
 					rendered="#{menuForm.mEdit and !mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 					actionListener="#{mainEntryForm.doEdit}" />
+				<tc:link label="#{appMsg.configuration}" tip="#{appMsg.configUser}">
+					<tc:operation for=":::page:userConfig" name="show"></tc:operation>
+				</tc:link>
 				<tc:link label="#{appMsg.walkthrough}" rendered="#{menuForm.mWalkthrough}" />
 			</tc:links>
 			<f:facet name="after">

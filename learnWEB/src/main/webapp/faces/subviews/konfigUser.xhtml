@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component">
+  	
+  	<tc:popup id="userConfig">
+  		<tc:box label="#{appMsg.configUser}">
+	  			<tc:in label="#{appMsg.nbDescr}:" value="#{configurationForm.nbDescrLines}" required="true"/>
+	  			<tc:in label="#{appMsg.nbSample}:" value="#{configurationForm.nbSampleLines}" required="true"/>
+
+	  			<tc:button label="ok" actionListener="#{configurationForm.doOk}">
+<!-- 	  				<f:ajax execute="nTheme" render="nTheme :::homePage" /> -->
+	  				<tc:operation name="hide" for="userConfig" />
+	  			</tc:button>
+	  			<tc:button label="cancel" immediate="true">
+	  				<tc:operation name="hide" for="userConfig" />
+	 				</tc:button>
+	 				
+ 			</tc:box>
+		</tc:popup>
+  	
+</f:view>

@@ -21,32 +21,30 @@
     <tc:script file="#{request.contextPath}/scripts/tinyinit.js" />
 
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
-			<tc:flexLayout columns="300px *" >
-				<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
-						value="#{mainEntryForm.kBeschreibung}"
-						focus="true"
-						required="true"
-						rendered="#{!mainEntryForm.neu}"
-						disabled="#{!mainEntryForm.bearbeiten}">
-		  		</tc:in>
-				<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
-						value="#{mainEntryForm.kBeschreibung}"
-				    focus="true"
-						required="true"
-						rendered="#{mainEntryForm.neu}">
-				  <tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
-				  	maximumItems="3">
-				  	<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
-				  </tc:suggest>
-		  		</tc:in>
-				<tc:out value="filler" rendered="false"/>
-				<tc:textarea labelLayout="top" label="#{appMsg.longDescription} "
-          	markup="wysiwyg"
-						disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-						rows="10"
-				    value="#{mainEntryForm.lBeschreibung}" >
-        </tc:textarea>
-			</tc:flexLayout>
+			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
+					value="#{mainEntryForm.kBeschreibung}"
+					focus="true"
+					required="true"
+					rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
+					<!--disabled="#{!mainEntryForm.bearbeiten}">-->
+				</tc:in>
+			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
+					value="#{mainEntryForm.kBeschreibung}"
+					focus="true"
+					required="true"
+					rendered="#{mainEntryForm.neu}">
+				<tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
+					maximumItems="3">
+					<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
+				</tc:suggest>
+				</tc:in>
+			<!--<tc:out value="filler" rendered="false"/>-->
+			<tc:textarea labelLayout="top" label="#{appMsg.longDescription} "
+					markup="wysiwyg"
+					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+					rows="#{configurationForm.nbDescrLines}"
+					value="#{mainEntryForm.lBeschreibung}" >
+			</tc:textarea>
 
 			<tc:sheet
 				id="Referenzliste"
@@ -95,7 +93,7 @@
 			<tc:flexLayout columns="Auto" rows="300px">
 				<tc:textarea labelLayout="top" label="#{appMsg.example}"
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
-					rows="10"
+					rows="#{configurationForm.nbSampleLines}"
 				  markup="wysiwyg"
 				 	value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>

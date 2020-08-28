@@ -11,3 +11,7 @@ drop index HAUPTTHEMA_USERS_FK on HAUPTTHEMA;
 alter table HAUPTTHEMA modify Users_Id varchar(255) null;
 
 alter table HAUPTTHEMA add constraint HAUPTTHEMA_USERS_FK foreign key (Users_Id) references USERS (USERNAME);
+
+alter table USERS add Config_Id bigint null;
+
+ALTER TABLE USERS ADD CONSTRAINT USERS_Konfiguration_FK FOREIGN KEY (Config_Id) references KONFIGURATION (ID);
