@@ -14,7 +14,9 @@
   		
 			<tc:links>
 				<tc:link rendered="#{menuForm.mTheme}" label="#{appMsg.themes}" omit="true">
-					<tc:link label="#{appMsg.newTheme}" />
+					<tc:link label="#{appMsg.newTheme}">
+            <tc:operation for=":::page:nTheme" name="show"/>
+          </tc:link>
 					<tc:link label="#{appMsg.lastTheme}" />
 				</tc:link>
 				<tc:link label="#{appMsg.list}" rendered="#{menuForm.mList}" outcome="/faces/uebersicht"/>
@@ -25,7 +27,9 @@
 				<tc:link label="#{appMsg.configuration}" tip="#{appMsg.configUser}">
 					<tc:operation for=":::page:userConfig" name="show"></tc:operation>
 				</tc:link>
-				<tc:link label="#{appMsg.walkthrough}" rendered="#{menuForm.mWalkthrough}" />
+				<tc:link label="#{appMsg.walkthrough}" rendered="#{menuForm.mWalkthrough}">
+						<tc:operation for=":::page:quScan" name="show"></tc:operation>
+				</tc:link>
 			</tc:links>
 			<f:facet name="after">
 				<tc:flexLayout rendered="#{menuForm.mSearch}" columns="1fr  auto 20px">

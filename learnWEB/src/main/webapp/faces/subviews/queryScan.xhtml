@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component">
+  	
+  	<tc:popup id="quScan">
+  		<tc:box label="#{appMsg.querySearch}">
+
+				<tc:out id="quest" label="#{appMsg.question}" labelLayout="top" value="#{queryScanForm.currentQuestion}"/>
+				<tc:in id="Answer1" label="#{appMsg.yourAnswer}" value="#{queryScanForm.userAnswer}"/>
+				<tc:out id="Answer2" label="#{appMsg.correctAnswer}" value="#{queryScanForm.currentAnswer}"/>
+
+				<tc:button label="start">
+						<f:ajax render="quest" listener="#{queryScanForm.doStart}" />
+				</tc:button>
+				<tc:button label="cancel" immediate="true">
+					<tc:operation name="hide" for="quScan" />
+				</tc:button>
+				<tc:button label="#{appMsg.end}" immediate="true">
+					<tc:operation name="hide" for="quScan" />
+				</tc:button>
+
+
+	 				
+ 			</tc:box>
+		</tc:popup>
+  	
+</f:view>

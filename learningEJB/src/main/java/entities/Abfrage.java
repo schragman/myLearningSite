@@ -26,20 +26,28 @@ public class Abfrage implements Serializable {
 	@JoinColumn
 	private List<Antwort> antworten;
 
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+	//Gibt an, wie oft die Frage verwendet wird
+	//1 -> jedes mal, 5 -> jedes 5. mal, 20 -> jedes 20. mal
+	private int repetitionRate;
+
+	//Gibt an, ob die Frage beim nächsten Lauf verwendet wird, zählt vom
+	//repitionsrate herunter auf 1. Bei 1 wird sie verwendet
+	private int repetitionCounter;
+
+	/*@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn
-	private List<Historie> historien;
+	private List<Historie> historien;*/
 
-	private Date letztesMalGestellt;
-	private Date letztesMalRichtig;
+	/*private Date letztesMalGestellt;
+	private Date letztesMalRichtig;*/
 
-	public List<Historie> getHistorien() {
+	/*public List<Historie> getHistorien() {
 		return historien;
 	}
 
 	public void setHistorien(List<Historie> historien) {
 		this.historien = historien;
-	}
+	}*/
 
 	public long getId() {
 		return id;
@@ -72,7 +80,23 @@ public class Abfrage implements Serializable {
 		this.antworten = antworten;
 	}
 
-	public Date getLetztesMalGestellt() {
+	public int getRepetitionRate() {
+		return repetitionRate;
+	}
+
+	public void setRepetitionRate(int repetitionRate) {
+		this.repetitionRate = repetitionRate;
+	}
+
+	public int getRepetitionCounter() {
+		return repetitionCounter;
+	}
+
+	public void setRepetitionCounter(int repetitionCounter) {
+		this.repetitionCounter = repetitionCounter;
+	}
+
+	/*public Date getLetztesMalGestellt() {
 		return letztesMalGestellt;
 	}
 
@@ -86,6 +110,6 @@ public class Abfrage implements Serializable {
 
 	public void setLetztesMalRichtig(Date letztesMalRichtig) {
 		this.letztesMalRichtig = letztesMalRichtig;
-	}
+	}*/
 
 }
