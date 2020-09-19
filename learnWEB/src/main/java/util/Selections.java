@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,6 +34,7 @@ public class Selections implements Serializable {
 	private String selectedUser;
 	private String role;
 	private Collection<String> userRoles;
+	private String sessionId;
 
   @Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
 	private String pw1;
@@ -44,7 +49,17 @@ public class Selections implements Serializable {
 		this.newUser = false;
 		this.role = "kunde";
 		this.userRoles = new ArrayList<>(Arrays.asList("kunde", "admin"));
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+		this.sessionId = session.getId();
 	}
+
+	@PreDestroy
+	public void warn() {
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Session Timeout", "Session geht weg");
+		FacesContext.getCurrentInstance().addMessage("page", fm);
+	}
+
 
 	public MainEntry getEntry() {
 		return entry;
@@ -137,5 +152,9 @@ public class Selections implements Serializable {
 
 	public Collection<String> getUserRoles() {
 		return userRoles;
+	}
+
+	public String getSessionId() {
+		return sessionId;
 	}
 }

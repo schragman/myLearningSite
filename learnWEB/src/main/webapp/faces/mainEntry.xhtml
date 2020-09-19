@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition 
+<ui:composition
 	template="/page/page.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -20,14 +20,22 @@
     <tc:script file="#{request.contextPath}/tinymce/js/tinymce/tinymce.min.js" />
     <tc:script file="#{request.contextPath}/scripts/tinyinit.js" />
 
+		<tc:panel id="AutoSaveStatus">
+			<f:facet name="reload">
+				<tc:reload frequency="1000" update="#{mainEntryForm.neu or mainEntryForm.bearbeiten}" />
+			</f:facet>
+			<tc:out value="#{mainEntryForm.updateAutoSave}" />
+      <tc:out value="#{mainEntryForm.newAutoSave}" rendered="#{mainEntryForm.autosave}"/>
+		</tc:panel>
+
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
-					value="#{mainEntryForm.kBeschreibung}"
-					focus="true"
-					required="true"
-					rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
-					<!--disabled="#{!mainEntryForm.bearbeiten}">-->
-				</tc:in>
+				value="#{mainEntryForm.kBeschreibung}"
+				focus="true"
+				required="true"
+				rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
+				<!--disabled="#{!mainEntryForm.bearbeiten}">-->
+			</tc:in>
 			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
 					value="#{mainEntryForm.kBeschreibung}"
 					focus="true"
@@ -37,8 +45,7 @@
 					maximumItems="3">
 					<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
 				</tc:suggest>
-				</tc:in>
-			<!--<tc:out value="filler" rendered="false"/>-->
+			</tc:in>
 			<tc:textarea labelLayout="top" label="#{appMsg.longDescription} "
 					markup="wysiwyg"
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
@@ -139,6 +146,7 @@
 			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}" 
 			actionListener="#{mainEntryForm.doEdit}" />
 		<tc:button label="#{appMsg.cancel}" outcome="/faces/uebersicht" />
+		<tc:button label="Test" actionListener="#{mainEntryForm.test}" />
 	</ui:define>
 	
 </ui:composition>

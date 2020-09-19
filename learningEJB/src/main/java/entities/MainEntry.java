@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 		@NamedQuery(name = "findKBeschreibungen", query = "SELECT m.kurzEintrag FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findBeschreibungen", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findReferences", query = "SELECT m.referenzen FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
+		@NamedQuery(name = "findAbfragen", query = "SELECT m.abfragen FROM MainEntry m WHERE m.hauptThema = :passedTheme and m.abfragen IS NOT EMPTY"),
 		@NamedQuery(name = "findEntriesOrderedById", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme ORDER BY m.id"),
 		@NamedQuery(name = "findMainEntryFromRef", query = "SELECT m.id FROM MainEntry m JOIN m.referenzen r WHERE r = :passedReferenz")//
 })

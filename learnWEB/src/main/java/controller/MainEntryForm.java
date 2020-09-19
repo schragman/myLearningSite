@@ -5,8 +5,10 @@ import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
@@ -51,6 +53,9 @@ public class MainEntryForm implements Serializable {
 	private boolean neu; // für Buttons
 	private boolean bearbeiten; // für Buttons
 
+	private boolean testboolean;
+	private int testZahl;
+
 	private String userInput;
 	private List<Referenz> quRes;
 
@@ -65,6 +70,8 @@ public class MainEntryForm implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		testZahl = 10;
+		testboolean = false;
 		MainEntry entry = selection.getEntry();
 		navigationList = entrySteuerung.getEntryList(selection.getThema());
 		if (null != navigationList && entry != null) {
@@ -117,24 +124,28 @@ public class MainEntryForm implements Serializable {
 	}
 
 	public String doCreateNewEntry() {
-		MainEntry result = new MainEntry();
-		result.setKurzEintrag(kBeschreibung);
-		result.setLangEintrag(lBeschreibung);
-		if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
-			addToReference();
-		}
-		if (!(frage.isEmpty() && antwort.isEmpty())) {
-			addToAbfrage();
-		}
-		result.setReferenzen(referenzen);
-		result.setBeispiel(beispiel);
-		result.setAbfragen(abfragen);
-		result.setHauptThema(selection.getThema());
-
+		MainEntry result = createNewEntry();
 		entrySteuerung.generateNew(result, selection.getThema());
 
 		return Sites.UEBERSICHT;
 	}
+
+	private MainEntry createNewEntry() {
+    MainEntry result = new MainEntry();
+    result.setKurzEintrag(kBeschreibung);
+    result.setLangEintrag(lBeschreibung);
+    if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
+      addToReference();
+    }
+    if (!(frage.isEmpty() && antwort.isEmpty())) {
+      addToAbfrage();
+    }
+    result.setReferenzen(referenzen);
+    result.setBeispiel(beispiel);
+    result.setAbfragen(abfragen);
+    result.setHauptThema(selection.getThema());
+    return result;
+  }
 
 	public String doUpdateEntry() {
 		MainEntry result = selection.getEntry();
@@ -171,6 +182,8 @@ public class MainEntryForm implements Serializable {
 		List<Antwort> antwortListe = new ArrayList<>();
 		antwortListe.add(einzelAntwort);
 		neueAbfrage.setAntworten(antwortListe);
+		neueAbfrage.setRepetitionCounter(1);
+		neueAbfrage.setRepetitionRate(1);
 		abfragen.add(neueAbfrage);
 	}
 
@@ -362,5 +375,30 @@ public class MainEntryForm implements Serializable {
 	public void setAntwort(String antwort) {
 		this.antwort = antwort;
 	}
+
+	public void test() {
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Das ist ein Test", "Detail");
+		FacesContext.getCurrentInstance().addMessage("page", fm);
+	}
+
+	public boolean isAutosave() {
+
+		return testboolean;
+	}
+
+	public String getUpdateAutoSave() {
+    testZahl--;
+		if (testZahl == 0) {
+      testZahl = 10;
+      testboolean = false;
+    } else if (testZahl < 6) {
+		  testboolean = true;
+    }
+		return "";
+	}
+
+	public String getNewAutoSave() {
+		return "Session Timeout in " + testZahl +" Sekunden";
+  }
 
 }
