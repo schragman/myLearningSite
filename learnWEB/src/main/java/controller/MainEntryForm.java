@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -17,6 +18,8 @@ import entities.Abfrage;
 import entities.Antwort;
 import entities.MainEntry;
 import entities.Referenz;
+import org.apache.myfaces.tobago.component.UIPopup;
+import util.LoginController;
 import util.Selections;
 import util.Sites;
 
@@ -25,6 +28,9 @@ import util.Sites;
 public class MainEntryForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final int SESSIONPERIOD = 12;
+	private static final int SESSIONWARNPERIOD = 2;
+	private static final int AUTOSAVEPERIOD = 10000;
 
 	@EJB
 	private EntrySteuerungRemote entrySteuerung;
@@ -32,6 +38,10 @@ public class MainEntryForm implements Serializable {
 	private Selections selection;
 	@Inject
 	private MenuForm menuForm;
+	@Inject
+	private LoginController loginController;
+	@Inject
+  private AutoSaveController autoSaveController;
 	private String kBeschreibung;
 	private String lBeschreibung;
 	private boolean referenzArt; // Printmedium, Internetquelle
@@ -55,9 +65,17 @@ public class MainEntryForm implements Serializable {
 
 	private boolean testboolean;
 	private int testZahl;
+	private boolean anzeigeSessionTimeoutCounter;
+	private int sessionTimeoutCounter;
+	private boolean sessionGone;
+	private int autosaveFrequency;
+	//Nach wieviel Durchläufen Autosave wird der SessionTimeout-Counter angezeigt.
+	private int sessionWarnCounter;
 
 	private String userInput;
 	private List<Referenz> quRes;
+
+	private UIPopup sessionTOPopup;
 
 	public String getUserInput() {
 		return userInput;
@@ -70,8 +88,13 @@ public class MainEntryForm implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		testZahl = 10;
+		testZahl = SESSIONPERIOD;
 		testboolean = false;
+		sessionTimeoutCounter = SESSIONPERIOD;
+		anzeigeSessionTimeoutCounter = false;
+		sessionGone = false;
+		sessionWarnCounter = SESSIONWARNPERIOD;
+		autosaveFrequency = AUTOSAVEPERIOD;
 		MainEntry entry = selection.getEntry();
 		navigationList = entrySteuerung.getEntryList(selection.getThema());
 		if (null != navigationList && entry != null) {
@@ -124,7 +147,9 @@ public class MainEntryForm implements Serializable {
 	}
 
 	public String doCreateNewEntry() {
-		MainEntry result = createNewEntry();
+		MainEntry result = getMainEntry();
+    result.setHauptThema(selection.getThema());
+    autoSaveController.saveAutosave(result);
 		entrySteuerung.generateNew(result, selection.getThema());
 
 		return Sites.UEBERSICHT;
@@ -148,25 +173,38 @@ public class MainEntryForm implements Serializable {
   }
 
 	public String doUpdateEntry() {
-		MainEntry result = selection.getEntry();
-		result.setKurzEintrag(kBeschreibung);
-		result.setLangEintrag(lBeschreibung);
-		if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
-			addToReference();
-		}
-		if (!(frage.isEmpty() && antwort.isEmpty())) {
-			addToAbfrage();
-		}
-		result.setReferenzen(referenzen);
-		result.setBeispiel(beispiel);
-		result.setAbfragen(abfragen);
+    MainEntry result = getMainEntry();
 
-		entrySteuerung.updEntry(result);
+    autoSaveController.saveAutosave(result);
+    entrySteuerung.updEntry(result);
 
 		return Sites.UEBERSICHT;
 	}
 
-	private void addToReference() {
+	public String doCancel() {
+	  MainEntry result = getMainEntry();
+	  autoSaveController.cancelAutosave(result);
+
+	  return Sites.UEBERSICHT;
+  }
+
+  private MainEntry getMainEntry() {
+	  MainEntry result = neu ? new MainEntry() : selection.getEntry();
+    result.setKurzEintrag(kBeschreibung);
+    result.setLangEintrag(lBeschreibung);
+    if (!(isNullOrEmpty(referenz) && isNullOrEmpty(uReferenz))) {
+      addToReference();
+    }
+    if (!(isNullOrEmpty(frage) && isNullOrEmpty(antwort))) {
+      addToAbfrage();
+    }
+    result.setReferenzen(referenzen);
+    result.setBeispiel(beispiel);
+    result.setAbfragen(abfragen);
+    return result;
+  }
+
+  private void addToReference() {
 		Referenz neueReferenz = new Referenz();
 		neueReferenz.setArt(referenzArt);
 		neueReferenz.setuRefferenz1(referenz);
@@ -386,19 +424,114 @@ public class MainEntryForm implements Serializable {
 		return testboolean;
 	}
 
-	public String getUpdateAutoSave() {
-    testZahl--;
-		if (testZahl == 0) {
+	/*public void testAutosave() {
+	  System.out.println("Test");
+  }
+
+	public void doUpdateAutoSave() {
+	  testZahl--;
+    if (testZahl == 0) {
       testZahl = 10;
       testboolean = false;
-    } else if (testZahl < 6) {
-		  testboolean = true;
+      //loginController.logout();
+    } else if (testZahl < 5) {
+      testboolean = true;
     }
-		return "";
-	}
+  }*/
 
-	public String getNewAutoSave() {
-		return "Session Timeout in " + testZahl +" Sekunden";
+  public void doExtendSession() {
+	  this.testZahl = SESSIONPERIOD;
+	  this.sessionWarnCounter = SESSIONWARNPERIOD;
+	  autosaveFrequency = AUTOSAVEPERIOD;
+	  anzeigeSessionTimeoutCounter = false;
+  }
+
+  public void doAutosave() {
+    if (sessionTimeoutCounter > 0) {
+      String sessionId = selection.getSessionId();
+      MainEntry autoSaveEntry = getMainEntry();
+      autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
+
+      //reduce Session-Time
+      sessionWarnCounter--;
+
+      //Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout
+      if (sessionWarnCounter == 0) {
+        anzeigeSessionTimeoutCounter = true;
+        sessionTOPopup.setCollapsed(false);
+      }
+    }
+  }
+
+  /*public String getUpdateAutoSave() {
+	  if (this.bearbeiten || this.neu) {
+      //do Autosave
+      String sessionId = selection.getSessionId();
+      MainEntry autoSaveEntry = getMainEntry();
+      autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
+      sessionWarnCounter--;
+      if (sessionWarnCounter == 0) {
+        autosaveFrequency = 3600 * 1000;
+        sessionTimeoutCounter = SESSIONPERIOD;
+        anzeigeSessionTimeoutCounter = true;
+        sessionTOPopup.setCollapsed(false);
+      }
+    }
+    return "WarnCounter: " + sessionWarnCounter;
+  }*/
+
+  /*public String getUpdateSessionAnzeige() {
+	  sessionTimeoutCounter--;
+	  try {
+      if (sessionTimeoutCounter == 0) {
+        sessionGone = true;
+        anzeigeSessionTimeoutCounter = false;
+      } else if (sessionTimeoutCounter < 0) {
+        loginController.logout();
+      }
+      return "";
+    } catch (IOException e) {
+      return "somethings wrong with Autosave!";
+    }
+  }*/
+
+  public String getRemainingSessionTime() {
+    String lcResult;
+    if (sessionTimeoutCounter > 1)
+      lcResult = "Session Timeout in " + (sessionTimeoutCounter -1) +" Sekunden";
+    else
+      lcResult = "The Session is expired";
+    return lcResult;
+  }
+
+  public UIPopup getSessionTOPopup() {
+    return sessionTOPopup;
+  }
+
+  public void setSessionTOPopup(UIPopup sessionTOPopup) {
+    this.sessionTOPopup = sessionTOPopup;
+  }
+
+  public boolean isAnzeigeSessionTimeoutCounter() {
+    return anzeigeSessionTimeoutCounter;
+  }
+
+  public boolean isSessionGone() {
+    return sessionGone;
+  }
+
+  public int getAutosaveFrequency() {
+    return autosaveFrequency;
+  }
+
+  private boolean isNullOrEmpty(String testString) {
+    boolean result = null == testString;
+    result = result || testString.isEmpty();
+    return result;
+  }
+
+  public void doJustReturn() {
+    ;
   }
 
 }

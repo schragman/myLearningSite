@@ -5,6 +5,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:tc="http://myfaces.apache.org/tobago/component"
   	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui"
   	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 
@@ -19,24 +20,28 @@
 
     <tc:script file="#{request.contextPath}/tinymce/js/tinymce/tinymce.min.js" />
     <tc:script file="#{request.contextPath}/scripts/tinyinit.js" />
-
-		<tc:panel id="AutoSaveStatus">
-			<f:facet name="reload">
-				<tc:reload frequency="1000" update="#{mainEntryForm.neu or mainEntryForm.bearbeiten}" />
-			</f:facet>
-			<tc:out value="#{mainEntryForm.updateAutoSave}" />
-      <tc:out value="#{mainEntryForm.newAutoSave}" rendered="#{mainEntryForm.autosave}"/>
-		</tc:panel>
-
+    <tc:script file="#{request.contextPath}/scripts/autosave.js" />
+		<!--<h:form>
+		<p:poll interval="3" update="newEntry" />-->
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
-			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
+			<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doJustReturn}" />
+			<!--<tc:panel id="AutoSaveStatus" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
+				<f:facet name="reload">
+					<tc:reload frequency="#{mainEntryForm.autosaveFrequency}"
+										 update="#{mainEntryForm.neu or mainEntryForm.bearbeiten}" />
+				</f:facet>
+				<ui:include src="/faces/subviews/sessionTimeOut.xhtml" />
+				<tc:out value="#{mainEntryForm.updateAutoSave}" />
+			</tc:panel>-->
+
+			<tc:in id="shortDescr1" labelLayout="top" label="#{appMsg.shortDescription}"
 				value="#{mainEntryForm.kBeschreibung}"
 				focus="true"
 				required="true"
 				rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
 				<!--disabled="#{!mainEntryForm.bearbeiten}">-->
 			</tc:in>
-			<tc:in labelLayout="top" label="#{appMsg.shortDescription}"
+			<tc:in id="shortDescr2" labelLayout="top" label="#{appMsg.shortDescription}"
 					value="#{mainEntryForm.kBeschreibung}"
 					focus="true"
 					required="true"
@@ -46,7 +51,8 @@
 					<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
 				</tc:suggest>
 			</tc:in>
-			<tc:textarea labelLayout="top" label="#{appMsg.longDescription} "
+			<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
+				  id="lngDescription"
 					markup="wysiwyg"
 					disabled="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 					rows="#{configurationForm.nbDescrLines}"
@@ -104,7 +110,7 @@
 				  markup="wysiwyg"
 				 	value="#{mainEntryForm.beispiel}"/>
 			</tc:flexLayout>
-			
+
  			<tc:sheet
 				rendered="#{mainEntryForm.checkListFilled and (mainEntryForm.neu or mainEntryForm.bearbeiten)}"
 				id="Abfliste"
@@ -112,46 +118,46 @@
 				value="#{mainEntryForm.abfragen}"
 				var="abfItem">
 				<tc:column label="#{appMsg.question}">
-					<tc:out  value="#{abfItem.frage}" />	
+					<tc:out  value="#{abfItem.frage}" />
 				</tc:column>
 				<tc:column label="#{appMsg.answer}">
-					<tc:out value="#{abfItem.firstAntwort}" />	
+					<tc:out value="#{abfItem.firstAntwort}" />
 				</tc:column>
 				<tc:column>
-					<tc:link label="-" 
+					<tc:link label="-"
 						actionListener="#{mainEntryForm.removeAbfrage(abfItem)}" />
 				</tc:column>
 			</tc:sheet>
-			
+
 			<tc:flexLayout columns="400px 400px 20px"
 				rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
-				<tc:in labelLayout="top" label="#{appMsg.question}" 
+				<tc:in labelLayout="top" label="#{appMsg.question}"
 					value="#{mainEntryForm.frage}" />
-				<tc:in labelLayout="top" label="#{appMsg.answer}" 
+				<tc:in labelLayout="top" label="#{appMsg.answer}"
 					value="#{mainEntryForm.antwort}" />
-				<tc:link label="+" 
+				<tc:link label="+"
 					actionListener="#{mainEntryForm.addAbfrage}" />
 			</tc:flexLayout>
-			
+
 		</tc:box>
-			
+		<!--</h:form>-->
 	</ui:define>
-	
+
 	<ui:define name="pageButtons">
 		<tc:button label="#{appMsg.save}" rendered="#{mainEntryForm.neu}" action="#{mainEntryForm.doCreateNewEntry}" />
-		<tc:button label="#{appMsg.save}" 
-			rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}" 
+		<tc:button label="#{appMsg.save}"
+			rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}"
 			action="#{mainEntryForm.doUpdateEntry}" />
-		<tc:button label="#{appMsg.edit}" 
-			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}" 
+		<tc:button label="#{appMsg.edit}"
+			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 			actionListener="#{mainEntryForm.doEdit}" />
-		<tc:button label="#{appMsg.cancel}" outcome="/faces/uebersicht" />
+		<tc:button label="#{appMsg.cancel}" action="#{mainEntryForm.doCancel}" />
 		<tc:button label="Test" actionListener="#{mainEntryForm.test}" />
 	</ui:define>
-	
+
 </ui:composition>
 
-<!-- 
+<!--
 
 				rendered="#{mainEntryForm.checkListFilled}"
 

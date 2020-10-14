@@ -5,6 +5,7 @@ import entities.HauptThema;
 import entities.MainEntry;
 import javafx.util.Pair;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
@@ -17,7 +18,13 @@ public class AutoSaveController {
   @EJB
   EntrySteuerung entrySteuerung;
 
+  @PostConstruct
+  public void init() {
+    mainEntryList = new HashMap<>();
+  }
+
   public void autosave(MainEntry mainEntry, HauptThema thema, String sessionId) {
+    //Im Kurzeintrag muss etwas stehen, sonst kein Autosave
     if (mainEntry.getId() == 0) {
       // Neuer Eintrag
       MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry, thema);
@@ -26,7 +33,7 @@ public class AutoSaveController {
       mainEntryList.put(generatedEntry.getId(), sessionEntry);
     } else if (mainEntryList.containsKey(mainEntry.getId())) {
       if (mainEntryList.get(mainEntry.getId()).getSession().equals(sessionId)) {
-        // Autosave aktualisieren
+        entrySteuerung.updEntry(mainEntry);
       } else {
         // Fehlerbehandlung: Jemand anders bearbeitet diesen Entry !!!
       }
@@ -49,6 +56,7 @@ public class AutoSaveController {
       } else {
         entrySteuerung.updEntry(oldEntry);
       }
+      mainEntryList.remove(mainEntry.getId());
     }
   }
 

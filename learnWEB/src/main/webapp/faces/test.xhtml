@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition
+		id="homePage"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:tc="http://myfaces.apache.org/tobago/component"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<tc:page id="testPage">
+
+		<tc:script file="#{request.contextPath}/scripts/test.js" />
+
+		<tc:form id="testForm">
+
+			<tc:panel id="testPanel">
+				<tc:in id="testIn" label="Testeingabe" value="#{testController.testInput}" />
+				<tc:out id="testOut" label="Testausgabe" value="#{testController.testOutput}"/>
+				<tc:button  id="testButton" label="JavaScript" actionListener="#{testController.doUebertrag}"/>
+				<tc:link id="testLink" label="" actionListener="#{testController.doUebertrag}" />
+			</tc:panel>
+
+		</tc:form>
+	</tc:page>
+</ui:composition>
