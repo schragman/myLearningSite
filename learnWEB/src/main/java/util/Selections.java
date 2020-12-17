@@ -54,11 +54,11 @@ public class Selections implements Serializable {
 		this.sessionId = session.getId();
 	}
 
-	@PreDestroy
+	/*@PreDestroy
 	public void warn() {
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Session Timeout", "Session geht weg");
 		FacesContext.getCurrentInstance().addMessage("page", fm);
-	}
+	}*/
 
 
 	public MainEntry getEntry() {

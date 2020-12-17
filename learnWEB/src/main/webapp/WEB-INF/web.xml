@@ -50,8 +50,14 @@
       <role-name>kunde</role-name>
   </security-role>
 
-    <session-config>
-        <session-timeout>1</session-timeout>
-    </session-config>
+  <session-config>
+      <session-timeout>1</session-timeout>
+  </session-config>
+
+  <!--<context-param>
+    <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+    <param-value>true</param-value>
+  </context-param>-->
+
 
 </web-app>

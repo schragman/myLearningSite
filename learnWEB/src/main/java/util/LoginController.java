@@ -6,11 +6,15 @@ import secEntities.Users;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Named
 @RequestScoped
@@ -45,9 +49,17 @@ public class LoginController {
     }
 
     public void logout() throws IOException{
-      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+      ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+      Map<String, Object> cookieMap = ec.getRequestCookieMap();
+      Cookie cookie = (Cookie) cookieMap.get("JSESSIONID");
+      cookie.setMaxAge(0);
+      HttpServletResponse response = (HttpServletResponse) ec.getResponse();
+      response.addCookie(cookie);
+
+      ec.invalidateSession();
       //Entweder ein nicht-absoluter Pfad oder über Properties lösen.
-      FacesContext.getCurrentInstance().getExternalContext().redirect("home");
+      //FacesContext.getCurrentInstance().getExternalContext().redirect("home");
     }
 
     public String getUsername() {

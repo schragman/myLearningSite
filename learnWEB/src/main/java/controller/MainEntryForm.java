@@ -6,12 +6,14 @@ import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import beans.EntrySteuerungRemote;
 import entities.Abfrage;
@@ -23,13 +25,17 @@ import util.LoginController;
 import util.Selections;
 import util.Sites;
 
+/**
+ * @Version 1.1
+ */
+
 @ViewScoped
 @ManagedBean
 public class MainEntryForm implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private static final int SESSIONPERIOD = 12;
-	private static final int SESSIONWARNPERIOD = 2;
+	private static final long serialVersionUID = 12L;
+	private static final int SESSIONPERIOD = 10;
+	private static final int WARNINGWINDOWTIME = 2;
 	private static final int AUTOSAVEPERIOD = 10000;
 
 	@EJB
@@ -70,7 +76,7 @@ public class MainEntryForm implements Serializable {
 	private boolean sessionGone;
 	private int autosaveFrequency;
 	//Nach wieviel Durchläufen Autosave wird der SessionTimeout-Counter angezeigt.
-	private int sessionWarnCounter;
+	private int warningWindowCounter;
 
 	private String userInput;
 	private List<Referenz> quRes;
@@ -85,16 +91,20 @@ public class MainEntryForm implements Serializable {
 		this.userInput = userInput;
 	}
 
+	private int javaScriptCounter;
+
 	@PostConstruct
 	public void init() {
 
+		javaScriptCounter = 3;
 		testZahl = SESSIONPERIOD;
 		testboolean = false;
 		sessionTimeoutCounter = SESSIONPERIOD;
 		anzeigeSessionTimeoutCounter = false;
 		sessionGone = false;
-		sessionWarnCounter = SESSIONWARNPERIOD;
+		warningWindowCounter = WARNINGWINDOWTIME;
 		autosaveFrequency = AUTOSAVEPERIOD;
+		String testSessionId = selection.getSessionId();
 		MainEntry entry = selection.getEntry();
 		navigationList = entrySteuerung.getEntryList(selection.getThema());
 		if (null != navigationList && entry != null) {
@@ -441,25 +451,25 @@ public class MainEntryForm implements Serializable {
 
   public void doExtendSession() {
 	  this.testZahl = SESSIONPERIOD;
-	  this.sessionWarnCounter = SESSIONWARNPERIOD;
+	  this.warningWindowCounter = WARNINGWINDOWTIME;
 	  autosaveFrequency = AUTOSAVEPERIOD;
 	  anzeigeSessionTimeoutCounter = false;
   }
 
   public void doAutosave() {
-    if (sessionTimeoutCounter > 0) {
+		javaScriptCounter--;
+  	if (warningWindowCounter > 0) {
       String sessionId = selection.getSessionId();
       MainEntry autoSaveEntry = getMainEntry();
       autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
 
       //reduce Session-Time
-      sessionWarnCounter--;
-
+      warningWindowCounter--;
+    } else {
       //Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout
-      if (sessionWarnCounter == 0) {
         anzeigeSessionTimeoutCounter = true;
         sessionTOPopup.setCollapsed(false);
-      }
+        ;
     }
   }
 
@@ -480,7 +490,7 @@ public class MainEntryForm implements Serializable {
     return "WarnCounter: " + sessionWarnCounter;
   }*/
 
-  /*public String getUpdateSessionAnzeige() {
+  public String getUpdateSessionAnzeige() {
 	  sessionTimeoutCounter--;
 	  try {
       if (sessionTimeoutCounter == 0) {
@@ -493,7 +503,7 @@ public class MainEntryForm implements Serializable {
     } catch (IOException e) {
       return "somethings wrong with Autosave!";
     }
-  }*/
+  }
 
   public String getRemainingSessionTime() {
     String lcResult;
@@ -530,8 +540,16 @@ public class MainEntryForm implements Serializable {
     return result;
   }
 
-  public void doJustReturn() {
+	public int getJavaScriptCounter() {
+		return javaScriptCounter;
+	}
+
+	public void setJavaScriptCounter(int javaScriptCounter) {
+		this.javaScriptCounter = javaScriptCounter;
+	}
+
+  /*public void doJustReturn() {
     ;
-  }
+  }*/
 
 }

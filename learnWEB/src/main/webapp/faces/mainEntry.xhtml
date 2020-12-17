@@ -24,16 +24,9 @@
 		<!--<h:form>
 		<p:poll interval="3" update="newEntry" />-->
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
-			<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doJustReturn}" />
-			<!--<tc:panel id="AutoSaveStatus" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
-				<f:facet name="reload">
-					<tc:reload frequency="#{mainEntryForm.autosaveFrequency}"
-										 update="#{mainEntryForm.neu or mainEntryForm.bearbeiten}" />
-				</f:facet>
-				<ui:include src="/faces/subviews/sessionTimeOut.xhtml" />
-				<tc:out value="#{mainEntryForm.updateAutoSave}" />
-			</tc:panel>-->
-
+			<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}" />
+			<tc:out id="counter" value="#{mainEntryForm.javaScriptCounter}"/>
+			<ui:include src="/faces/subviews/sessionTimeOut.xhtml" />
 			<tc:in id="shortDescr1" labelLayout="top" label="#{appMsg.shortDescription}"
 				value="#{mainEntryForm.kBeschreibung}"
 				focus="true"
