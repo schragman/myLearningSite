@@ -140,11 +140,19 @@
 		<tc:button label="#{appMsg.save}" rendered="#{mainEntryForm.neu}" action="#{mainEntryForm.doCreateNewEntry}" />
 		<tc:button label="#{appMsg.save}"
 			rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}"
-			action="#{mainEntryForm.doUpdateEntry}" />
+			action="#{mainEntryForm.doUpdateEntry}">
+				<f:facet name="confirmation">
+					<tc:out value="#{mainEntryForm.confirmUpdate}"/>
+				</f:facet>
+		</tc:button>
 		<tc:button label="#{appMsg.edit}"
 			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 			actionListener="#{mainEntryForm.doEdit}" />
-		<tc:button label="#{appMsg.cancel}" action="#{mainEntryForm.doCancel}" />
+		<tc:button label="#{appMsg.cancel}" action="#{mainEntryForm.doCancel}">
+			<f:facet name="confirmation">
+				<tc:out value="#{mainEntryForm.confirmCancel}"/>
+			</f:facet>
+		</tc:button>
 		<tc:button label="Test" actionListener="#{mainEntryForm.test}" />
 	</ui:define>
 

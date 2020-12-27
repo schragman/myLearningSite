@@ -35,7 +35,7 @@ public class MainEntryForm implements Serializable {
 
 	private static final long serialVersionUID = 12L;
 	private static final int SESSIONPERIOD = 10;
-	private static final int WARNINGWINDOWTIME = 2;
+	private static final int WARNINGWINDOWTIME = 3;
 	private static final int AUTOSAVEPERIOD = 10000;
 
 	@EJB
@@ -104,7 +104,7 @@ public class MainEntryForm implements Serializable {
 		sessionGone = false;
 		warningWindowCounter = WARNINGWINDOWTIME;
 		autosaveFrequency = AUTOSAVEPERIOD;
-		String testSessionId = selection.getSessionId();
+		autoSaveController.setValidSessionId(selection.getSessionId());
 		MainEntry entry = selection.getEntry();
 		navigationList = entrySteuerung.getEntryList(selection.getThema());
 		if (null != navigationList && entry != null) {
@@ -182,7 +182,29 @@ public class MainEntryForm implements Serializable {
     return result;
   }
 
-	public String doUpdateEntry() {
+	public String getConfirmUpdate() {
+		String result;
+		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
+			result = "Es gibt Autosave-Einträge. Mit dem Speichern werden die Autosave-Einträge übernommen. Der Zustand vor dem Autosave ist damit verloren!";
+		} else {
+			result = "Zustand speichern ?";
+		}
+		return result;
+	}
+
+	public String getConfirmCancel() {
+		String result;
+		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
+			result = "Der hier sichtbare Zustand beinhaltet Autosave-Einträge. Cancel löscht auch alle Autosave-Einträge! "
+				+"Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf Abbrechen und speichern den Zustand zunächst. "
+			  +"Damit werden alle Autosave-Einträge übernommen!";
+		} else {
+			result = "Änderungen zurücksetzen?";
+		}
+		return result;
+	}
+
+  public String doUpdateEntry() {
     MainEntry result = getMainEntry();
 
     autoSaveController.saveAutosave(result);
@@ -454,18 +476,18 @@ public class MainEntryForm implements Serializable {
 	  this.warningWindowCounter = WARNINGWINDOWTIME;
 	  autosaveFrequency = AUTOSAVEPERIOD;
 	  anzeigeSessionTimeoutCounter = false;
+	  javaScriptCounter = 3;
+		sessionTimeoutCounter = SESSIONPERIOD;
   }
 
   public void doAutosave() {
 		javaScriptCounter--;
-  	if (warningWindowCounter > 0) {
-      String sessionId = selection.getSessionId();
-      MainEntry autoSaveEntry = getMainEntry();
-      autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
+		warningWindowCounter--;
+		String sessionId = selection.getSessionId();
+		MainEntry autoSaveEntry = getMainEntry();
+		autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
 
-      //reduce Session-Time
-      warningWindowCounter--;
-    } else {
+    if (warningWindowCounter <= 0) {
       //Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout
         anzeigeSessionTimeoutCounter = true;
         sessionTOPopup.setCollapsed(false);

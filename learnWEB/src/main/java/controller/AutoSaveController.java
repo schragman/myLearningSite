@@ -4,6 +4,8 @@ import beans.EntrySteuerung;
 import entities.HauptThema;
 import entities.MainEntry;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,7 +15,10 @@ import java.util.HashMap;
 @ApplicationScoped
 public class AutoSaveController {
 
+  private static Logger LOG = LoggerFactory.getLogger(AutoSaveController.class);
+
   private HashMap<Long, SessionEntry> mainEntryList;
+  private String validSessionId;
 
   @EJB
   EntrySteuerung entrySteuerung;
@@ -24,25 +29,26 @@ public class AutoSaveController {
   }
 
   public void autosave(MainEntry mainEntry, HauptThema thema, String sessionId) {
-    //Im Kurzeintrag muss etwas stehen, sonst kein Autosave
-    if (mainEntry.getId() == 0) {
-      // Neuer Eintrag
-      MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry, thema);
-      // Für cancel muss Beschreibung und Beispiel leer sein
-      SessionEntry sessionEntry = new SessionEntry(null, sessionId);
-      mainEntryList.put(generatedEntry.getId(), sessionEntry);
-    } else if (mainEntryList.containsKey(mainEntry.getId())) {
-      if (mainEntryList.get(mainEntry.getId()).getSession().equals(sessionId)) {
+    if (sessionId.equals(validSessionId)) { // Autosave geht nur mit der aktuellen Session !!!!
+      //Im Kurzeintrag muss etwas stehen, sonst kein Autosave
+      if (mainEntry.getId() == 0) {
+        // Neuer Eintrag
+        MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry, thema);
+        // Für cancel muss Beschreibung und Beispiel leer sein
+        SessionEntry sessionEntry = new SessionEntry(null, sessionId);
+        mainEntryList.put(generatedEntry.getId(), sessionEntry);
+      } else if (mainEntryList.containsKey(mainEntry.getId())) {
+        if (!mainEntryList.get(mainEntry.getId()).getSession().equals(sessionId)) {
+          LOG.info("Eintrag einer anderen Session wird überschrieben");
+        }
         entrySteuerung.updEntry(mainEntry);
       } else {
-        // Fehlerbehandlung: Jemand anders bearbeitet diesen Entry !!!
+        // Erstes mal Autosave
+        MainEntry formerEntry = entrySteuerung.findById(mainEntry.getId());
+        SessionEntry formerEntryWithSession = new SessionEntry(formerEntry, sessionId);
+        mainEntryList.put(mainEntry.getId(), formerEntryWithSession);
+        entrySteuerung.updEntry(mainEntry);
       }
-    } else {
-      // Erstes mal Autosave
-      MainEntry formerEntry = entrySteuerung.findById(mainEntry.getId());
-      SessionEntry formerEntryWithSession = new SessionEntry(formerEntry, sessionId);
-      mainEntryList.put(mainEntry.getId(), formerEntryWithSession);
-      entrySteuerung.updEntry(mainEntry);
     }
   }
 
@@ -66,6 +72,15 @@ public class AutoSaveController {
     if (mainEntryList.containsKey(mainEntry.getId())) {
       mainEntryList.remove(mainEntry.getId());
     }
+  }
+
+
+  public void setValidSessionId(String validSessionId) {
+    this.validSessionId = validSessionId;
+  }
+
+  public boolean isEntryAutosaved(MainEntry mainEntry) {
+    return mainEntryList.containsKey(mainEntry.getId());
   }
 
   private class SessionEntry {

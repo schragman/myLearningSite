@@ -51,11 +51,11 @@ public class LoginController {
     public void logout() throws IOException{
 
       ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-      Map<String, Object> cookieMap = ec.getRequestCookieMap();
+      /*Map<String, Object> cookieMap = ec.getRequestCookieMap();
       Cookie cookie = (Cookie) cookieMap.get("JSESSIONID");
       cookie.setMaxAge(0);
       HttpServletResponse response = (HttpServletResponse) ec.getResponse();
-      response.addCookie(cookie);
+      response.addCookie(cookie);*/
 
       ec.invalidateSession();
       //Entweder ein nicht-absoluter Pfad oder über Properties lösen.
