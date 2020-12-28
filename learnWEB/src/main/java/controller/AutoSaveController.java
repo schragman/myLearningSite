@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 
 @ApplicationScoped
@@ -35,7 +38,8 @@ public class AutoSaveController {
         // Neuer Eintrag
         MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry, thema);
         // Für cancel muss Beschreibung und Beispiel leer sein
-        SessionEntry sessionEntry = new SessionEntry(null, sessionId);
+        SessionEntry sessionEntry = new SessionEntry(null, sessionId,
+            LocalDateTime.now(ZoneId.of("GMT+01")));
         mainEntryList.put(generatedEntry.getId(), sessionEntry);
       } else if (mainEntryList.containsKey(mainEntry.getId())) {
         if (!mainEntryList.get(mainEntry.getId()).getSession().equals(sessionId)) {
@@ -45,7 +49,8 @@ public class AutoSaveController {
       } else {
         // Erstes mal Autosave
         MainEntry formerEntry = entrySteuerung.findById(mainEntry.getId());
-        SessionEntry formerEntryWithSession = new SessionEntry(formerEntry, sessionId);
+        SessionEntry formerEntryWithSession = new SessionEntry(formerEntry, sessionId,
+            LocalDateTime.now(ZoneId.of("GMT+01")));
         mainEntryList.put(mainEntry.getId(), formerEntryWithSession);
         entrySteuerung.updEntry(mainEntry);
       }
@@ -83,13 +88,19 @@ public class AutoSaveController {
     return mainEntryList.containsKey(mainEntry.getId());
   }
 
+  public LocalDateTime getAutosavedDate(MainEntry mainEntry) {
+    return mainEntryList.get(mainEntry.getId()).getDate();
+  }
+
   private class SessionEntry {
     private MainEntry mainEntry;
     private String session;
+    private LocalDateTime date;
 
-    public SessionEntry(MainEntry mainEntry, String session) {
+    public SessionEntry(MainEntry mainEntry, String session, LocalDateTime date) {
       this.mainEntry = mainEntry;
       this.session = session;
+      this.date = date;
     }
 
     public MainEntry getMainEntry() {
@@ -98,6 +109,10 @@ public class AutoSaveController {
 
     public String getSession() {
       return session;
+    }
+
+    public LocalDateTime getDate() {
+      return date;
     }
   }
 

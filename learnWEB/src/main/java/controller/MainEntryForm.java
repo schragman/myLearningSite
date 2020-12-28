@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
@@ -184,8 +186,12 @@ public class MainEntryForm implements Serializable {
 
 	public String getConfirmUpdate() {
 		String result;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
-			result = "Es gibt Autosave-Einträge. Mit dem Speichern werden die Autosave-Einträge übernommen. Der Zustand vor dem Autosave ist damit verloren!";
+			result = "Es gibt Autosave-Einträge ab dem "
+					+ autoSaveController.getAutosavedDate(this.getMainEntry()).format(formatter)
+					+ ". Mit dem Speichern werden die Autosave-Einträge übernommen. Der Zustand vor dem Autosave ist "
+			    + "damit verloren!";
 		} else {
 			result = "Zustand speichern ?";
 		}
@@ -195,9 +201,10 @@ public class MainEntryForm implements Serializable {
 	public String getConfirmCancel() {
 		String result;
 		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
-			result = "Der hier sichtbare Zustand beinhaltet Autosave-Einträge. Cancel löscht auch alle Autosave-Einträge! "
-				+"Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf Abbrechen und speichern den Zustand zunächst. "
-			  +"Damit werden alle Autosave-Einträge übernommen!";
+			result = "Der hier sichtbare Zustand beinhaltet Autosave-Einträge ab dem "
+				+ autoSaveController.getAutosavedDate(this.getMainEntry())	+ ". Cancel löscht auch alle "
+				+ "Autosave-Einträge! Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf Abbrechen "
+				+	"und speichern den Zustand zunächst. Damit werden alle Autosave-Einträge übernommen!";
 		} else {
 			result = "Änderungen zurücksetzen?";
 		}
