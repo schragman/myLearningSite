@@ -69,7 +69,7 @@
       <tc:separator/>
       <tc:panel id="buttonPanel">
         <tc:flexLayout colums="300px 200px 200px">
-          <tc:button label="Abmelden" actionListener="#{loginController.logout}">
+          <tc:button label="Abmelden" actionListener="#{loginController.logout(true)}">
             <tc:operation name="hide" for="uManagement" />
           </tc:button>
           <tc:button id="okButton" label="OK"

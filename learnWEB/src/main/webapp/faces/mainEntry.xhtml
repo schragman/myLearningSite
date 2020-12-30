@@ -24,26 +24,28 @@
 		<!--<h:form>
 		<p:poll interval="3" update="newEntry" />-->
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
-			<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}" />
-			<tc:out id="counter" value="#{mainEntryForm.javaScriptCounter}"/>
 			<ui:include src="/faces/subviews/sessionTimeOut.xhtml" />
-			<tc:in id="shortDescr1" labelLayout="top" label="#{appMsg.shortDescription}"
-				value="#{mainEntryForm.kBeschreibung}"
-				focus="true"
-				required="true"
-				rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
-				<!--disabled="#{!mainEntryForm.bearbeiten}">-->
-			</tc:in>
-			<tc:in id="shortDescr2" labelLayout="top" label="#{appMsg.shortDescription}"
+			<tc:flexLayout columns="*;200px;100px" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
+				<tc:in id="shortDescr1" labelLayout="top" label="#{appMsg.shortDescription}"
 					value="#{mainEntryForm.kBeschreibung}"
 					focus="true"
 					required="true"
-					rendered="#{mainEntryForm.neu}">
-				<tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
-					maximumItems="3">
-					<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
-				</tc:suggest>
-			</tc:in>
+					rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}">
+					<!--disabled="#{!mainEntryForm.bearbeiten}">-->
+				</tc:in>
+				<tc:in id="shortDescr2" labelLayout="top" label="#{appMsg.shortDescription}"
+						value="#{mainEntryForm.kBeschreibung}"
+						focus="true"
+						required="true"
+						rendered="#{mainEntryForm.neu}">
+					<tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
+						maximumItems="3">
+						<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
+					</tc:suggest>
+				</tc:in>
+				<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}" />
+				<tc:out id="counter" value="#{mainEntryForm.warningWindowCounter}" markup="light"/>
+			</tc:flexLayout>
 			<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
 				  id="lngDescription"
 					markup="wysiwyg"
@@ -153,7 +155,6 @@
 				<tc:out value="#{mainEntryForm.confirmCancel}"/>
 			</f:facet>
 		</tc:button>
-		<tc:button label="Test" actionListener="#{mainEntryForm.test}" />
 	</ui:define>
 
 </ui:composition>
