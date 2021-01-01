@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import beans.EntrySteuerungRemote;
 import entities.Abfrage;
@@ -67,6 +68,7 @@ public class MainEntryForm implements Serializable {
 	private List<MainEntry> navigationList; // Zum Navigieren
 	private ListIterator<MainEntry> entryIterator;
 	private MainEntry precedor; // Vorgaenger
+	private MainEntry mainEntry;
 
 	private List<Abfrage> abfragen;
 	private boolean neu; // für Buttons
@@ -119,6 +121,7 @@ public class MainEntryForm implements Serializable {
 			referenzen = new ArrayList<>();
 			abfragen = new ArrayList<>();
 			neu = true;
+			mainEntry = new MainEntry();
 		} else {
 			kBeschreibung = entry.getKurzEintrag();
 			lBeschreibung = entry.getLangEintrag();
@@ -126,6 +129,7 @@ public class MainEntryForm implements Serializable {
 			beispiel = entry.getBeispiel();
 			abfragen = entry.getAbfragen();
 			neu = false;
+			mainEntry = entry;
 		}
 	}
 
@@ -153,37 +157,22 @@ public class MainEntryForm implements Serializable {
 	}
 
 	public String doCreateNewEntry() {
-		MainEntry result = getMainEntry();
-    result.setHauptThema(selection.getThema());
-    autoSaveController.saveAutosave(result);
-		entrySteuerung.generateNew(result, selection.getThema());
+		this.refreshMainEntry();
+    mainEntry.setHauptThema(selection.getThema());
+    autoSaveController.saveAutosave(mainEntry);
+		entrySteuerung.generateNew(mainEntry);
 
 		return Sites.UEBERSICHT;
 	}
 
-	private MainEntry createNewEntry() {
-    MainEntry result = new MainEntry();
-    result.setKurzEintrag(kBeschreibung);
-    result.setLangEintrag(lBeschreibung);
-    if (!(referenz.isEmpty() && uReferenz.isEmpty())) {
-      addToReference();
-    }
-    if (!(frage.isEmpty() && antwort.isEmpty())) {
-      addToAbfrage();
-    }
-    result.setReferenzen(referenzen);
-    result.setBeispiel(beispiel);
-    result.setAbfragen(abfragen);
-    result.setHauptThema(selection.getThema());
-    return result;
-  }
 
 	public String getConfirmUpdate() {
 		String result;
+		this.refreshMainEntry();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
-		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
+		if (autoSaveController.isEntryAutosaved(this.mainEntry)) {
 			result = "Es gibt Autosave-Einträge ab dem "
-					+ autoSaveController.getAutosavedDate(this.getMainEntry()).format(formatter)
+					+ autoSaveController.getAutosavedDate(this.mainEntry).format(formatter)
 					+ ". Mit dem Speichern werden die Autosave-Einträge übernommen. Der Zustand vor dem Autosave ist "
 			    + "damit verloren!";
 		} else {
@@ -194,9 +183,10 @@ public class MainEntryForm implements Serializable {
 
 	public String getConfirmCancel() {
 		String result;
-		if (autoSaveController.isEntryAutosaved(this.getMainEntry())) {
+		this.refreshMainEntry();
+		if (autoSaveController.isEntryAutosaved(this.mainEntry)) {
 			result = "Der hier sichtbare Zustand beinhaltet Autosave-Einträge ab dem "
-				+ autoSaveController.getAutosavedDate(this.getMainEntry())	+ ". Cancel löscht auch alle "
+				+ autoSaveController.getAutosavedDate(this.mainEntry)	+ ". Cancel löscht auch alle "
 				+ "Autosave-Einträge! Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf Abbrechen "
 				+	"und speichern den Zustand zunächst. Damit werden alle Autosave-Einträge übernommen!";
 		} else {
@@ -206,35 +196,40 @@ public class MainEntryForm implements Serializable {
 	}
 
   public String doUpdateEntry() {
-    MainEntry result = getMainEntry();
+    this.refreshMainEntry();
 
-    autoSaveController.saveAutosave(result);
-    entrySteuerung.updEntry(result);
+    autoSaveController.saveAutosave(mainEntry);
+    entrySteuerung.updEntry(mainEntry);
 
 		return Sites.UEBERSICHT;
 	}
 
+	// Bei Cancel ohne Bearbeitungsmodus
+	public String doReturn() {
+		return Sites.UEBERSICHT;
+	}
+
 	public String doCancel() {
-	  MainEntry result = getMainEntry();
-	  autoSaveController.cancelAutosave(result);
+	  boolean deleted = autoSaveController.cancelAutosave(mainEntry);
+		if (deleted) {
+			selection.setEntry(null);
+		}
 
 	  return Sites.UEBERSICHT;
   }
 
-  private MainEntry getMainEntry() {
-	  MainEntry result = neu ? new MainEntry() : selection.getEntry();
-    result.setKurzEintrag(kBeschreibung);
-    result.setLangEintrag(lBeschreibung);
-    if (!(isNullOrEmpty(referenz) && isNullOrEmpty(uReferenz))) {
-      addToReference();
-    }
-    if (!(isNullOrEmpty(frage) && isNullOrEmpty(antwort))) {
-      addToAbfrage();
-    }
-    result.setReferenzen(referenzen);
-    result.setBeispiel(beispiel);
-    result.setAbfragen(abfragen);
-    return result;
+	private void refreshMainEntry() {
+		mainEntry.setKurzEintrag(kBeschreibung);
+		mainEntry.setLangEintrag(lBeschreibung);
+		if (!(isNullOrEmpty(referenz) && isNullOrEmpty(uReferenz))) {
+			addToReference();
+		}
+		if (!(isNullOrEmpty(frage) && isNullOrEmpty(antwort))) {
+			addToAbfrage();
+		}
+		mainEntry.setReferenzen(referenzen);
+		mainEntry.setBeispiel(beispiel);
+		mainEntry.setAbfragen(abfragen);
   }
 
   private void addToReference() {
@@ -462,8 +457,8 @@ public class MainEntryForm implements Serializable {
   public void doAutosave() {
 		warningWindowCounter--;
 		String sessionId = selection.getSessionId();
-		MainEntry autoSaveEntry = getMainEntry();
-		autoSaveController.autosave(autoSaveEntry, selection.getThema(), sessionId);
+		this.refreshMainEntry();
+		autoSaveController.autosave(mainEntry, selection.getThema(), sessionId);
 
     if (warningWindowCounter <= 0) {
       //Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout

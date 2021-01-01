@@ -43,8 +43,8 @@
 						<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
 					</tc:suggest>
 				</tc:in>
-				<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}" />
-				<tc:out id="counter" value="#{mainEntryForm.warningWindowCounter}" markup="light"/>
+				<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}"/>
+				<tc:out id="counter" value="#{mainEntryForm.warningWindowCounter}" markup="bold"/>
 			</tc:flexLayout>
 			<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
 				  id="lngDescription"
@@ -139,7 +139,8 @@
 	</ui:define>
 
 	<ui:define name="pageButtons">
-		<tc:button label="#{appMsg.save}" rendered="#{mainEntryForm.neu}" action="#{mainEntryForm.doCreateNewEntry}" />
+		<tc:button label="#{appMsg.save}"
+							 rendered="#{mainEntryForm.neu}" action="#{mainEntryForm.doCreateNewEntry}" />
 		<tc:button label="#{appMsg.save}"
 			rendered="#{!mainEntryForm.neu and mainEntryForm.bearbeiten}"
 			action="#{mainEntryForm.doUpdateEntry}">
@@ -150,7 +151,14 @@
 		<tc:button label="#{appMsg.edit}"
 			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
 			actionListener="#{mainEntryForm.doEdit}" />
-		<tc:button label="#{appMsg.cancel}" action="#{mainEntryForm.doCancel}">
+
+		<tc:button label="#{appMsg.cancel}"
+			rendered="#{!mainEntryForm.neu and !mainEntryForm.bearbeiten}"
+			action="#{mainEntryForm.doReturn}"/>
+
+		<tc:button label="#{appMsg.cancel}"
+			rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+			action="#{mainEntryForm.doCancel}">
 			<f:facet name="confirmation">
 				<tc:out value="#{mainEntryForm.confirmCancel}"/>
 			</f:facet>

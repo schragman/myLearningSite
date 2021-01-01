@@ -46,8 +46,12 @@
 						<tc:operation name="show" for=":::page:uManagement" />
 					</tc:link>
 				</tc:flexLayout>
-				<tc:link image="fa-backward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.backwardsActiv}" action="#{mainEntryForm.doMoveBackwards}"/>
-				<tc:link image="fa-forward" rendered="#{menuForm.mNavigation}" disabled="#{!mainEntryForm.forwardActiv}" action="#{mainEntryForm.doMoveForward}"/>
+				<tc:link image="fa-backward" rendered="#{menuForm.mNavigation}"
+								 disabled="#{!mainEntryForm.backwardsActiv}"
+								 action="#{mainEntryForm.doMoveBackwards}"/>
+				<tc:link image="fa-forward" rendered="#{menuForm.mNavigation}"
+								 disabled="#{!mainEntryForm.forwardActiv}"
+								 action="#{mainEntryForm.doMoveForward}"/>
 				<tc:link image="fa-user" rendered="#{!menuForm.mSearch}" tip="#{menuForm.currentUser}">
           <tc:operation name="show" for=":::page:uManagement" />
         </tc:link>

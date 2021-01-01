@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 
@@ -33,10 +34,13 @@ public class AutoSaveController {
 
   public void autosave(MainEntry mainEntry, HauptThema thema, String sessionId) {
     if (sessionId.equals(validSessionId)) { // Autosave geht nur mit der aktuellen Session !!!!
-      //Im Kurzeintrag muss etwas stehen, sonst kein Autosave
       if (mainEntry.getId() == 0) {
         // Neuer Eintrag
-        MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry, thema);
+        //Im Kurzeintrag muss etwas stehen, sonst Automatischer Eintrag
+        mainEntry.setHauptThema(thema);
+        MainEntry generatedEntry = entrySteuerung.generateNew(mainEntry);
+        // Die neu erzeugte ID muss in mainEntry gesetzt werden
+        mainEntry.setId(generatedEntry.getId());
         // Für cancel muss Beschreibung und Beispiel leer sein
         SessionEntry sessionEntry = new SessionEntry(null, sessionId,
             LocalDateTime.now(ZoneId.of("GMT+01")));
@@ -57,18 +61,21 @@ public class AutoSaveController {
     }
   }
 
-  // Wenn auf Cancel geklickt wird.
-  public void cancelAutosave(MainEntry mainEntry) {
+  // Wenn auf Cancel geklickt wird. Wenn ein Eintrag gelöscht wird, muss true zurückgegeben werden.
+  public boolean cancelAutosave(MainEntry mainEntry) {
+    boolean result = false;
     // Erstmal prüfen, ob ein Autosave überhaupt schon stattgefunden hat
     if (mainEntryList.containsKey(mainEntry.getId())) {
       MainEntry oldEntry = mainEntryList.get(mainEntry.getId()).getMainEntry();
       if (null == oldEntry) {
         entrySteuerung.deleteEntry(mainEntry);
+        result = true;
       } else {
         entrySteuerung.updEntry(oldEntry);
       }
       mainEntryList.remove(mainEntry.getId());
     }
+    return result;
   }
 
   // Beim regelgerechten Speichern muss der Autosave-Eintrag gelöscht werden

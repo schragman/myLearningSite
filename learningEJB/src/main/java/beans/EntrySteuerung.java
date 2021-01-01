@@ -20,7 +20,7 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 	private EntityManager em;
 
 	@Override
-	public MainEntry generateNew(MainEntry mainEntry, HauptThema theme) {
+	public MainEntry generateNew(MainEntry mainEntry) {
 		//HauptThema attachedTheme = em.merge(theme);
 		//attachedTheme.getMainEntries().add(mainEntry);
 		//em.persist(attachedTheme);

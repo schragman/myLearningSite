@@ -12,7 +12,7 @@ import sun.applet.Main;
 @Remote
 public interface EntrySteuerungRemote {
 
-	public MainEntry generateNew(MainEntry mainEntry, HauptThema theme);
+	public MainEntry generateNew(MainEntry mainEntry);
 
 	public void updEntry(MainEntry mainEntry);
 
