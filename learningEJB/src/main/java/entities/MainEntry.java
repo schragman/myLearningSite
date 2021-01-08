@@ -34,13 +34,16 @@ public class MainEntry implements Serializable {
 	private String kurzEintrag;
 	@Column(length = 8000)
 	private String langEintrag;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE },
+			fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn
 	private List<Referenz> referenzen;
 	@Column(length = 80000)
 	private String beispiel;
 
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE },
+			orphanRemoval = true,
+			fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<Abfrage> abfragen;
 

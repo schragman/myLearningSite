@@ -34,7 +34,7 @@ import util.Sites;
 public class MainEntryForm implements Serializable {
 
 	private static final long serialVersionUID = 13L;
-	private static final int AUTOSAVEPERIOD = 10000; // Nach wieviel Millisekunden ein Autosave passiert
+	private static final int AUTOSAVEPERIOD = 600000; // Nach wieviel Millisekunden ein Autosave passiert
 
 	// Nach wieviel Autosaves das Warnfenster für Session-Timeout erscheint
 	private static final int WARNINGWINDOWTIME = 2;
@@ -133,17 +133,22 @@ public class MainEntryForm implements Serializable {
 		}
 	}
 
+
 	public void addReference(ActionEvent ae) {
-		addToReference();
-		referenzArt = true;
-		referenz = "";
-		uReferenz = "";
+		if (!isNullOrEmpty(this.referenz) || !isNullOrEmpty(this.uReferenz)) {
+			addToReference();
+			referenzArt = true;
+			referenz = "";
+			uReferenz = "";
+		}
 	}
 
 	public void addAbfrage(ActionEvent ae) {
-		addToAbfrage();
-		frage = "";
-		antwort = "";
+		if (!isNullOrEmpty(this.frage) || !isNullOrEmpty(this.antwort)) {
+			addToAbfrage();
+			frage = "";
+			antwort = "";
+		}
 	}
 
 	public void removeReference(Referenz toDelRef) {
@@ -168,7 +173,7 @@ public class MainEntryForm implements Serializable {
 
 	public String getConfirmUpdate() {
 		String result;
-		this.refreshMainEntry();
+		//this.refreshMainEntry();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 		if (autoSaveController.isEntryAutosaved(this.mainEntry)) {
 			result = "Es gibt Autosave-Einträge ab dem "
@@ -183,12 +188,13 @@ public class MainEntryForm implements Serializable {
 
 	public String getConfirmCancel() {
 		String result;
-		this.refreshMainEntry();
+		//this.refreshMainEntry();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 		if (autoSaveController.isEntryAutosaved(this.mainEntry)) {
 			result = "Der hier sichtbare Zustand beinhaltet Autosave-Einträge ab dem "
-				+ autoSaveController.getAutosavedDate(this.mainEntry)	+ ". Cancel löscht auch alle "
-				+ "Autosave-Einträge! Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf Abbrechen "
-				+	"und speichern den Zustand zunächst. Damit werden alle Autosave-Einträge übernommen!";
+				+ autoSaveController.getAutosavedDate(this.mainEntry).format(formatter)	+ ". Cancel löscht "
+				+ "auch alle Autosave-Einträge! Wenn Sie das nicht wollen oder unsicher sind, klicken Sie auf "
+				+ "Abbrechen und speichern den Zustand zunächst. Damit werden alle Autosave-Einträge übernommen!";
 		} else {
 			result = "Änderungen zurücksetzen?";
 		}
@@ -221,12 +227,8 @@ public class MainEntryForm implements Serializable {
 	private void refreshMainEntry() {
 		mainEntry.setKurzEintrag(kBeschreibung);
 		mainEntry.setLangEintrag(lBeschreibung);
-		if (!(isNullOrEmpty(referenz) && isNullOrEmpty(uReferenz))) {
-			addToReference();
-		}
-		if (!(isNullOrEmpty(frage) && isNullOrEmpty(antwort))) {
-			addToAbfrage();
-		}
+		this.addReference(null);
+		this.addAbfrage(null);
 		mainEntry.setReferenzen(referenzen);
 		mainEntry.setBeispiel(beispiel);
 		mainEntry.setAbfragen(abfragen);

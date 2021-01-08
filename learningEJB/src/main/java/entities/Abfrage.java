@@ -22,7 +22,9 @@ public class Abfrage implements Serializable {
 	private long id;
 
 	private String frage;
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST },
+			orphanRemoval = true,
+			fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<Antwort> antworten;
 
