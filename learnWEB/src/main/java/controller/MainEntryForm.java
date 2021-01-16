@@ -34,6 +34,7 @@ import util.Sites;
 public class MainEntryForm implements Serializable {
 
 	private static final long serialVersionUID = 13L;
+	// Hat momentan keine Bedeutung, da der Timer direkt über das Script Autosave gesetzt wird.
 	private static final int AUTOSAVEPERIOD = 600000; // Nach wieviel Millisekunden ein Autosave passiert
 
 	// Nach wieviel Autosaves das Warnfenster für Session-Timeout erscheint

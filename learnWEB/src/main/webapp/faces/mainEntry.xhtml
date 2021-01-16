@@ -25,7 +25,7 @@
 		<p:poll interval="3" update="newEntry" />-->
 		<tc:box id="newEntry" label="#{mainEntryForm.neu?appMsg.newEntry:mainEntryForm.kBeschreibung}">
 			<ui:include src="/faces/subviews/sessionTimeOut.xhtml" />
-			<tc:flexLayout columns="*;200px;100px" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
+			<tc:flexLayout columns="*;200px;100px;50px" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
 				<tc:in id="shortDescr1" labelLayout="top" label="#{appMsg.shortDescription}"
 					value="#{mainEntryForm.kBeschreibung}"
 					focus="true"
@@ -45,6 +45,7 @@
 				</tc:in>
 				<tc:link id="showAutosave" label="" actionListener="#{mainEntryForm.doAutosave}"/>
 				<tc:out id="counter" value="#{mainEntryForm.warningWindowCounter}" markup="light"/>
+				<!--<tc:out id="ssTO" value="5000" markup="bold"/>-->
 			</tc:flexLayout>
 			<tc:textarea labelLayout="top" label="#{appMsg.longDescription}"
 				  id="lngDescription"
