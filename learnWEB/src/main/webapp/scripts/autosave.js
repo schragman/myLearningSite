@@ -24,5 +24,5 @@ function buttonfunc() {
 /*alert("Ciao Michael");*/
 
 /*var intervalID = setInterval(function(){alert("Interval reached");}, 5000);*/
-var myTimeout = 600000;
+var myTimeout = 590000;
 var intervalID = setInterval(buttonfunc, myTimeout);
