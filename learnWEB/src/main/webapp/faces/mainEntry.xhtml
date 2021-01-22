@@ -67,33 +67,35 @@
 					<tc:out value="#{refItem.uRefferenz2}" />
 				</tc:column>
 				<tc:column>
-					<tc:link label="-" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+					<tc:link image="fa-minus" rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
 						actionListener="#{mainEntryForm.removeReference(refItem)}" />
 				</tc:column>
 			</tc:sheet>
 
-			<tc:flexLayout rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
-				columns="200px 300px 300px 20px">
-				<tc:selectOneRadio id="mediaKind"
-					value="#{mainEntryForm.selectedElement}">
-					<tc:selectItem itemLabel="#{appMsg.book}" itemValue="book" />
-					<tc:selectItem itemLabel="#{appMsg.internet}" itemValue="internet" />
-					<f:ajax render="newEntry" execute="newEntry"/>
-				</tc:selectOneRadio>
-				<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}"
-					value="#{mainEntryForm.referenz}">
-					<tc:suggest query="#{mainEntryForm.userInput}" filter="prefix"
-				  	maximumItems="3" minimumCharacters="3">
-				  	<tc:selectItems value="#{mainEntryForm.alleReferenzen}" var="name" itemValue="#{name.uRefferenz1}"/>
-			  	</tc:suggest>
-		  	</tc:in>
-				<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}"
-					value="#{mainEntryForm.uReferenz}" />
-				<tc:link label="+"
-						actionListener="#{mainEntryForm.addReference}">
-<!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
-				</tc:link>
-			</tc:flexLayout>
+			<tc:panel id="panelReferences">
+				<tc:flexLayout rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+					columns="200px 300px 300px 20px">
+					<tc:selectOneRadio id="mediaKind"
+						value="#{mainEntryForm.selectedElement}">
+						<tc:selectItem itemLabel="#{appMsg.book}" itemValue="book" />
+						<tc:selectItem itemLabel="#{appMsg.internet}" itemValue="internet" />
+						<f:ajax render="panelReferences" execute="mediaKind"/>
+					</tc:selectOneRadio>
+					<tc:in id="medium" labelLayout="top" label="#{mainEntryForm.labelReferenz}"
+						value="#{mainEntryForm.referenz}">
+						<tc:suggest query="#{mainEntryForm.userInput}" filter="prefix"
+							maximumItems="3" minimumCharacters="3">
+							<tc:selectItems value="#{mainEntryForm.alleReferenzen}" var="name" itemValue="#{name.uRefferenz1}"/>
+						</tc:suggest>
+					</tc:in>
+					<tc:in id="uMedium" labelLayout="top" label="#{mainEntryForm.labelUReferenz}"
+						value="#{mainEntryForm.uReferenz}" />
+					<tc:link image="fa-plus"
+							actionListener="#{mainEntryForm.addReference}">
+	<!-- 					<f:ajax render="newEntry" execute="mediaKind medium uMedium"/> -->
+					</tc:link>
+				</tc:flexLayout>
+			</tc:panel>
 
 			<tc:flexLayout columns="Auto" rows="300px">
 				<tc:textarea labelLayout="top" label="#{appMsg.example}"
