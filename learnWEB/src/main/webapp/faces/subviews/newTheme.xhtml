@@ -6,16 +6,21 @@
   	
   	<tc:popup id="nTheme">
   		<tc:box label="#{appMsg.newTheme}">
-	  			<tc:in label="#{appMsg.newTheme}:" value="#{newThemeForm.themenName}" required="true"/>
-	  			<tc:textarea label="#{appMsg.description}:" value="#{newThemeForm.themenBeschreibung}" />
-	  			
-	  			<tc:button label="ok" action="#{newThemeForm.doCreateNewTheme}">
+				<tc:in label="#{appMsg.newTheme}:" value="#{newThemeForm.themenName}" required="true"/>
+				<tc:textarea label="#{appMsg.description}:" value="#{newThemeForm.themenBeschreibung}" />
+
+				<tc:selectOneChoice id="selectCategory" label="#{appMsg.chooseCategory}"
+														value="#{newThemeForm.category}">
+					<f:selectItems value="#{newThemeForm.categoryNames}"/>
+				</tc:selectOneChoice>
+
+				<tc:button label="ok" action="#{newThemeForm.doCreateNewTheme}">
 <!-- 	  				<f:ajax execute="nTheme" render="nTheme :::homePage" /> -->
-	  				<tc:operation name="hide" for="nTheme" />
-	  			</tc:button>
-	  			<tc:button label="cancel" immediate="true">
-	  				<tc:operation name="hide" for="nTheme" />
-	 				</tc:button>
+					<tc:operation name="hide" for="nTheme" />
+				</tc:button>
+				<tc:button label="cancel" immediate="true">
+					<tc:operation name="hide" for="nTheme" />
+				</tc:button>
 	 				
  			</tc:box>
 		</tc:popup>

@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({ //
 		@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t where t.user = :passedUser"),
+		@NamedQuery(name = "findThemesCat", query = "SELECT t FROM HauptThema t where t.category = :passedCategory"),
+		@NamedQuery(name = "findThemesNotCat", query = "SELECT t FROM HauptThema t where t.category <> :passedCategory"),
 		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID"),
 
 		// @NamedQuery(name = "findRefs", query = "SELECT r.uRefferenz1 FROM Referenz r
@@ -35,6 +37,10 @@ public class HauptThema implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "Users_Id")
 	private Users user;
+
+	@ManyToOne
+	@JoinColumn(name = "Category_Id")
+	private Category category;
 
 	public long getId() {
 		return id;
@@ -78,5 +84,13 @@ public class HauptThema implements Serializable {
 
 	public void setUser(Users user) {
 		this.user = user;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component">
+  	
+  	<tc:popup id="popCatAssign">
+  		<tc:box label="#{appMsg.catAssignment}">
+
+						<tc:selectManyCheckbox
+								value="#{homeForm.themeIdsSelected}">
+							<tc:selectItems value="#{homeForm.themesShown}" var="item" itemValue="#{item.id}" itemLabel="#{item.thema}"/>
+						</tc:selectManyCheckbox>
+
+
+
+				<tc:button label="ok" action="#{homeForm.doAssignThemes}">
+<!-- 	  				<f:ajax execute="nTheme" render="nTheme :::homePage" /> -->
+					<tc:operation name="hide" for="popCatAssign" />
+				</tc:button>
+				<tc:button label="cancel" immediate="true">
+					<tc:operation name="hide" for="popCatAssign" />
+				</tc:button>
+
+ 			</tc:box>
+		</tc:popup>
+
+</f:view>
+
+<!--
+
+-->

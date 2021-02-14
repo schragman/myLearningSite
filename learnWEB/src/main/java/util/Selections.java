@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import entities.Category;
 import entities.HauptThema;
 import entities.MainEntry;
 import utils.SearchContainer;
@@ -25,6 +26,7 @@ public class Selections implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private HauptThema thema;
+	private Category category;
 	private MainEntry entry;
 	private String searchEntry;
 	private Collection<SearchContainer> searchItems;
@@ -156,5 +158,13 @@ public class Selections implements Serializable {
 
 	public String getSessionId() {
 		return sessionId;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

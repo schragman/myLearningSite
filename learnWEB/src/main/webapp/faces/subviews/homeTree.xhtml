@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tc:panel
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:tc="http://myfaces.apache.org/tobago/component"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+		xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+	<tc:badge value="#{appMsg.categories}" markup="primary"/>
+	<ui:include src="catAssignment.xhtml"/>
+
+	<tc:box label="#{appMsg.categories}">
+		<tc:flexLayout columns="1*;20*;1*">
+			<tc:sheet
+					id="listeKathegorien"
+					value="#{homeForm.categories}"
+					var="item">
+				<tc:column>
+					<tc:link image="fa-link" rendered="#{homeForm.isReassignmentVisible(item.id)}">
+						<tc:operation name="show" for=":::popCatAssign" />
+					</tc:link>
+				</tc:column>
+				<tc:column label="#{appMsg.category}">
+					<tc:link label="#{item.name}" actionListener="#{homeForm.chooseCat(item)}">
+						<f:ajax render="listeKathegorien :::listeThemen"/>
+					</tc:link>
+				</tc:column>
+				<tc:column align="right">
+					<tc:link image="fa-trash"
+									 disabled="#{homeForm.isReassignmentDeleteDisabled(item.id)}"
+									 action="#{homeForm.deleteTheme(item)}">
+						<f:facet name="confirmation">
+							<tc:out value="#{appMsg.delTheme}"/>
+						</f:facet>
+					</tc:link>
+				</tc:column>
+			</tc:sheet>
+		</tc:flexLayout>
+	</tc:box>
+
+
+
+</tc:panel>
+

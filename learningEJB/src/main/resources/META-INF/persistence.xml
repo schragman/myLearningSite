@@ -18,6 +18,7 @@
 		<class>entities.Historie</class>
 		<class>entities.MainEntry</class>
 		<class>entities.Referenz</class>
+		<class>entities.Category</class>
 		<class>secEntities.Users</class>
 		<class>secEntities.Konfiguration</class>
 

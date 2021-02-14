@@ -1,5 +1,6 @@
 package beans;
 
+import entities.Category;
 import secEntities.Konfiguration;
 import secEntities.Users;
 
@@ -62,6 +63,12 @@ public class UserBean {
       config.setDefaults();
       user.setConfig(config);
       em.persist(user);
+
+      Category category = new Category();
+      category.setName("Hauptkategorie");
+      category.setUser(user);
+      em.persist(category);
+
     }
 
     public void deleteUser(String userName) {
