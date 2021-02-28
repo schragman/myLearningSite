@@ -33,6 +33,7 @@ public class HomeForm implements Serializable {
 	private List<HauptThema> themenListe;
 	private List<Long> themeIdsSelected;
 	private List<Category> categories;
+	private Long categorySelected2Transfer2;
 
 	private Collection<HauptThema> themesShown;
 
@@ -156,4 +157,54 @@ public class HomeForm implements Serializable {
 		return selCat.get().getName().equalsIgnoreCase("Hauptkategorie");
 	}
 
+	public List<Category> getCategoriesButOne() {
+		List<Category> result = new ArrayList<>();
+		Category oneCategory = selection.getCategory();
+		for (Category category : this.categories) {
+			if (category.getId() != oneCategory.getId()) {
+				result.add(category);
+			}
+		}
+		return result;
+	}
+
+	public void doPrepareDelete(Category category) {
+		this.selection.setCategory(category);
+	}
+
+	public boolean isOtherCatVisibleWhenDelete() {
+		List<HauptThema> themen = this.ausgabeBean.findThemes(this.selection.getCategory());
+		boolean result;
+		if (themen == null || themen.size() == 0) {
+			result = false;
+		} else {
+			result = true;
+		}
+		return result;
+	}
+
+	public Long getCategorySelected2Transfer2() {
+		return categorySelected2Transfer2;
+	}
+
+	public void setCategorySelected2Transfer2(Long categorySelected2Transfer2) {
+		this.categorySelected2Transfer2 = categorySelected2Transfer2;
+	}
+
+	public String doDeleteCatWTransfer() {
+		Long catId = this.categorySelected2Transfer2;
+		Category cat2Delete = this.selection.getCategory();
+		Category cat2Transfer2 = ausgabeBean.getCatById(catId);
+		List<HauptThema> themes2Transfer = ausgabeBean.findThemes(cat2Delete);
+
+		ausgabeBean.reassignThemes(cat2Transfer2, themes2Transfer);
+		this.selection.setCategory(ausgabeBean.getHauptCat());
+		ausgabeBean.delCat(cat2Delete);
+		return Sites.HOME + Sites.DORELOAD;
+	}
+
+	public String doDeleteCat() {
+		ausgabeBean.delCat(this.selection.getCategory());
+		return Sites.HOME + Sites.DORELOAD;
+	}
 }

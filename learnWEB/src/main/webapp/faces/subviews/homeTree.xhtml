@@ -9,6 +9,7 @@
 
 	<tc:badge value="#{appMsg.categories}" markup="primary"/>
 	<ui:include src="catAssignment.xhtml"/>
+	<ui:include src="delCategory.xhtml"/>
 
 	<tc:box label="#{appMsg.categories}">
 		<tc:flexLayout columns="1*;20*;1*">
@@ -29,10 +30,8 @@
 				<tc:column align="right">
 					<tc:link image="fa-trash"
 									 disabled="#{homeForm.isReassignmentDeleteDisabled(item.id)}"
-									 action="#{homeForm.deleteTheme(item)}">
-						<f:facet name="confirmation">
-							<tc:out value="#{appMsg.delTheme}"/>
-						</f:facet>
+									 actionListener="#{homeForm.doPrepareDelete(item)}">
+						<tc:operation for=":::popDelCat" name="show"/>
 					</tc:link>
 				</tc:column>
 			</tc:sheet>

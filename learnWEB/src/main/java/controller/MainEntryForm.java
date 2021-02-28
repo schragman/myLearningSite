@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 
 import beans.EntrySteuerungRemote;
@@ -448,6 +449,7 @@ public class MainEntryForm implements Serializable {
 	public void test() {
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Das ist ein Test", "Detail");
 		FacesContext.getCurrentInstance().addMessage("page", fm);
+		throw new ValidationException("Mal sehen ob das klappt");
 	}
 
   public void doExtendSession() {

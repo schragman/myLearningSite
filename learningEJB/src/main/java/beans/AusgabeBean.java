@@ -43,7 +43,10 @@ public class AusgabeBean implements Serializable {
 
 	public List<HauptThema> findThemesNotinCat(Category category) {
 		TypedQuery<HauptThema> query = em.createNamedQuery("findThemesNotCat", HauptThema.class);
+		String userName = userBean.getUsername();
+		Users user = em.find(Users.class, userName);
 		query.setParameter("passedCategory", category);
+		query.setParameter("passedUser", user);
 		List<HauptThema> resultList = query.getResultList();
 		return resultList;
 	}
@@ -63,6 +66,31 @@ public class AusgabeBean implements Serializable {
 			thema.setCategory(category);
 			em.merge(thema);
 		}
+	}
+
+	public void reassignThemes(Category zielCat, List<HauptThema> themen) {
+		for (HauptThema thema : themen) {
+			thema.setCategory(zielCat);
+			em.merge(thema);
+		}
+	}
+
+	public Category getCatById(Long catId) {
+		return em.find(Category.class, catId);
+	}
+
+	public void delCat(Category cat2Delete) {
+		Category cat = em.merge(cat2Delete);
+		em.remove(cat);
+	}
+
+	public Category getHauptCat() {
+		TypedQuery<Category> query = em.createNamedQuery("findMainCategory", Category.class);
+		String userName = userBean.getUsername();
+		Users user = em.find(Users.class, userName);
+		query.setParameter("passedUser", user);
+		Category result = query.getSingleResult();
+		return result;
 	}
 
 }

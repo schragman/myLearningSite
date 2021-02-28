@@ -6,6 +6,7 @@
   	
   	<tc:popup id="popNewCat">
   		<tc:box label="#{appMsg.newCategory}">
+				<tc:messages id="catMessages"/>
 				<tc:in label="#{appMsg.newCategory}:" value="#{newCatForm.category}" required="true"/>
 
 				<tc:button label="ok" action="#{newCatForm.doCreateNewCat}">
@@ -15,8 +16,10 @@
 				<tc:button label="cancel" immediate="true">
 					<tc:operation name="hide" for="popNewCat" />
 				</tc:button>
-	 				
+
+
  			</tc:box>
 		</tc:popup>
-  	
+
 </f:view>
+

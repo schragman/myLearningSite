@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NamedQueries({ //
 		@NamedQuery(name = "findAllThemes", query = "SELECT t FROM HauptThema t where t.user = :passedUser"),
 		@NamedQuery(name = "findThemesCat", query = "SELECT t FROM HauptThema t where t.category = :passedCategory"),
-		@NamedQuery(name = "findThemesNotCat", query = "SELECT t FROM HauptThema t where t.category <> :passedCategory"),
+		@NamedQuery(name = "findThemesNotCat", query = "SELECT t FROM HauptThema t where t.category <> :passedCategory AND t.user = :passedUser"),
 		@NamedQuery(name = "findEntries", query = "SELECT t.mainEntries FROM HauptThema t WHERE t.id = :passedID"),
 
 		// @NamedQuery(name = "findRefs", query = "SELECT r.uRefferenz1 FROM Referenz r

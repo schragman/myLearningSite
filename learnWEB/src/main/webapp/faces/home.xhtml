@@ -18,8 +18,12 @@
 	<ui:define name="appContent">
 		<ui:include src="/faces/subviews/newTheme.xhtml" />
 		<ui:include src="/faces/subviews/newCategory.xhtml" />
-		<h1>Willkommen zur LearningApp</h1>
-
+		<tc:panel>
+			<tc:flexLayout columns="auto;*">
+				<h1>#{appMsg.welcome}</h1>
+				<tc:messages id="Seitenfehler"/>
+			</tc:flexLayout>
+		</tc:panel>
 		<tc:panel>
 			<tc:flexLayout columns="1*;3*">
 				<ui:include src="subviews/homeTree.xhtml"/>

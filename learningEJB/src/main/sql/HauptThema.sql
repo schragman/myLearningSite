@@ -4,8 +4,9 @@ ALTER TABLE HAUPTTHEMA ADD CONSTRAINT HauptThema_USERS_FK FOREIGN KEY (Users_Id)
 
 alter table HAUPTTHEMA drop foreign key HAUPTTHEMA_USERS_FK;
 
+--Ab Version 1.1
 alter table HAUPTTHEMA add Category_Id int not null;
 
-alter table HAUPTTHEMA
-	add constraint HAUPTTHEMA_CATEGORY_ID_fk
-		foreign key (Category_Id) references CATEGORY (ID);
+UPDATE HAUPTTHEMA set Category_Id=1 where users_id='schragman@gmail.com';
+
+alter table HAUPTTHEMA add constraint HAUPTTHEMA_CATEGORY_ID_FK	FOREIGN KEY (Category_Id) references CATEGORY (ID);
