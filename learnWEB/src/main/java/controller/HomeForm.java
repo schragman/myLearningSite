@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Selections;
 import util.Sites;
+import utils.Konstanten;
 
 @RequestScoped
 @Named
@@ -154,7 +155,7 @@ public class HomeForm implements Serializable {
 		if (!selCat.isPresent()) {
 			throw new IllegalStateException("Kategorie nicht vorhanden!");
 		}
-		return selCat.get().getName().equalsIgnoreCase("Hauptkategorie");
+		return selCat.get().getName().equalsIgnoreCase(Konstanten.HAUPTKATEGORIE);
 	}
 
 	public List<Category> getCategoriesButOne() {
@@ -205,6 +206,17 @@ public class HomeForm implements Serializable {
 
 	public String doDeleteCat() {
 		ausgabeBean.delCat(this.selection.getCategory());
+		this.selection.setCategory(ausgabeBean.getHauptCat());
 		return Sites.HOME + Sites.DORELOAD;
+	}
+
+	public String getCategoryNameSelected() {
+		return this.selection.getCategory().getName();
+	}
+
+	public boolean isCatNameChangeDisabled() {
+		String selCatName = this.selection.getCategory().getName();
+		boolean result = selCatName.equals(Konstanten.HAUPTKATEGORIE);
+		return result;
 	}
 }

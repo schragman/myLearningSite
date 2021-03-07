@@ -23,6 +23,7 @@ public class MenuForm implements Serializable {
 	@EJB
 	private UserBean userBean;
 	private SelectedPage selectedPage;
+	private boolean mCategory;
 	private boolean mTheme;
 	private boolean mSearch;
 	private boolean mWalkthrough;
@@ -36,6 +37,7 @@ public class MenuForm implements Serializable {
 
 		switch (this.selectedPage) {
 		case HOME:
+			mCategory = true;
 			mTheme = true;
 			mSearch = false;
 			mWalkthrough = false;
@@ -45,6 +47,7 @@ public class MenuForm implements Serializable {
 			mNavigation = false;
 			break;
 		case MAINENTRY:
+			mCategory = false;
 			mTheme = false;
 			mSearch = false;
 			mWalkthrough = false;
@@ -54,6 +57,7 @@ public class MenuForm implements Serializable {
 			mNavigation = true;
 			break;
 		case UEBERSICHT:
+			mCategory = false;
 			mTheme = false;
 			mSearch = true;
 			mWalkthrough = true;
@@ -63,6 +67,10 @@ public class MenuForm implements Serializable {
 			mNavigation = false;
 			break;
 		}
+	}
+
+	public boolean ismCategory() {
+		return mCategory;
 	}
 
 	public boolean ismTheme() {

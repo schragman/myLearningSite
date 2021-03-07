@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:tc="http://myfaces.apache.org/tobago/component">
+  	
+  	<tc:popup id="popCatRename">
+
+			<tc:box label="Name Kategorie ändern für #{homeForm.categoryNameSelected}">
+				<tc:messages id="reassignCatMessages"/>
+				<tc:in label="Neuer Kategoriename" value="#{newCatForm.newCatName}"/>
+
+				<tc:button label="ok" action="#{newCatForm.doRenameCat}">
+					<tc:operation name="hide" for="popCatRename" />
+				</tc:button>
+				<tc:button label="cancel" immediate="true">
+					<tc:operation name="hide" for="popCatRename" />
+				</tc:button>
+
+			</tc:box>
+
+		</tc:popup>
+
+</f:view>
+
+<!--
+
+-->

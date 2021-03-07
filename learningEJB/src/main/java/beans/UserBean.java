@@ -3,6 +3,7 @@ package beans;
 import entities.Category;
 import secEntities.Konfiguration;
 import secEntities.Users;
+import utils.Konstanten;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
@@ -65,7 +66,7 @@ public class UserBean {
       em.persist(user);
 
       Category category = new Category();
-      category.setName("Hauptkategorie");
+      category.setName(Konstanten.HAUPTKATEGORIE);
       category.setUser(user);
       em.persist(category);
 

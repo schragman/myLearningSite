@@ -16,4 +16,8 @@ public interface ThemenSteuerungRemote {
 
 	void deleteCat(Category category);
 
+	void renameCat(Category category, String newName);
+
+	//Category findCatByName(String catName);
+
 }

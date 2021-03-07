@@ -9,6 +9,7 @@
 
 	<tc:badge value="#{appMsg.categories}" markup="primary"/>
 	<ui:include src="catAssignment.xhtml"/>
+	<ui:include src="catRename.xhtml"/>
 	<ui:include src="delCategory.xhtml"/>
 
 	<tc:box label="#{appMsg.categories}">
@@ -24,7 +25,7 @@
 				</tc:column>
 				<tc:column label="#{appMsg.category}">
 					<tc:link label="#{item.name}" actionListener="#{homeForm.chooseCat(item)}">
-						<f:ajax render="listeKathegorien :::listeThemen"/>
+						<f:ajax render="listeKathegorien :::listeThemen :::lkCatRename"/>
 					</tc:link>
 				</tc:column>
 				<tc:column align="right">

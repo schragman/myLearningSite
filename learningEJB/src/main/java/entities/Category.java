@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({ //
 		@NamedQuery(name = "findAllCategories", query = "SELECT c FROM Category c where c.user = :passedUser"),
-		@NamedQuery(name = "findMainCategory", query = "SELECT c FROM Category c where c.user = :passedUser AND c.name = 'Hauptkategorie'")
+		@NamedQuery(name = "findSpecialCategory", query = "SELECT c FROM Category c where c.user = :passedUser AND c.name = :passedCategory")
 })
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;

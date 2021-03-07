@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import entities.Category;
 import entities.HauptThema;
 import secEntities.Users;
+import utils.Konstanten;
 
 import java.util.List;
 
@@ -65,5 +66,24 @@ public class ThemenSteuerung implements ThemenSteuerungRemote {
 		em.remove(toDelete);*/
 
 	}
+
+	@Override
+	public void renameCat(Category category, String newCatName) {
+		Category cat2Change = em.merge(category);
+		cat2Change.setName(newCatName);
+		em.merge(cat2Change);
+	}
+
+	/* Wird momentan nicht gebraucht
+	@Override
+	public Category findCatByName(String catName) {
+		TypedQuery<Category> query = em.createNamedQuery("findSpecialCategory", Category.class);
+		String userName = userBean.getUsername();
+		Users user = em.find(Users.class, userName);
+		query.setParameter("passedUser", user);
+		query.setParameter("passedCategory", catName);
+		Category result = query.getSingleResult();
+		return result;
+	}*/
 
 }

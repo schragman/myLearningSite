@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import entities.Category;
 import entities.HauptThema;
 import secEntities.Users;
+import utils.Konstanten;
 
 @LocalBean
 @Stateless
@@ -85,10 +86,11 @@ public class AusgabeBean implements Serializable {
 	}
 
 	public Category getHauptCat() {
-		TypedQuery<Category> query = em.createNamedQuery("findMainCategory", Category.class);
+		TypedQuery<Category> query = em.createNamedQuery("findSpecialCategory", Category.class);
 		String userName = userBean.getUsername();
 		Users user = em.find(Users.class, userName);
 		query.setParameter("passedUser", user);
+		query.setParameter("passedCategory", Konstanten.HAUPTKATEGORIE);
 		Category result = query.getSingleResult();
 		return result;
 	}
