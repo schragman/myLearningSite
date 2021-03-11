@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 import entities.Category;
 import entities.HauptThema;
 import entities.MainEntry;
+import org.apache.myfaces.tobago.model.SheetState;
 import utils.SearchContainer;
 
 @SessionScoped
@@ -37,6 +38,7 @@ public class Selections implements Serializable {
 	private String role;
 	private Collection<String> userRoles;
 	private String sessionId;
+	private SheetState homeThemeSheetState;
 
   @Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
 	private String pw1;
@@ -166,5 +168,13 @@ public class Selections implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public SheetState getHomeThemeSheetState() {
+		return homeThemeSheetState;
+	}
+
+	public void setHomeThemeSheetState(SheetState homeThemeSheetState) {
+		this.homeThemeSheetState = homeThemeSheetState;
 	}
 }

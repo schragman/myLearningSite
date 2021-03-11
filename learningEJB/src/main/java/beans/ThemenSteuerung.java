@@ -74,6 +74,13 @@ public class ThemenSteuerung implements ThemenSteuerungRemote {
 		em.merge(cat2Change);
 	}
 
+	@Override
+	public void renameTheme(HauptThema thema, String newName) {
+		HauptThema theme2Change = em.merge(thema);
+		theme2Change.setThema(newName);
+		em.merge(theme2Change);
+	}
+
 	/* Wird momentan nicht gebraucht
 	@Override
 	public Category findCatByName(String catName) {

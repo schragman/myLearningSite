@@ -17,6 +17,7 @@ import beans.EntrySteuerungRemote;
 import beans.ThemenSteuerungRemote;
 import entities.Category;
 import entities.HauptThema;
+import org.apache.myfaces.tobago.model.SheetState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Selections;
@@ -171,6 +172,11 @@ public class HomeForm implements Serializable {
 
 	public void doPrepareDelete(Category category) {
 		this.selection.setCategory(category);
+	}
+
+	public String doGoHome() {
+		this.selection.setHomeThemeSheetState(new SheetState());
+		return Sites.HOME + Sites.DORELOAD;
 	}
 
 	public boolean isOtherCatVisibleWhenDelete() {

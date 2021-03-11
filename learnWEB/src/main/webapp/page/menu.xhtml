@@ -11,7 +11,7 @@
 			<c:set value="#{homeForm.catNameChangeDisabled}" var="catChangeDisabled" scope="request"/>
 			<tc:style customClass="bg-dark"/>
   		<f:facet name="brand">
-  			<tc:link label="LearningApp" immediate="true" outcome="/faces/home" />
+  			<tc:link label="LearningApp" immediate="true" action="#{homeForm.doGoHome}" />
   		</f:facet>
   		
 			<tc:links>
@@ -30,6 +30,9 @@
 					<tc:link label="#{appMsg.newTheme}">
             <tc:operation for=":::page:nTheme" name="show"/>
           </tc:link>
+					<tc:link label="#{appMsg.renameTheme}">
+						<tc:operation for=":::page:popThemeRename" name="show"/>
+					</tc:link>
 					<tc:link label="#{appMsg.lastTheme}" />
 				</tc:link>
 				<!--<tc:link label="Test" outcome="/faces/test"/>-->

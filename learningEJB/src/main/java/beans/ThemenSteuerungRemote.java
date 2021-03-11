@@ -18,6 +18,8 @@ public interface ThemenSteuerungRemote {
 
 	void renameCat(Category category, String newName);
 
+	void renameTheme(HauptThema thema, String newName);
+
 	//Category findCatByName(String catName);
 
 }

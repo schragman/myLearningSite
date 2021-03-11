@@ -30,12 +30,12 @@
 					<!--disabled="#{!mainEntryForm.bearbeiten}">-->
 				</tc:in>
 				<tc:in id="shortDescr2" labelLayout="top" label="#{appMsg.shortDescription}"
-						value="#{mainEntryForm.kBeschreibung}"
-						focus="true"
-						required="true"
-						rendered="#{mainEntryForm.neu}">
+							 value="#{mainEntryForm.kBeschreibung}"
+							 focus="true"
+							 required="true"
+							 rendered="#{mainEntryForm.neu}">
 					<tc:suggest query="#{mainEntryForm.kBeschreibung}" filter="prefix"
-						maximumItems="3">
+											maximumItems="3">
 						<tc:selectItems value="#{mainEntryForm.alleBeschreibungen}" var="beschreibung" itemValue="#{beschreibung}"/>
 					</tc:suggest>
 				</tc:in>
@@ -157,8 +157,9 @@
 			action="#{mainEntryForm.doReturn}"/>
 
 		<tc:button label="#{appMsg.cancel}"
-			rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
-			action="#{mainEntryForm.doCancel}">
+							 rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+							 immediate="true"
+							 action="#{mainEntryForm.doCancel}">
 			<f:facet name="confirmation">
 				<tc:out value="#{mainEntryForm.confirmCancel}"/>
 			</f:facet>
