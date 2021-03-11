@@ -167,7 +167,7 @@ public class NewThemeForm {
 
 	public String getBoxMessage() {
 		Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-		String themeName = this.getNewThemeName();
+		String themeName = this.getSelectedThemeName();
 		String msg;
 		if (themeName == null) {
 			msg = InternMessages.getMessageForLocale("noThemeSelected", locale);
