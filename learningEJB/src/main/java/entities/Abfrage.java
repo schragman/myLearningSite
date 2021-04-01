@@ -29,7 +29,7 @@ public class Abfrage implements Serializable {
 	private List<Antwort> antworten;
 
 	//Gibt an, wie oft die Frage verwendet wird
-	//1 -> jedes mal, 5 -> jedes 5. mal, 20 -> jedes 20. mal
+	//1 -> jedes mal, 5 -> jedes 5. mal, 25 -> jedes 25. mal
 	private int repetitionRate;
 
 	//Gibt an, ob die Frage beim nächsten Lauf verwendet wird, zählt vom

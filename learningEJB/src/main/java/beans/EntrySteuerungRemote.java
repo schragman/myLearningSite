@@ -7,7 +7,6 @@ import javax.ejb.Remote;
 import entities.HauptThema;
 import entities.MainEntry;
 import entities.Referenz;
-import sun.applet.Main;
 
 @Remote
 public interface EntrySteuerungRemote {

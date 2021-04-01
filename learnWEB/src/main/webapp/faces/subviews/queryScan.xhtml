@@ -1,29 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:tc="http://myfaces.apache.org/tobago/component">
-  	
-  	<tc:popup id="quScan">
-  		<tc:box label="#{appMsg.querySearch}">
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:tc="http://myfaces.apache.org/tobago/component">
 
-				<tc:out id="quest" label="#{appMsg.question}" labelLayout="top" value="#{queryScanForm.currentQuestion}"/>
-				<tc:in id="Answer1" label="#{appMsg.yourAnswer}" value="#{queryScanForm.userAnswer}"/>
-				<tc:out id="Answer2" label="#{appMsg.correctAnswer}" value="#{queryScanForm.currentAnswer}"/>
+  <tc:popup id="quScan">
+    <tc:box label="#{appMsg.querySearch}">
 
-				<tc:button label="start">
-						<f:ajax render="quest" listener="#{queryScanForm.doStart}" />
-				</tc:button>
-				<tc:button label="cancel" immediate="true">
-					<tc:operation name="hide" for="quScan" />
-				</tc:button>
-				<tc:button label="#{appMsg.end}" immediate="true">
-					<tc:operation name="hide" for="quScan" />
-				</tc:button>
+      <tc:out rendered="#{queryScanForm.walkthroughInitial}"
+              value="#{queryScanForm.msgQuestions}"/>
+
+      <tc:out id="quest"
+              rendered="#{!queryScanForm.walkthroughInitial}"
+              label="#{appMsg.question}"
+              labelLayout="top"
+              value="#{queryScanForm.currentQuestion}"/>
+      <tc:in id="Answer1"
+             rendered="#{!queryScanForm.walkthroughInitial}"
+             label="#{appMsg.yourAnswer}" value="#{queryScanForm.userAnswer}"/>
+      <!--Muss ein Sheet sein, weil es mehrere richtige Anworten geben kann-->
+
+      <tc:button label="start"
+                 rendered="#{queryScanForm.walkthroughInitial and queryScanForm.numberOfQuestions > 0}"
+                 action="#{queryScanForm.doStart}"/>
+      <tc:button
+          rendered="#{queryScanForm.walkthroughInitial and queryScanForm.questionsPresent and queryScanForm.numberOfQuestions == 0 and !queryScanForm.walkthroughEnded}"
+          actionListener="#{queryScanForm.doOk}"
+          label="Ok">
+        <tc:operation for="quScan" name="hide"/>
+      </tc:button>
+      <tc:button rendered="#{queryScanForm.walkthroughInitial and !queryScanForm.walkthroughEnded}"
+                 label="cancel">
+        <tc:operation name="hide" for="quScan"/>
+      </tc:button>
+
+      <tc:button rendered="#{queryScanForm.walkthroughEnded}" label="#{appMsg.quit}"
+                 actionListener="#{queryScanForm.doQuit}">
+        <tc:operation name="hide" for="quScan"/>
+      </tc:button>
+
+      <tc:button rendered="#{!queryScanForm.walkthroughInitial and !queryScanForm.possibleAnswersShown}"
+                 label="#{appMsg.answerThis}"
+                 defaultCommand="true"
+                 action="#{queryScanForm.doAnswer}">
+
+      </tc:button>
+      <tc:button rendered="#{!queryScanForm.walkthroughInitial and !queryScanForm.possibleAnswersShown}"
+                 label="#{appMsg.end}">
+        <tc:operation name="hide" for="quScan"/>
+      </tc:button>
+
+      <tc:panel id="possibleAnswers" rendered="#{queryScanForm.possibleAnswersShown}">
+        <tc:out id="Answer2"
+                rendered="#{!queryScanForm.possibleAnswersShown}"
+                value="#{appMsg.correctAnswer}"/>
+
+        <tc:flexLayout columns="1*;5*">
+          <tc:sheet var="answer" value="#{queryScanForm.currentAnswers}">
+            <tc:column label="#">
+              <tc:out value="#{queryScanForm.getRowNumber(answer)}"/>
+            </tc:column>
+            <tc:column label="#{appMsg.possibleAnswers}">
+              <tc:out value="#{answer.inhalt}"/>
+            </tc:column>
+          </tc:sheet>
+
+        </tc:flexLayout>
 
 
-	 				
- 			</tc:box>
-		</tc:popup>
-  	
+        <tc:out value="#{appMsg.possAns}"/>
+
+        <tc:button label="#{appMsg.yes}" action="#{queryScanForm.doYes}"/>
+        <tc:button label="#{appMsg.no}" action="#{queryScanForm.doNo}"/>
+      </tc:panel>
+
+
+    </tc:box>
+  </tc:popup>
+
 </f:view>

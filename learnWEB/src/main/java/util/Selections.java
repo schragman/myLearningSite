@@ -40,10 +40,10 @@ public class Selections implements Serializable {
 	private String sessionId;
 	private SheetState homeThemeSheetState;
 
-  @Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
+	@Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
 	private String pw1;
 
-  @Size(min=8, message = "Username muss mindestens 8 Zeichen haben!")
+	@Size(min = 8, message = "Username muss mindestens 8 Zeichen haben!")
 	private String newUsername;
 
 	@PostConstruct
@@ -177,4 +177,5 @@ public class Selections implements Serializable {
 	public void setHomeThemeSheetState(SheetState homeThemeSheetState) {
 		this.homeThemeSheetState = homeThemeSheetState;
 	}
+
 }
