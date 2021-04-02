@@ -2,25 +2,23 @@ package controller;
 
 
 import beans.AbfrageSteuerung;
+import beans.UserBean;
 import entities.Abfrage;
 import entities.Antwort;
 import entities.HauptThema;
+import org.apache.myfaces.tobago.component.UIIn;
 import util.InternMessages;
 import util.Selections;
 import utils.Konstanten;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -31,9 +29,13 @@ import java.util.stream.Collectors;
 public class QueryScanForm implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  private static final String CONSTANTANSWERID = "labelAnswer";
 
   @EJB
   private AbfrageSteuerung abfrageSteuerung;
+
+  @EJB
+  private UserBean userBean;
 
   @Inject
   private Selections selections;
@@ -47,6 +49,10 @@ public class QueryScanForm implements Serializable {
 
   private Abfrage currentAbfrage;
   private String userAnswer;
+
+  private String varAnswerId;
+
+  //private UIIn answerField;
 
   @PostConstruct
   public void init() {
@@ -64,6 +70,7 @@ public class QueryScanForm implements Serializable {
           .filter(f -> f.getRepetitionCounter() == 1)
           .collect(Collectors.toList());
     }
+    createNewAnswerId();
   }
 
   private void resetQuestions() {
@@ -84,6 +91,15 @@ public class QueryScanForm implements Serializable {
   }
 
   public String doStart() {
+    /*answerField.setValue(null);
+    answerField.setSubmittedValue(null);
+    answerField.setLocalValueSet(false);
+    answerField.setValid(true);
+    answerField.setPassword(true);
+    answerField.setPassword(false);
+    int varLabelId = userBean.getAndIncrementLabelId();
+    answerField.setId(CONSTANTANSWERID + varLabelId);*/
+    createNewAnswerId();
     currentQuestions = fragen.stream()
         .filter(f -> f.getRepetitionCounter() == 1)
         .collect(Collectors.toList());
@@ -103,6 +119,7 @@ public class QueryScanForm implements Serializable {
     currentAbfrage.setRepetitionCounter(currentRepRate);
     abfrageSteuerung.updAbfrage(currentAbfrage);
     userAnswer = "";
+    createNewAnswerId();
     getNextQuestion();
   }
 
@@ -164,11 +181,17 @@ public class QueryScanForm implements Serializable {
     userAnswer = "";
     getNextQuestion();
     this.possibleAnswersShown = false;
+    createNewAnswerId();
     return null;
   }
 
   public void doQuit() {
     this.walkthroughEnded = false;
+  }
+
+  //Damit nicht immer die alten Antworten angezeigt werden, erhält das Feld regelmäßig eine neue Id.
+  private void createNewAnswerId() {
+    this.varAnswerId = CONSTANTANSWERID + userBean.getAndIncrementLabelId();
   }
 
   public int getNumberOfQuestions() {
@@ -244,5 +267,17 @@ public class QueryScanForm implements Serializable {
 
   public boolean isWalkthroughEnded() {
     return walkthroughEnded;
+  }
+
+  /*public UIIn getAnswerField() {
+    return answerField;
+  }
+
+  public void setAnswerField(UIIn answerField) {
+    this.answerField = answerField;
+  }*/
+
+  public String getVarAnswerId() {
+    return varAnswerId;
   }
 }

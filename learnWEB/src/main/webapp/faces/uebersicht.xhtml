@@ -16,16 +16,16 @@
 	</f:metadata>
 
 	<ui:define name="appContent">
-		<ui:include src="/faces/subviews/searchResult.xhtml" />
+		<ui:include src="/faces/subviews/searchResult.xhtml"/>
 		<tc:form id="uebersicht">
-		  <tc:box label="#{selections.thema.thema}">
+			<tc:box label="#{selections.thema.thema}">
 				<tc:sheet
-					id="listeEintraege"
-					value="#{uebersichtForm.entries}"
-					columns="500px;*"
-					var="item">
+						id="listeEintraege"
+						value="#{uebersichtForm.entries}"
+						columns="500px;*"
+						var="item">
 					<tc:column label="#{appMsg.listOfEntries}">
-						<tc:link label="#{item.kurzEintrag}" action="#{uebersichtForm.doJumpEntry(item)}" />
+						<tc:link label="#{item.kurzEintrag}" action="#{uebersichtForm.doJumpEntry(item)}"/>
 					</tc:column>
 
 					<tc:column align="right">

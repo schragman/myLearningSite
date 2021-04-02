@@ -17,9 +17,12 @@ public class Users implements Serializable {
   @Column(length = 30)
   private String rolle;
 
-  @OneToOne(fetch = FetchType.EAGER,cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+  @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
   @JoinColumn(name = "Config_Id")
   private Konfiguration config;
+
+  @Column(name = "LABEL_ID")
+  private int labelId;
 
   public int hashCode() {
     return (this.userName == null) ? 0 : this.userName.hashCode();
@@ -72,5 +75,13 @@ public class Users implements Serializable {
 
   public void setConfig(Konfiguration config) {
     this.config = config;
+  }
+
+  public int getLabelId() {
+    return labelId;
+  }
+
+  public void setLabelId(int labelId) {
+    this.labelId = labelId;
   }
 }

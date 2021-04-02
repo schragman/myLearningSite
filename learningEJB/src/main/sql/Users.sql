@@ -17,3 +17,7 @@ alter table HAUPTTHEMA add constraint HAUPTTHEMA_USERS_FK foreign key (Users_Id)
 alter table USERS add Config_Id bigint null;
 
 ALTER TABLE USERS ADD CONSTRAINT USERS_Konfiguration_FK FOREIGN KEY (Config_Id) references KONFIGURATION (ID);
+
+-- Ab Version 1.2
+alter table USERS
+	add LABEL_ID int default 1 not null;
