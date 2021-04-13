@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:tc="http://myfaces.apache.org/tobago/component"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+  <tc:popup id="popQuestionDetails">
+    <tc:box label="#{questionForm.heading}">
+
+      <tc:in id="inQuestion"
+             label="#{appMsg.question}"
+             placeholder="#{questionForm.currentQuestionContent}"
+             value="#{questionForm.newQestion}"/>
+
+      <tc:panel id="pnAnswers">
+        <tc:out id="outAnswers"
+                value="#{appMsg.correctAnswer}"
+        />
+
+        <tc:flexLayout columns="5*;1*" rendered="#{questionForm.answerPresent}">
+          <tc:sheet var="answer" value="#{questionForm.answers}">
+            <tc:column>
+              <tc:in placeholder="#{answer.inhalt}" value="#{answer.inhalt}"/>
+            </tc:column>
+            <tc:column>
+              <tc:link image="fa-trash"/>
+            </tc:column>
+          </tc:sheet>
+
+        </tc:flexLayout>
+
+        <tc:button label="#{appMsg.cancel}">
+          <tc:operation for="popQuestionDetails" name="hide"/>
+        </tc:button>
+
+        <tc:button label="Ok" actionListener="#{questionForm.doOk}">
+          <tc:operation for="popQuestionDetails" name="hide"/>
+        </tc:button>
+      </tc:panel>
+
+
+    </tc:box>
+  </tc:popup>
+
+</f:view>

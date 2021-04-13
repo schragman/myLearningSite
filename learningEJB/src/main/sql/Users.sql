@@ -20,4 +20,4 @@ ALTER TABLE USERS ADD CONSTRAINT USERS_Konfiguration_FK FOREIGN KEY (Config_Id) 
 
 -- Ab Version 1.2
 alter table USERS
-	add LABEL_ID int default 1 not null;
+	add LABEL_ID bigint default 1 not null;

@@ -117,10 +117,10 @@ public class UserBean {
     DESCR_LINES, SAMPLE_LINES;
   }
 
-  public int getAndIncrementLabelId() {
+  public long getAndIncrementLabelId() {
     String userName = ctx.getCallerPrincipal().getName();
     Users user = em.find(Users.class, userName);
-    int result = user.getLabelId() + 1;
+    long result = user.getLabelId() + 1;
     user.setLabelId(result);
     em.merge(user);
     return result;

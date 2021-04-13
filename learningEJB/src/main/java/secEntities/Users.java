@@ -22,7 +22,7 @@ public class Users implements Serializable {
   private Konfiguration config;
 
   @Column(name = "LABEL_ID")
-  private int labelId;
+  private long labelId;
 
   public int hashCode() {
     return (this.userName == null) ? 0 : this.userName.hashCode();
@@ -77,11 +77,11 @@ public class Users implements Serializable {
     this.config = config;
   }
 
-  public int getLabelId() {
+  public long getLabelId() {
     return labelId;
   }
 
-  public void setLabelId(int labelId) {
+  public void setLabelId(long labelId) {
     this.labelId = labelId;
   }
 }

@@ -53,7 +53,9 @@ public class MainEntryForm implements Serializable {
 	@Inject
 	private LoginController loginController;
 	@Inject
-  private AutoSaveController autoSaveController;
+	private AutoSaveController autoSaveController;
+	@Inject
+	private QuestionForm questionForm;
 	private String kBeschreibung;
 	private String lBeschreibung;
 	private boolean referenzArt; // Printmedium, Internetquelle
@@ -465,32 +467,37 @@ public class MainEntryForm implements Serializable {
 		this.refreshMainEntry();
 		autoSaveController.autosave(mainEntry, selection.getThema(), sessionId);
 
-    if (warningWindowCounter <= 0) {
-      //Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout
-        anzeigeSessionTimeoutCounter = true;
-        sessionTOPopup.setCollapsed(false);
-    }
-  }
+		if (warningWindowCounter <= 0) {
+			//Wenn Session Warncounter == 0, dann kommt der Counter zum Session-Timeout
+			anzeigeSessionTimeoutCounter = true;
+			sessionTOPopup.setCollapsed(false);
+		}
+	}
 
-  public String getUpdateSessionAnzeige() {
-	  sessionTimeoutCounter--;
-	  try {
-      if (sessionTimeoutCounter == 0) {
-        sessionGone = true;
-        anzeigeSessionTimeoutCounter = false;
-      } else if (sessionTimeoutCounter < 0) {
-        loginController.logout(false);
-      }
-      return "";
-    } catch (IOException e) {
-      return "somethings wrong with Autosave!";
-    }
-  }
+	public void doSelectQuestion(Abfrage selectedQuestion) {
+		selection.setSelectedQuestion(selectedQuestion);
+		questionForm.init();
+	}
 
-  public String getRemainingSessionTime() {
-    String lcResult;
-    if (sessionTimeoutCounter > 1)
-      lcResult = "Session Timeout in " + (sessionTimeoutCounter -1) +" Sekunden";
+	public String getUpdateSessionAnzeige() {
+		sessionTimeoutCounter--;
+		try {
+			if (sessionTimeoutCounter == 0) {
+				sessionGone = true;
+				anzeigeSessionTimeoutCounter = false;
+			} else if (sessionTimeoutCounter < 0) {
+				loginController.logout(false);
+			}
+			return "";
+		} catch (IOException e) {
+			return "somethings wrong with Autosave!";
+		}
+	}
+
+	public String getRemainingSessionTime() {
+		String lcResult;
+		if (sessionTimeoutCounter > 1)
+			lcResult = "Session Timeout in " + (sessionTimeoutCounter - 1) + " Sekunden";
     else
       lcResult = "The Session is expired";
     return lcResult;

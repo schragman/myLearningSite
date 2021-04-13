@@ -108,31 +108,35 @@
 
 		<tc:box id="boxAbfrage" label="Fragen und Antworten"
 						rendered="#{mainEntryForm.neu or mainEntryForm.bearbeiten}">
+			<ui:include src="/faces/subviews/questionDetails.xhtml"/>
 			<tc:sheet
-				rendered="#{mainEntryForm.checkListFilled}"
-				id="Abfliste"
-				columns="400px;400px;10px"
-				value="#{mainEntryForm.abfragen}"
-				var="abfItem">
+					rendered="#{mainEntryForm.checkListFilled}"
+					id="Abfliste"
+					columns="400px;400px;10px"
+					value="#{mainEntryForm.abfragen}"
+					var="abfItem">
 				<tc:column label="#{appMsg.question}">
-					<tc:out  value="#{abfItem.frage}" />
+					<tc:link label="#{abfItem.frage}"
+									 actionListener="#{mainEntryForm.doSelectQuestion(abfItem)}">
+						<tc:operation for=":::page:popQuestionDetails" name="show"/>
+					</tc:link>
 				</tc:column>
 				<tc:column label="#{appMsg.answer}">
-					<tc:out value="#{abfItem.firstAntwort}" />
+					<tc:out value="#{abfItem.firstAntwort}"/>
 				</tc:column>
 				<tc:column>
-					<tc:link label="-"
-						actionListener="#{mainEntryForm.removeAbfrage(abfItem)}" />
+					<tc:link image="fa-minus"
+									 actionListener="#{mainEntryForm.removeAbfrage(abfItem)}"/>
 				</tc:column>
 			</tc:sheet>
 
 			<tc:flexLayout columns="400px 400px 20px">
 				<tc:in labelLayout="top" label="#{appMsg.question}"
-					value="#{mainEntryForm.frage}" />
+							 value="#{mainEntryForm.frage}"/>
 				<tc:in labelLayout="top" label="#{appMsg.answer}"
-					value="#{mainEntryForm.antwort}" />
-				<tc:link label="+"
-					actionListener="#{mainEntryForm.addAbfrage}" />
+							 value="#{mainEntryForm.antwort}"/>
+				<tc:link image="fa-plus"
+								 actionListener="#{mainEntryForm.addAbfrage}"/>
 			</tc:flexLayout>
 		</tc:box>
 

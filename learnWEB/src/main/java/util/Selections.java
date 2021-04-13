@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import entities.Abfrage;
 import entities.Category;
 import entities.HauptThema;
 import entities.MainEntry;
@@ -39,6 +40,7 @@ public class Selections implements Serializable {
 	private Collection<String> userRoles;
 	private String sessionId;
 	private SheetState homeThemeSheetState;
+	private Abfrage selectedQuestion;
 
 	@Size(min = 7, message = "Passwort muss mindestens sieben Zeichen haben!")
 	private String pw1;
@@ -178,4 +180,11 @@ public class Selections implements Serializable {
 		this.homeThemeSheetState = homeThemeSheetState;
 	}
 
+	public Abfrage getSelectedQuestion() {
+		return selectedQuestion;
+	}
+
+	public void setSelectedQuestion(Abfrage selectedQuestion) {
+		this.selectedQuestion = selectedQuestion;
+	}
 }
