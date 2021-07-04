@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import beans.EntrySteuerungRemote;
 import beans.SearchSteuerungRemote;
+import entities.HauptThema;
 import entities.MainEntry;
 import org.apache.myfaces.tobago.model.SheetState;
 import util.Selections;
@@ -161,4 +162,14 @@ public class UebersichtForm {
 	public void setSuchErgebnisse4Form(Collection<SearchContainer> suchErgebnisse4Form) {
 		this.suchErgebnisse4Form = suchErgebnisse4Form;
 	}
+
+	public String isSelected(HauptThema theme) {
+		HauptThema selectedTheme = selection.getThema();
+		if (theme.getThema().equals(selectedTheme.getThema())) {
+			return "bold";
+		} else {
+			return "";
+		}
+	}
+
 }
