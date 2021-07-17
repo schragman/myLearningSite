@@ -10,6 +10,8 @@
 
   <tc:badge value="#{appMsg.entries}" markup="primary"/>
   <tc:box label="#{selections.thema.thema}">
+    <tc:style customClass="scrollableBox"/>
+    <tc:style overflowY="scroll" height="700px" selector=".scrollableBox .card-body"/>
     <tc:sheet
         id="listeEintraege"
         value="#{uebersichtForm.entries}"

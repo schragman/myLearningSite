@@ -206,12 +206,12 @@ public class MainEntryForm implements Serializable {
 	}
 
   public String doUpdateEntry() {
-    this.refreshMainEntry();
+		this.refreshMainEntry();
 
-    autoSaveController.saveAutosave(mainEntry);
-    entrySteuerung.updEntry(mainEntry);
-
-		return Sites.UEBERSICHT;
+		autoSaveController.saveAutosave(mainEntry);
+		entrySteuerung.updEntry(mainEntry);
+		bearbeiten = false;
+		return null;
 	}
 
 	// Bei Cancel ohne Bearbeitungsmodus
@@ -220,13 +220,18 @@ public class MainEntryForm implements Serializable {
 	}
 
 	public String doCancel() {
-	  boolean deleted = autoSaveController.cancelAutosave(mainEntry);
+		boolean deleted = autoSaveController.cancelAutosave(mainEntry);
 		if (deleted) {
 			selection.setEntry(null);
 		}
-
-	  return Sites.UEBERSICHT;
-  }
+		if (neu) {
+			return Sites.UEBERSICHT;
+		} else {
+			bearbeiten = false;
+			return null;
+		}
+		//return Sites.UEBERSICHT;
+	}
 
 	private void refreshMainEntry() {
 		mainEntry.setKurzEintrag(kBeschreibung);
@@ -524,10 +529,10 @@ public class MainEntryForm implements Serializable {
   }
 
   private boolean isNullOrEmpty(String testString) {
-    boolean result = null == testString;
-    result = result || testString.isEmpty();
-    return result;
-  }
+		boolean result = null == testString;
+		result = result || testString.isEmpty();
+		return result;
+	}
 
 	public int getWarningWindowCounter() {
 		return warningWindowCounter;
@@ -535,6 +540,18 @@ public class MainEntryForm implements Serializable {
 
 	public void setWarningWindowCounter(int warningWindowCounter) {
 		this.warningWindowCounter = warningWindowCounter;
+	}
+
+	public String isEntrySelected(MainEntry item) {
+		MainEntry selectedEntry = selection.getEntry();
+		if (selectedEntry == null) {
+			//Wenn man gleich am Anfang einen neuen Eintrag macht
+			return "";
+		} else if (item.getKurzEintrag().equals(selectedEntry.getKurzEintrag())) {
+			return "bold";
+		} else {
+			return "";
+		}
 	}
 
 }

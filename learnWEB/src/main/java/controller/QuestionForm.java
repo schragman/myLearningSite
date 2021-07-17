@@ -53,6 +53,9 @@ public class QuestionForm {
   }
 
   public boolean isAnswerPresent() {
+    if (currentQuestion == null) {
+      return false;
+    }
     List<Antwort> antworten = currentQuestion.getAntworten();
     if (antworten == null || antworten.size() == 0) {
       return false;
