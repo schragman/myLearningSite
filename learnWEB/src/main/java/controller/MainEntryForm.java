@@ -27,14 +27,14 @@ import util.Selections;
 import util.Sites;
 
 /**
- * @Version 1.3
+ * @Version 1.4
  */
 
 @ViewScoped
 @ManagedBean
 public class MainEntryForm implements Serializable {
 
-	private static final long serialVersionUID = 13L;
+	private static final long serialVersionUID = 14L;
 	// Hat momentan keine Bedeutung, da der Timer direkt über das Script Autosave gesetzt wird.
 	private static final int AUTOSAVEPERIOD = 600000; // Nach wieviel Millisekunden ein Autosave passiert
 
