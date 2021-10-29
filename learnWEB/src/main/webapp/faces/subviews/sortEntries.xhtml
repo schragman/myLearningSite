@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:f="http://xmlns.jcp.org/jsf/core"
+				xmlns:tc="http://myfaces.apache.org/tobago/component">
+
+	<tc:popup id="sortentries" binding="#{orderView.orderViewPopup}">
+		<tc:box label="#{appMsg.entrysort}">
+			<tc:flexLayout columns="1*;1*;20*">
+				<tc:sheet id="entrylist" var="entries" value="#{orderView.orderedList}">
+					<tc:column label="up">
+						<f:ajax render="entrylist">
+							<tc:button
+									image="fa-arrow-up"
+									actionListener="#{orderView.doGoUp(entries)}"
+									disabled="#{!orderView.hasPrevious(entries)}">
+							</tc:button>
+						</f:ajax>
+					</tc:column>
+					<tc:column label="down">
+						<f:ajax render="entrylist">
+							<tc:button image="fa-arrow-down"
+												 actionListener="#{orderView.doGoDown(entries)}"
+												 disabled="#{!orderView.hasSuccessor(entries)}"/>
+						</f:ajax>
+					</tc:column>
+					<tc:column label="#{appMsg.entries}">
+						<tc:out value="#{entries.name}"/>
+					</tc:column>
+				</tc:sheet>
+			</tc:flexLayout>
+
+			<tc:button label="ok" action="#{mainEntryOrderFormBean.doOk}">
+				<tc:operation name="hide" for="sortentries"/>
+				<!-- 	  				<f:ajax execute="nTheme" render="nTheme :::homePage" /> -->
+			</tc:button>
+			<tc:button label="cancel" action="#{mainEntryOrderFormBean.doCancel}">
+				<tc:operation name="hide" for="sortentries"/>
+			</tc:button>
+
+
+		</tc:box>
+	</tc:popup>
+
+</f:view>
+
+		<!--
+
+    -->

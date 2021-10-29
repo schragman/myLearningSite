@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import entities.HauptThema;
 import entities.MainEntry;
+import entities.OIdSortable;
 import entities.Referenz;
 
 @Remote
@@ -26,5 +27,7 @@ public interface EntrySteuerungRemote {
 	public MainEntry findById(long id);
 
 	public List<MainEntry> getEntryList(HauptThema theme);
+
+	public void updateSortedEntries(List<? extends OIdSortable> entries);
 
 }

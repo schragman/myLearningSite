@@ -3,7 +3,7 @@
   <parent>
     <groupId>net.schrage.development</groupId>
     <artifactId>learningSite</artifactId>
-    <version>1.1.4</version>
+    <version>1.2.0</version>
   </parent>
   <artifactId>learnWEB</artifactId>
   <packaging>war</packaging>
@@ -12,7 +12,7 @@
     <dependency>
       <groupId>net.schrage.development</groupId>
       <artifactId>learningEJB</artifactId>
-      <version>1.1.4</version>
+      <version>1.2.0</version>
     </dependency>
       
   	<dependency>
@@ -69,11 +69,12 @@
   		<plugin>
   			<artifactId>maven-war-plugin</artifactId>
     			<version>2.2</version>
-    			<configuration>
-        			<warName>LearningApp</warName>
-        			<outputDirectory>${deplWildfly}</outputDirectory>
-<!--         			<outputDirectory>${deplTomEE}/webapps</outputDirectory> -->
-    			</configuration>
+        <configuration>
+          <warName>LearningApp</warName>
+          <!--suppress UnresolvedMavenProperty -->
+          <outputDirectory>${deplWildfly}</outputDirectory>
+          <!--         			<outputDirectory>${deplTomEE}/webapps</outputDirectory> -->
+        </configuration>
   		</plugin>
   	</plugins>
   </build>

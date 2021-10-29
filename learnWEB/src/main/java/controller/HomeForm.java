@@ -17,6 +17,7 @@ import beans.EntrySteuerungRemote;
 import beans.ThemenSteuerungRemote;
 import entities.Category;
 import entities.HauptThema;
+import entities.MainEntry;
 import org.apache.myfaces.tobago.model.SheetState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +108,8 @@ public class HomeForm implements Serializable {
 		String result;
 
 		selection.setThema(thema);
-		if (null == entrySteuerung.findEntries(thema).get(0)) {
+		List<MainEntry> mainEntryList = entrySteuerung.findEntries(thema);
+		if (null == mainEntryList || mainEntryList.size() == 0) {
 			result = Sites.MAINENTRY + Sites.DORELOAD;
 			selection.setEntry(null);
 		} else

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import entities.HauptThema;
 import entities.MainEntry;
+import entities.OIdSortable;
 import entities.Referenz;
 
 @Stateless
@@ -24,7 +25,9 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 		//HauptThema attachedTheme = em.merge(theme);
 		//attachedTheme.getMainEntries().add(mainEntry);
 		//em.persist(attachedTheme);
-		return em.merge(mainEntry);
+		MainEntry newEntry = em.merge(mainEntry);
+		newEntry.setOrderId(newEntry.getHauptThema().getId() + "_" + newEntry.getId());
+		return em.merge(newEntry);
 	}
 
 	@Override
@@ -34,8 +37,8 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 
 	@Override
 	public List<MainEntry> findEntries(HauptThema thema) {
-		Query query = em.createNamedQuery("findEntries", MainEntry.class);
-		query.setParameter("passedID", thema.getId());
+		Query query = em.createNamedQuery("findEntriesOrderedByOrderId", MainEntry.class);
+		query.setParameter("passedTheme", thema);
 
 		return query.getResultList();
 	}
@@ -81,9 +84,16 @@ public class EntrySteuerung implements EntrySteuerungRemote {
 	}
 
 	public List<MainEntry> getEntryList(HauptThema theme) {
-	  Query query = em.createNamedQuery("findEntriesOrderedById", MainEntry.class);
-	  query.setParameter("passedTheme", theme);
-	  return  query.getResultList();
-  }
+		Query query = em.createNamedQuery("findEntriesOrderedById", MainEntry.class);
+		query.setParameter("passedTheme", theme);
+		return query.getResultList();
+	}
+
+	public void updateSortedEntries(List<? extends OIdSortable> entries) {
+		for (OIdSortable entry : entries) {
+			MainEntry mainEntry = (MainEntry) entry;
+			MainEntry toUpdate = em.merge(mainEntry);
+		}
+	}
 
 }

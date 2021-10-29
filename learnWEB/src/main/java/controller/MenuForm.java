@@ -31,41 +31,45 @@ public class MenuForm implements Serializable {
 	private boolean mEdit;
 	private boolean mEntry;
 	private boolean mNavigation;
+	private boolean mSortEntries;
 
 	public void setSelectedPage(SelectedPage selectedPage) {
 		this.selectedPage = selectedPage;
 
 		switch (this.selectedPage) {
-		case HOME:
-			mCategory = true;
-			mTheme = true;
-			mSearch = false;
-			mWalkthrough = false;
-			mList = false;
-			mEdit = false;
-			mEntry = false;
-			mNavigation = false;
-			break;
-		case MAINENTRY:
-			mCategory = false;
-			mTheme = false;
-			mSearch = false;
-			mWalkthrough = false;
-			mList = true;
-			mEdit = true;
-			mEntry = false;
-			mNavigation = true;
-			break;
-		case UEBERSICHT:
-			mCategory = false;
-			mTheme = false;
-			mSearch = true;
-			mWalkthrough = true;
-			mList = false;
-			mEdit = false;
-			mEntry = true;
-			mNavigation = false;
-			break;
+			case HOME:
+				mCategory = true;
+				mTheme = true;
+				mSearch = false;
+				mWalkthrough = false;
+				mList = false;
+				mEdit = false;
+				mEntry = false;
+				mNavigation = false;
+				mSortEntries = false;
+				break;
+			case MAINENTRY:
+				mCategory = false;
+				mTheme = false;
+				mSearch = false;
+				mWalkthrough = false;
+				mList = true;
+				mEdit = true;
+				mEntry = true;
+				mNavigation = true;
+				mSortEntries = false;
+				break;
+			case UEBERSICHT:
+				mCategory = false;
+				mTheme = false;
+				mSearch = true;
+				mWalkthrough = true;
+				mList = false;
+				mEdit = false;
+				mEntry = true;
+				mNavigation = false;
+				mSortEntries = true;
+				break;
 		}
 	}
 
@@ -97,9 +101,17 @@ public class MenuForm implements Serializable {
 		return mEntry;
 	}
 
-	public boolean ismNavigation() {return mNavigation;}
+	public boolean ismSortEntries() {
+		return mSortEntries;
+	}
 
-	public String getCurrentUser() {return userBean.getUsername();}
+	public boolean ismNavigation() {
+		return mNavigation;
+	}
+
+	public String getCurrentUser() {
+		return userBean.getUsername();
+	}
 
 
 }

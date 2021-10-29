@@ -21,10 +21,12 @@ import javax.persistence.OneToMany;
 		@NamedQuery(name = "findBeschreibungen", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findReferences", query = "SELECT m.referenzen FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findAbfragen", query = "SELECT m.abfragen FROM MainEntry m WHERE m.hauptThema = :passedTheme and m.abfragen IS NOT EMPTY"),
+		@NamedQuery(name = "findEntriesByTheme", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme"),
 		@NamedQuery(name = "findEntriesOrderedById", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme ORDER BY m.id"),
+		@NamedQuery(name = "findEntriesOrderedByOrderId", query = "SELECT m FROM MainEntry m WHERE m.hauptThema = :passedTheme ORDER BY m.orderId"),
 		@NamedQuery(name = "findMainEntryFromRef", query = "SELECT m.id FROM MainEntry m JOIN m.referenzen r WHERE r = :passedReferenz")//
 })
-public class MainEntry implements Serializable {
+public class MainEntry implements Serializable, OIdSortable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -34,14 +36,17 @@ public class MainEntry implements Serializable {
 	private String kurzEintrag;
 	@Column(length = 8000)
 	private String langEintrag;
-	@OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE },
+	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE},
 			fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn
 	private List<Referenz> referenzen;
 	@Column(length = 80000)
 	private String beispiel;
 
-	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE },
+	@Column(length = 50)
+	private String orderId;
+
+	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE},
 			orphanRemoval = true,
 			fetch = FetchType.EAGER)
 	@JoinColumn
@@ -67,6 +72,7 @@ public class MainEntry implements Serializable {
 		this.abfragen = fragen;
 	}
 
+	@Override
 	public long getId() {
 		return id;
 	}
@@ -77,6 +83,15 @@ public class MainEntry implements Serializable {
 
 	public String getKurzEintrag() {
 		return kurzEintrag;
+	}
+
+	@Override
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 	public void setKurzEintrag(String kurzEintrag) {
@@ -114,7 +129,13 @@ public class MainEntry implements Serializable {
 	public void setBeispiel(String beispiel) {
 		this.beispiel = beispiel;
 	}
-	
+
+	@Override
+	public String getName() {
+		return this.kurzEintrag;
+	}
+
+
 //	public int hashCode() {
 //		return Long.hashCode(id);
 //	}

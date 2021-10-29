@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -15,10 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import entities.Abfrage;
-import entities.Category;
-import entities.HauptThema;
-import entities.MainEntry;
+import entities.*;
 import org.apache.myfaces.tobago.model.SheetState;
 import utils.SearchContainer;
 
@@ -187,4 +185,5 @@ public class Selections implements Serializable {
 	public void setSelectedQuestion(Abfrage selectedQuestion) {
 		this.selectedQuestion = selectedQuestion;
 	}
+
 }
