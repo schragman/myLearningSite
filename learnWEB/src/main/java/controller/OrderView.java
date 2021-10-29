@@ -70,7 +70,7 @@ public class OrderView implements Serializable {
 
   public void fixOrder(String superId) {
     for (OIdSortable entry : orderedList) {
-      entry.setOrderId(superId + orderedList.indexOf(entry));
+      entry.setOrderId(superId + String.format("%05d", orderedList.indexOf(entry)));
     }
   }
 
