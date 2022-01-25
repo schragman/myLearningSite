@@ -81,11 +81,18 @@ public class UebersichtForm {
 		return Sites.UEBERSICHT + Sites.DORELOAD;
 	}
 
+	//Wenn man auf den Menüpunkt Übersicht klickt
+	public String doGoUebersicht() {
+		//Ansonsten ist noch das letzte Entry gesetzt, was zu einem Fehler führt.
+		this.selection.setEntry(null);
+		return Sites.UEBERSICHT;
+	}
+
 
 	public List<SearchContainer> getVorschlagsliste() {
 		List<SearchContainer> result = new ArrayList<>();
-		
-		String validatedUserInput = null==userInput ? "" : userInput;
+
+		String validatedUserInput = null == userInput ? "" : userInput;
 		for (SearchContainer sItem : alleSuchErgebnisse) {
 			String itemContent = sItem.getContent();
 			if (itemContent.toLowerCase().contains(validatedUserInput.toLowerCase())) {

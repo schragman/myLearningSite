@@ -20,7 +20,8 @@ public class Update {
 
   @PostConstruct
   public void init() {
-    updateText = "Update MainEntry-Table";
+    //updateText = "Update MainEntry-Table";
+    updateText = NO_UPDATES;
     updatable = !updateText.equals(NO_UPDATES);
   }
 

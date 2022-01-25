@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,19 +23,22 @@ import entities.Antwort;
 import entities.MainEntry;
 import entities.Referenz;
 import org.apache.myfaces.tobago.component.UIPopup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.LoginController;
 import util.Selections;
 import util.Sites;
 
 /**
- * @Version 1.4
+ * @Version 1.6 vom 2022-01-25
+ * @since 1.0
  */
 
 @ViewScoped
 @ManagedBean
 public class MainEntryForm implements Serializable {
 
-	private static final long serialVersionUID = 14L;
+	private static final long serialVersionUID = 16L;
 	// Hat momentan keine Bedeutung, da der Timer direkt über das Script Autosave gesetzt wird.
 	private static final int AUTOSAVEPERIOD = 600000; // Nach wieviel Millisekunden ein Autosave passiert
 
@@ -88,6 +92,8 @@ public class MainEntryForm implements Serializable {
 	private String userInput;
 	private List<Referenz> quRes;
 
+	private static Logger LOG = LoggerFactory.getLogger(MainEntryForm.class);
+
 	private UIPopup sessionTOPopup;
 
 	public String getUserInput() {
@@ -101,6 +107,7 @@ public class MainEntryForm implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		//LOG.info("!!!MainEntryForm Bean wurde erzeugt!!!");
 		warningWindowCounter = WARNINGWINDOWTIME;
 		sessionTimeoutCounter = TIMEOUTAFTERWARNING;
 		anzeigeSessionTimeoutCounter = false;
@@ -110,8 +117,8 @@ public class MainEntryForm implements Serializable {
 		MainEntry entry = selection.getEntry();
 		navigationList = entrySteuerung.getEntryList(selection.getThema());
 		if (null != navigationList && entry != null) {
-		  //int entryIndex = navigationList.indexOf(entry);
-		  entryIterator = navigationList.listIterator();
+			//int entryIndex = navigationList.indexOf(entry);
+			entryIterator = navigationList.listIterator();
 			while (entry.getId() != entryIterator.next().getId()) {
 			}
 		}
@@ -135,6 +142,11 @@ public class MainEntryForm implements Serializable {
 			neu = false;
 			mainEntry = entry;
 		}
+	}
+
+	@PreDestroy
+	public void endBean() {
+		//LOG.info("!!!MainEntryForm-Bean wird zerstört!!!!");
 	}
 
 

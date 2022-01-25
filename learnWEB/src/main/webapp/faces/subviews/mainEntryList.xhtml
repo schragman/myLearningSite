@@ -19,6 +19,7 @@
 			<tc:column label="#{appMsg.listOfEntries}">
 				<tc:link label="#{item.kurzEintrag}"
 								 markup="#{mainEntryForm.isEntrySelected(item)}"
+								 disabled="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
 								 action="#{uebersichtForm.doJumpEntry(item)}"/>
 			</tc:column>
 		</tc:sheet>

@@ -11,8 +11,10 @@
 			<c:set value="#{homeForm.catNameChangeDisabled}" var="catChangeDisabled" scope="request"/>
 			<tc:style customClass="bg-dark"/>
   		<f:facet name="brand">
-  			<tc:link label="LearningApp" immediate="true" action="#{homeForm.doGoHome}" />
-  		</f:facet>
+				<tc:link label="LearningApp" immediate="true"
+								 disabled="#{mainEntryForm.neu or mainEntryForm.bearbeiten}"
+								 action="#{homeForm.doGoHome}"/>
+			</f:facet>
   		
 			<tc:links>
 				<tc:link rendered="#{menuForm.mCategory}" label="#{appMsg.categories}" omit="true">
@@ -28,15 +30,15 @@
 
 				<tc:link rendered="#{menuForm.mTheme}" label="#{appMsg.themes}" omit="true">
 					<tc:link label="#{appMsg.newTheme}">
-            <tc:operation for=":::page:nTheme" name="show"/>
-          </tc:link>
+						<tc:operation for=":::page:nTheme" name="show"/>
+					</tc:link>
 					<tc:link label="#{appMsg.renameTheme}">
 						<tc:operation for=":::page:popThemeRename" name="show"/>
 					</tc:link>
-					<tc:link label="#{appMsg.lastTheme}" />
+					<tc:link label="#{appMsg.lastTheme}"/>
 				</tc:link>
 				<!--<tc:link label="Test" outcome="/faces/test"/>-->
-				<tc:link label="#{appMsg.list}" rendered="#{menuForm.mList}" outcome="/faces/uebersicht"/>
+				<tc:link label="#{appMsg.list}" rendered="#{menuForm.mList}" action="#{uebersichtForm.doGoUebersicht}"/>
 				<tc:link label="#{appMsg.newEntry}" rendered="#{menuForm.mEntry}" action="#{uebersichtForm.doCreateNewEntry}"/>
 				<tc:link label="#{appMsg.edit}"
 								 rendered="#{menuForm.mEdit and !mainEntryForm.neu and !mainEntryForm.bearbeiten}"
