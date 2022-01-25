@@ -73,6 +73,8 @@ public class HomeForm implements Serializable {
 	}
 
 	public void doCreateMenu() {
+		//Ansonsten ist noch das letzte Entry gesetzt, was zu einem Fehler führt.
+		selection.setEntry(null);
 		menuForm.setSelectedPage(SelectedPage.HOME);
 	}
 

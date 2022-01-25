@@ -58,6 +58,7 @@ public class UebersichtForm {
 	}
 	
 	public void doCreateMenu() {
+		selection.setEntry(null);
 		menuForm.setSelectedPage(SelectedPage.UEBERSICHT);
 	}
 
@@ -72,6 +73,7 @@ public class UebersichtForm {
 	}
 
 	public String doCreateNewEntry() {
+		//Ansonsten ist noch das letzte Entry gesetzt, was zu einem Fehler führt.
 		selection.setEntry(null);
 		return Sites.MAINENTRY + Sites.DORELOAD;
 	}
@@ -83,8 +85,6 @@ public class UebersichtForm {
 
 	//Wenn man auf den Menüpunkt Übersicht klickt
 	public String doGoUebersicht() {
-		//Ansonsten ist noch das letzte Entry gesetzt, was zu einem Fehler führt.
-		this.selection.setEntry(null);
 		return Sites.UEBERSICHT;
 	}
 
